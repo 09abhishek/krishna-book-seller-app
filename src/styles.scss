@@ -1,0 +1,126 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Muli', sans-serif;
+  margin: 0;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 0px !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+img {
+  width: auto;
+  max-width: 100%;
+}
+.header-content {
+  background-color: aliceblue;
+  justify-content: space-between;
+  padding: 15px;
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+  width: 100%;
+  .hdr-lft {
+    align-items: center;
+    img {
+      width: 50px;
+      border-radius: 50%;
+      height: 50px;
+    }
+    h4 {
+      padding-left: 30px;
+      font-size: 17px;
+    }
+  }
+  .alert-profile {
+    .dropdown {
+      button {
+          background: transparent;
+          outline: none !important;
+          border: none;
+          padding: 0;
+          img {
+            width: 45px;
+            border-radius: 50%;
+            height: 45px;
+          }
+      }
+      .dropdown-toggle::after {
+        display: none !important;
+      }
+      .dropdown-menu {
+          width: 200px;
+          border-radius: 2px;
+          box-shadow: 0 8px 17px 0 rgba(19, 18, 18, 0.09);
+          background: white;
+          padding: 20px;
+          top: 50px;
+          p {
+              font-size: 13px;
+              font-weight: normal;
+              color: #46489e;
+              margin-bottom: 20px;
+          }
+          a {
+              font-size: 13px;
+              font-weight: normal;
+              color: #919191;
+              width: 100%;
+              margin: 0 0 11px;
+              display: block;
+          }
+      }
+    }
+  }
+}
+.sidebar-menu {
+  width: 200px !important;
+}
+.page-wrapper {
+  position: relative;
+  background-color: #f2f2f226;
+  // min-height: calc(100vh - 115px);
+  width: calc(100% - 200px);
+}
+.p-menuitem-link-active {
+  background: #e9ecef !important;
+}
+.table-responsive {
+  overflow-y: visible !important;
+  overflow-x: visible;
+}

@@ -1,0 +1,100 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <h4>Krishna Book Seller</h4>
+      <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p>
+      <h5>INVOICE</h5>
+    </div>
+    <div class="content-field flex">
+      <div class="input-field">
+        <label>Name</label>
+        <input type="text" placeholder="name">
+      </div>
+      <div class="input-field">
+        <label>Bill No</label>
+        <input type="text" placeholder="bill no">
+      </div>
+      <div class="input-field">
+        <label>Father's Name</label>
+        <input type="text" placeholder="Father's Name">
+      </div>
+      <div class="input-field">
+        <label>Date</label>
+        <input type="date" placeholder="dd/mm/yyyy">
+      </div>
+      <div class="input-field">
+        <label>Class</label>
+        <select class="search select-drop" id="mysel">
+          <option value="5">1</option>
+          <option value="10">2</option>
+          <option value="15">3</option>
+          <option value="20">4</option>
+      </select>
+      </div>
+    </div>
+  </div>
+  <div class="container-search flex">
+    <input type="text" placeholder="Search.." name="search">
+    <button type="submit"><img src="/assets/img/search.svg"></button>
+  </div>
+  <div class="table-responsive inv-adm-tbl">
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="inv-check"></th>
+            <th class="inv-particular text-center">Particulars</th>
+            <th class="inv-rate text-center">Rate</th>
+            <th class="inv-qty text-center">Qty</th>
+            <th class="inv-amt text-center">Amount Rs</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- <td><input type="checkbox"></td> -->
+                <td>
+                  <input id="checkbox-2" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox-2" class="checkbox-custom-label"></label>
+                </td>
+                <td>CSS Mastery</td>
+                <td class="text-center"><input type="text"></td>
+                <td class="text-center"><input type="text"> </td>
+                <td class="text-center"><input type="text"></td>
+            </tr>
+
+
+            <tr>
+              <td>
+                <input id="checkbox-2" class="checkbox-custom" type="checkbox">
+                <label for="checkbox-2" class="checkbox-custom-label"></label>
+              </td>
+              <td>CSS Pocket Reference: Visual Presentation for the Web</td>
+              <td class="text-center"><input type="text"></td>
+              <td class="text-center"><input type="text"> </td>
+              <td class="text-center"><input type="text"></td>
+              </tr><tr>
+                    <td>
+                      <input id="checkbox-2" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox-2" class="checkbox-custom-label"></label>
+                    </td>
+                    <td>CSS in Depth</td>
+                    <td class="text-center"><input type="text"></td>
+                    <td class="text-center"><input type="text"> </td>
+                    <td class="text-center"><input type="text"></td>
+                </tr>
+        </tbody>
+    </table>
+    <div class="content-btn-details flex">
+      <div class="content-btn flex">
+        <button class="btn-save button" type="button">Save</button>
+        <button class="btn-cancel button" type="button">Cancel</button>
+        <button class="btn-delete button" type="button">Delete</button>
+        <button class="btn-update button" type="button">update</button>
+        <button class="btn-print button" type="button">print</button>
+      </div>
+      <div class="total-amt flex">
+        <p>Total Amount Rs</p>
+        <input type="text">
+      </div>
+    </div>
+  </div>
+</div>
