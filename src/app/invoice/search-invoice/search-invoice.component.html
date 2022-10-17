@@ -1,0 +1,69 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <h4>Krishna Book Seller</h4>
+      <p>Mithanpura, Muzaffarpur-842002</p>
+      <h5>SEARCH INVOICE</h5>
+    </div>
+    <div class="content-field">
+      <p class="search-by">Search</p>
+      <div class="search-details flex">
+        <div class="search-date">
+          <label for="From">From</label>
+          <p-calendar inputId="From" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+        </div>
+        <div class="search-date">
+          <label for="To">To</label>
+          <p-calendar inputId="To" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+        </div>
+        <div class="content-btn flex">
+          <button class="btn-search button" type="button">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <p-table [value]="customers" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+     [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name">Bill No <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="country.name">Name <p-sortIcon field="country.name"></p-sortIcon></th>
+                    <th pSortableColumn="representative.name">Total Amount <p-sortIcon field="representative.name"></p-sortIcon></th>
+                    <th pSortableColumn="id">Father's Name <p-sortIcon field="id"></p-sortIcon></th>
+                    <th style="width: 8rem">Action</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+                <tr class="p-selectable-row">
+                    <td>
+                        <span class="p-column-title">Name</span>
+                        {{customer.name}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Country</span>
+                        <span class="image-text">{{customer.country.name}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Representative</span>
+                        <span class="image-text">{{customer.representative.name}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Date</span>
+                        {{customer.date}}
+                    </td>
+                    <td style="width: 8rem">
+                        <button pButton type="button" class="secondary" icon="pi pi-pencil"></button>
+                        <button pButton type="button" class="danger" icon="pi pi-trash"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No customers found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+  </div>
+</div>

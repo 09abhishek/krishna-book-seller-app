@@ -5,38 +5,50 @@
       <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p>
       <h5>INVOICE</h5>
     </div>
+    <form [formGroup]="invoiceForm">
     <div class="content-field flex">
+      <!-- <form [formGroup]="invoiceForm"> -->
       <div class="input-field">
         <label>Name</label>
-        <input type="text" placeholder="name">
+        <input type="text" placeholder="name" formControlName="name">
       </div>
       <div class="input-field">
         <label>Bill No</label>
-        <input type="text" placeholder="bill no">
+        <input type="text" placeholder="bill no" formControlName="billno">
       </div>
       <div class="input-field">
         <label>Father's Name</label>
-        <input type="text" placeholder="Father's Name">
+        <input type="text" placeholder="Father's Name" formControlName="fathername">
       </div>
       <div class="input-field">
-        <label>Date</label>
-        <input type="date" placeholder="dd/mm/yyyy">
+        <label>Mob. No</label>
+        <input type="text" appOnlyNumber numericType="number" placeholder="Mobile No" formControlName="mobno">
       </div>
       <div class="input-field">
         <label>Class</label>
-        <select class="search select-drop" id="mysel">
+        <select class="search select-drop" id="mysel" formControlName="classno">
           <option value="5">1</option>
           <option value="10">2</option>
           <option value="15">3</option>
           <option value="20">4</option>
       </select>
       </div>
+      <div class="input-field">
+        <label for="To">Date</label>
+          <p-calendar inputId="To" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" formControlName="date"></p-calendar>
+      </div>
+      <div class="input-field flex">
+        <label>Address</label>
+        <textarea formControlName="address"></textarea>
+      </div>
+    <!-- </form> -->
     </div>
+  </form>
   </div>
-  <div class="container-search flex">
+  <!-- <div class="container-search flex">
     <input type="text" placeholder="Search.." name="search">
     <button type="submit"><img src="/assets/img/search.svg"></button>
-  </div>
+  </div> -->
   <div class="table-responsive inv-adm-tbl">
     <table class="table">
         <thead>
@@ -49,20 +61,21 @@
         </tr>
         </thead>
         <tbody>
+          <ng-container *ngFor="let invoicelist of invoiceData">
             <tr>
                 <!-- <td><input type="checkbox"></td> -->
                 <td>
-                  <input id="checkbox-2" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox-2" class="checkbox-custom-label"></label>
+                  <input id="{{invoicelist.id}}" class="checkbox-custom" type="checkbox" (change)="onSelectBook($event, invoicelist)">
+                  <label for="{{invoicelist.id}}" class="checkbox-custom-label"></label>
                 </td>
-                <td>CSS Mastery</td>
-                <td class="text-center"><input type="text"></td>
-                <td class="text-center"><input type="text"> </td>
-                <td class="text-center"><input type="text"></td>
+                <td>{{invoicelist.Particulars}}</td>
+                <td class="text-center"><input type="text" [(ngModel)]="invoicelist.rate" appOnlyNumber numericType="decimal"></td>
+                <td class="text-center"><input type="text" appOnlyNumber numericType="number" [(ngModel)]="invoicelist.qty"></td>
+                <td class="text-center"><input type="text" (ngModelChange)="changeTotal($event, invoicelist)" [value]="calculatedAmount(invoicelist.rate, invoicelist.qty, invoicelist)" [(ngModel)]="invoicelist.amount" appOnlyNumber numericType="decimal"></td>
             </tr>
+          </ng-container>
 
-
-            <tr>
+            <!-- <tr>
               <td>
                 <input id="checkbox-2" class="checkbox-custom" type="checkbox">
                 <label for="checkbox-2" class="checkbox-custom-label"></label>
@@ -80,20 +93,20 @@
                     <td class="text-center"><input type="text"></td>
                     <td class="text-center"><input type="text"> </td>
                     <td class="text-center"><input type="text"></td>
-                </tr>
+                </tr> -->
         </tbody>
     </table>
     <div class="content-btn-details flex">
       <div class="content-btn flex">
-        <button class="btn-save button" type="button">Save</button>
+        <button class="btn-save button" type="button" (click)="onsave()">Save</button>
         <button class="btn-cancel button" type="button">Cancel</button>
-        <button class="btn-delete button" type="button">Delete</button>
-        <button class="btn-update button" type="button">update</button>
-        <button class="btn-print button" type="button">print</button>
+        <!-- <button class="btn-delete button" type="button">Delete</button> -->
+        <!-- <button class="btn-update button" type="button">update</button> -->
+        <!-- <button class="btn-print button" type="button">print</button> -->
       </div>
       <div class="total-amt flex">
         <p>Total Amount Rs</p>
-        <input type="text">
+        <input type="text" [(ngModel)]="totalInvoiceAmount">
       </div>
     </div>
   </div>

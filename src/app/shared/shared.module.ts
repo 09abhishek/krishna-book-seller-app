@@ -8,6 +8,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import {MenuModule} from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import {TableModule} from 'primeng/table';
+import { OnlyNumberDirective } from './directive/only-number.directive';
 
 @NgModule({
   imports: [
@@ -17,8 +20,9 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     RouterModule,
     MenuModule,
-    ButtonModule
-
+    ButtonModule,
+    CalendarModule,
+    TableModule
   ],
 
   providers: [
@@ -28,14 +32,18 @@ import { ButtonModule } from 'primeng/button';
   declarations: [
     SideBarComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    OnlyNumberDirective
   ],
   exports: [
     SideBarComponent,
     HeaderComponent,
     FooterComponent,
     MenuModule,
-    ButtonModule
+    ButtonModule,
+    CalendarModule,
+    TableModule,
+    OnlyNumberDirective
   ]
 
   // schemas: [CUSTOM_ELEMENTS_SCHEMA],

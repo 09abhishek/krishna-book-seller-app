@@ -1,0 +1,139 @@
+.login-wrapper {
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #fff;
+  width: 100%;
+  height: 100vh;
+  padding: 11px 18px;
+  background-image: url(../../../assets/img/book-management.jpg);
+  .login-header {
+      width: 100%;
+      padding: 32px 30px;
+      justify-content: flex-start;
+      align-items: center;
+      border-radius: 15px 15px 0 0;
+      // background: rgba(255, 255, 255, 0.93);
+      .logo {
+          img {
+            width: 50px;
+            border-radius: 50%;
+            height: 50px;
+              margin-right: 58px;
+          }
+      }
+      h3 {
+          font-size: 22px;
+          font-weight: normal;
+          color: #ced4da;
+          font-family: 'Kanit', sans-serif;
+      }
+  }
+}
+
+.login-content {
+  width: 100%;
+  position: relative;
+  height: calc(100vh - 156px);
+  // background-image: url(../../../assets/img/book-management.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 15px;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 180px;
+  .login-box {
+      width: 388px;
+      box-shadow: 6px 9px 21px 0 rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      background-color: #545252;
+      padding: 28px 18px 14px;
+      .lb-top {
+          justify-content: flex-start;
+          align-items: center;
+          margin-bottom: 30px;
+          h3 {
+              font-size: 20px;
+              font-weight: bold;
+              color: white;
+              margin-right: 28px;
+          }
+          p {
+              font-size: 14px;
+              font-weight: 600;
+              color: #ffa096;
+          }
+      }
+      .form-input {
+          margin-bottom: 35px;
+          input {
+              border: solid 1px #e6e6ff;
+              background-color: #ffedeb;
+              padding: 12px 12px;
+              font-size: 14px;
+              font-weight: 600;
+              color: #000;
+              width: 100%;
+          }
+          .error-data {
+              padding-top: 5px;
+              color: #ffedeb;
+              font-weight: 700
+          }
+      }
+      .log-btn {
+          width: 347px;
+          height: 58px;
+          border-radius: 4px;
+          background-color: white;
+          line-height: 58px;
+          font-size: 20px;
+          font-weight: normal;
+          color: #000000;
+          margin-bottom: 48px;
+          display: block;
+          width: 100%;
+          text-align: center;
+      }
+      .fgt-btn {
+          justify-content: flex-end;
+          align-items: center;
+          a {
+              width: 141px;
+              height: 38px;
+              opacity: 0.93;
+              border-radius: 4px;
+              background-color: rgba(223, 71, 57, .93);
+              font-size: 14px;
+              font-weight: 600;
+              color: #ffb9b2;
+              line-height: 38px;
+          }
+      }
+  }& button {
+       border: none;
+   }
+}
+
+.footer {
+  justify-content: flex-end;
+  font-size: 14px;
+  font-weight: normal;
+  color: #a4a1a1;
+  width: 100%;
+  padding-top: 4px;
+}
+
+@media (max-width: 767px) {
+  .login-content {
+      padding-right: 0;
+      justify-content: center;
+      align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-content .login-box {
+      width: 90%;
+  }
+}
