@@ -1,11 +1,11 @@
 {
-  "name": "create-nodejs-express-app",
+  "name": "krishna-book-seller",
   "version": "1.7.0",
-  "description": "Create a Node.js app for building production-ready RESTful APIs using Express, by running one command",
+  "description": "Management app for KBS",
   "bin": "bin/createNodejsApp.js",
   "main": "src/index.js",
-  "repository": "https://github.com/hagopj13/node-express-boilerplate.git",
-  "author": "Hagop Jamkojian <hagopj13@gmail.com>",
+  "repository": "https://github.com/09abhishek/krishna-book-seller-app",
+  "author": "Abhishek Gautam <099abhi@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=12.0.0"
