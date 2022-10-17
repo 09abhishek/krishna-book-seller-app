@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-  font-family: 'Muli', sans-serif;
+  font-family: 'Sintony', sans-serif;
   margin: 0;
+  background-color: #ecf0f6;
 }
 
 a:hover,
@@ -48,15 +49,21 @@ img {
   max-width: 100%;
 }
 .header-content {
-  background-color: aliceblue;
+  color: #222b45;
+  box-shadow: 0 0.5rem 1rem 0 rgb(44 51 73 / 10%);
+  height: 5rem;
+  padding: 1.25rem;
+  background: white;
   justify-content: space-between;
-  padding: 15px;
+  // padding: 15px;
   position: sticky;
   top: 0px;
   z-index: 2;
   width: 100%;
   .hdr-lft {
     align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 100px);
     img {
       width: 50px;
       border-radius: 50%;
@@ -68,6 +75,8 @@ img {
     }
   }
   .alert-profile {
+    width: 100px;
+    justify-content: end;
     .dropdown {
       button {
           background: transparent;
@@ -110,12 +119,26 @@ img {
 }
 .sidebar-menu {
   width: 200px !important;
+  background-color: #fff;
+  box-shadow: 0 0.5rem 1rem 0 rgb(44 51 73 / 10%);
+
+  // fixed side bar adding below style
+    max-height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    width: 150px;
+    top: 4.2rem;
+    bottom: 0;
+    margin-bottom: 10px;
 }
 .page-wrapper {
   position: relative;
-  background-color: #f2f2f226;
+  // background-color: #f2f2f226;
+  background-color: #ecf0f6;
   // min-height: calc(100vh - 115px);
   width: calc(100% - 200px);
+  // fixed side bar adding margin left
+   margin-left: 200px;
 }
 .p-menuitem-link-active {
   background: #e9ecef !important;
@@ -123,4 +146,23 @@ img {
 .table-responsive {
   overflow-y: visible !important;
   overflow-x: visible;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ecf0f640;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ecf0f640;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ecf0f640;
 }

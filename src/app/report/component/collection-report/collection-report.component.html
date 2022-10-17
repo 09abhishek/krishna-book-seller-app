@@ -1,1 +1,41 @@
-<p>collection-report works! </p>
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <h4>Krishna Book Seller</h4>
+      <p>Mithanpura, Muzaffarpur-842002</p>
+      <h5>SEARCH INVOICE</h5>
+    </div>
+    <div class="content-field">
+      <p class="search-by">Daily Collection Report</p>
+      <div class="search-details flex">
+        <div class="search-date">
+          <label for="From">From</label>
+          <p-calendar inputId="From" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+        </div>
+        <div class="search-date">
+          <label for="To">To</label>
+          <p-calendar inputId="To" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+        </div>
+        <div class="content-btn flex">
+          <button class="btn-search button" type="button" (click)="generatePdf()">Generate Report</button>
+        </div>
+      </div>
+    </div>
+    <div class="content-field">
+      <p class="search-by">Grant Total Report</p>
+      <div class="search-details flex">
+        <div class="search-date">
+          <label for="From">From</label>
+          <p-calendar inputId="From" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+        </div>
+        <div class="search-date">
+          <label for="To">To</label>
+          <p-calendar inputId="To" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+        </div>
+        <div class="content-btn flex">
+          <button class="btn-search button" type="button">Generate Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
