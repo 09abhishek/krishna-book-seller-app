@@ -17,6 +17,14 @@ export class SideBarComponent implements OnInit {
   }
   menuItems() {
     this.items = [{
+      label: 'Dashboard',
+      items: [{
+        label: 'Home',
+        routerLink: '/dashboard',
+        icon: 'pi pi-home'
+      }]
+      },
+      {
       label: 'Invoice',
       items: [{
         label: 'Invoice',
@@ -51,8 +59,13 @@ export class SideBarComponent implements OnInit {
       {
           label: 'Report',
           items: [{
-              label: 'Collection Report',
+              label: 'Daily Collection',
               routerLink: '/report/collection-report',
+              icon: 'pi pi-file',
+          },
+          {
+              label: 'Grant Collection',
+              routerLink: '/report/grant-collection-report',
               icon: 'pi pi-file',
           },
           {

@@ -22,7 +22,7 @@ import { routing } from './auth.routing';
   ],
 
   declarations: [
-    LoginComponent
+    // LoginComponent
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

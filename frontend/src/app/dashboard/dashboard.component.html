@@ -1,0 +1,38 @@
+<div class="content-wrapper">
+  <div class="flex school-info-news">
+    <div class="school-info">
+        <h4>Basic Information</h4>
+        <ul class="flex">
+            <li class="flex">
+                <h2 class="flex"> <img src="assets/img/revenue.png"> 0 </h2>
+                <h3>Revenue</h3>
+            </li>
+            <li class="flex invoice-child">
+                <h2 class="flex"> <img src="assets/img/invoice.png"> 0 </h2>
+                <h3>Total Invoice Generated</h3>
+            </li>
+            <li class="flex sell-child">
+                <h2 class="flex"> <img src="assets/img/hand.png"> 0 </h2>
+                <h3>Total Sell</h3>
+            </li>
+        </ul>
+    </div>
+ </div>
+ <div class="main-graph flex">
+    <div class="card pie-graph flex">
+      <div class="label flex">
+        <h5>Total orders by class</h5>
+      </div>
+      <p-chart type="pie" [data]="data"  [options]="chartOptions"></p-chart>
+    </div>
+    <div class="card line-graph">
+      <h5>Sales value</h5>
+      <p-chart type="line" [data]="basicDataLine" [options]="basicOptionsLine"></p-chart>
+  </div>
+ </div>
+ <div class="card sells-bar-graph">
+  <h5>Total Sells</h5>
+  <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+</div>
+
+

@@ -151,7 +151,7 @@
       .content-btn {
         width: 77%;
         padding: 0px 40px 0px 5px;
-        justify-content: space-between;
+        justify-content: flex-end;
         .button {
           border: none;
           width: 100px;
@@ -160,6 +160,8 @@
           color: white;
           text-align: center;
           padding: 8px;
+          margin: 0px 30px;
+          margin-right: 0;
           &.btn-save {
             background-color: #198754;
           }
@@ -216,5 +218,15 @@
 
   button:hover {
     background: #ccc;
+  }
+}
+.report-print {
+  justify-content: flex-end;
+  .button {
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 8px 25px;
+    background-color: #2563eb;
   }
 }

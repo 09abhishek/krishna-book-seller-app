@@ -2,7 +2,7 @@
 
   <div class="login-header flex">
 
-      <div class="logo"> <img src="../../../assets/img/download.jpg"> </div>
+      <div class="logo"> <img src="assets/img/logo.png"> </div>
 
       <h3>Krishna Book Seller</h3>
 
@@ -11,20 +11,24 @@
   <div class="login-content flex">
 
       <div class="login-box">
-          <form>
+          <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
               <div class="lb-top flex">
                   <h3>Log in</h3>
               </div>
 
               <div class="form-input">
-                  <input type="text" placeholder="User Name" >
+                  <input type="text" placeholder="User Name" formControlName="username">
+                  <div *ngIf="(loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched)" class="error-data">User Name is required</div>
               </div>
 
               <div class="form-input">
-                  <input type="password" placeholder="Password">
+                  <input type="password" placeholder="Password" formControlName="password">
+                  <div *ngIf="(loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched)" class="error-data">Password is required</div>
               </div>
 
-              <button type="submit" class="ripple log-btn">Log in </button>
+              <button type="submit" class="ripple log-btn">Log in
+                <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              </button>
               <!-- <div class="fgt-btn flex">
                     <a href="javascript:void(0)" class="ripple"> Recover password </a>
                 </div> -->

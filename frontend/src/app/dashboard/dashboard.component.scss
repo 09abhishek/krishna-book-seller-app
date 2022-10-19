@@ -1,0 +1,106 @@
+.content-wrapper {
+  padding: 8px 19px;
+  .school-info-news {
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 15px;
+    .school-info {
+      width: 100%;
+      h4 {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1d1a1a;
+        margin: 0 0 6px;
+      }
+      ul {
+        justify-content: space-between;
+        align-items: center;
+        li {
+          width: 30%;
+          border-radius: 18px;
+          box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+          justify-content: center;
+          align-items: center;
+          min-height: 130px;
+          flex-direction: column;
+          margin-right: 10px;
+          background: rgb(255,255,255); /* Old browsers */
+          background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(234,111,103,1) 100%); /* FF3.6-15 */
+          background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* Chrome10-25,Safari5.1-6 */
+          background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ea6f67',GradientType=0 ); /* IE6-9 */
+          h2 {
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            font-weight: bold;
+            color: #f05418;
+            margin: 10px 0;
+            img {
+              margin-right: 8px;
+            }
+          }
+          h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #161414;
+            margin: 0px;
+          }
+          &.invoice-child {
+            background: rgb(255,255,255); /* Old browsers */
+            background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(159,221,244,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
+          }
+          &.sell-child {
+            background: rgb(255,255,255); /* Old browsers */
+            background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(229, 12, 166, 0.22) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
+          }
+        }
+      }
+    }
+  }
+  .main-graph {
+    width: 100%;
+    justify-content: space-between;
+    h5 {
+      font-size: 15px;
+        font-weight: 600;
+        color: #1d1a1a;
+        margin: 0 0 6px;
+    }
+    .pie-graph {
+      width: 48% !important;
+      padding: 10px;
+      border-radius: 10px;
+      align-items: center;
+      flex-direction: column;
+      .label {
+        justify-content: flex-start;
+        width: 100%;
+      }
+    }
+    .line-graph {
+      width: 48% !important;
+      padding: 10px;
+      border-radius: 10px;
+    }
+  }
+  .sells-bar-graph {
+    padding: 10px;
+    // background-color: #fff;
+    margin-top: 25px;
+    border-radius: 10px;
+    h5 {
+      font-size: 15px;
+        font-weight: 600;
+        color: #1d1a1a;
+        margin: 0 0 6px;
+    }
+  }
+}
+

@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: 'app-collection-report',
-  templateUrl: './collection-report.component.html',
-  styleUrls: ['./collection-report.component.scss']
+  selector: 'app-grant-total-report',
+  templateUrl: './grant-total-report.component.html',
+  styleUrls: ['./grant-total-report.component.scss']
 })
-export class CollectionReportComponent implements OnInit {
+export class GrantTotalReportComponent implements OnInit {
   loading = false;
-  customers: any = [];
   tableData: any = [];
+  customers: any = [];
   header = 'amit kumar'
   basicDetails: any = {
     name: 'mahesh kumar',
@@ -30,7 +29,6 @@ export class CollectionReportComponent implements OnInit {
     this.tableData = [
       {
         "id": 1000,
-        "class": 7,
         "name": 'James Butt',
         "rate": '12',
         "quantity": '2',
@@ -50,7 +48,6 @@ export class CollectionReportComponent implements OnInit {
     },
     {
         "id": 1001,
-        "class": 3,
         "name": "Josephine Darakjy",
         "rate": '122',
         "quantity": '2',
@@ -70,7 +67,6 @@ export class CollectionReportComponent implements OnInit {
     },
     {
         "id": 1002,
-        "class": 4,
         "name": "Art Venere",
         "rate": '123',
         "quantity": '23',
@@ -92,10 +88,10 @@ export class CollectionReportComponent implements OnInit {
     this.customers = [
       {
         "id": 1000,
-        "class": 7,
+        "S_no": 1,
         "name": "James Butt",
+        "amount": '3000',
         "father_name": "Ramesh kumar",
-        "amount": '2003',
         "country": {
             "name": "Algeria",
             "code": "dz"
@@ -111,10 +107,10 @@ export class CollectionReportComponent implements OnInit {
     },
     {
         "id": 1001,
-        "class": 6,
+        "S_no": 2,
         "name": "Josephine Darakjy",
+        "amount": '4000',
         "father_name": "Ramesh kumar",
-        "amount": '2003',
         "country": {
             "name": "Egypt",
             "code": "eg"

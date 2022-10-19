@@ -6,7 +6,7 @@
       <h5>SEARCH INVOICE</h5>
     </div>
     <div class="content-field">
-      <p class="search-by">Daily Collection Report</p>
+      <p class="search-by">Grant Total Report</p>
       <div class="search-details flex">
         <div class="search-date">
           <label for="From">From</label>
@@ -32,34 +32,25 @@
 
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="id">Bill No <p-sortIcon field="id"></p-sortIcon></th>
-                    <th pSortableColumn="date">Bill-Date<p-sortIcon field="date"></p-sortIcon></th>
-                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="class">Course <p-sortIcon field="class"></p-sortIcon></th>
-                    <th pSortableColumn="amount">Total Rs <p-sortIcon field="amount"></p-sortIcon></th>
+                    <th pSortableColumn="name">S.No <p-sortIcon field="S_no"></p-sortIcon></th>
+                    <th pSortableColumn="date">Fee Date<p-sortIcon field="date"></p-sortIcon></th>
+                    <th pSortableColumn="amount">Total Amount <p-sortIcon field="amount"></p-sortIcon></th>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
                 <tr class="p-selectable-row">
-                    <td>
-                        <span class="p-column-title">Bill No</span>
-                         {{customer.id}}
+                    <td style="width: 33%">
+                        <span class="p-column-title">S_no</span>
+                         {{customer.S_no}}
                     </td>
-                    <td>
-                        <span class="p-column-title">Bill-Date</span>
+                    <td style="width: 33%">
+                        <span class="p-column-title">date</span>
                         <span class="image-text">{{customer.date}}</span>
                     </td>
-                    <td>
-                        <span class="p-column-title">Name</span>
-                        <span class="image-text">{{customer.name}}</span>
-                    </td>
-                    <td>
-                        <span class="p-column-title">Course</span>
-                        {{customer.class}}
-                    </td>
-                    <td>
-                        <span class="p-column-title">Total Rs</span>
-                        {{customer.amount}}
+                    <td style="width: 33%">
+                        <span class="p-column-title">amount</span>
+                        <span class="image-text">{{customer.amount}}</span>
                     </td>
                 </tr>
             </ng-template>
@@ -71,3 +62,4 @@
         </p-table>
   </div>
 </div>
+

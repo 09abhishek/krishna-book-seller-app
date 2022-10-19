@@ -10,19 +10,19 @@
       <!-- <form [formGroup]="invoiceForm"> -->
       <div class="input-field">
         <label>Name</label>
-        <input type="text" placeholder="name" formControlName="name">
+        <input type="text" formControlName="name">
       </div>
       <div class="input-field">
         <label>Bill No</label>
-        <input type="text" placeholder="bill no" formControlName="billno">
+        <input type="text" formControlName="billno">
       </div>
       <div class="input-field">
         <label>Father's Name</label>
-        <input type="text" placeholder="Father's Name" formControlName="fathername">
+        <input type="text" formControlName="fathername">
       </div>
       <div class="input-field">
         <label>Mob. No</label>
-        <input type="text" appOnlyNumber numericType="number" placeholder="Mobile No" formControlName="mobno">
+        <input type="text" appOnlyNumber numericType="number" formControlName="mobno">
       </div>
       <div class="input-field">
         <label>Class</label>
@@ -39,7 +39,7 @@
       </div>
       <div class="input-field flex">
         <label>Address</label>
-        <textarea formControlName="address"></textarea>
+        <textarea formControlName="address" style="overflow:auto;resize:none;height: 50px;"></textarea>
       </div>
     <!-- </form> -->
     </div>
@@ -49,6 +49,9 @@
     <input type="text" placeholder="Search.." name="search">
     <button type="submit"><img src="/assets/img/search.svg"></button>
   </div> -->
+  <div class="report-print flex">
+    <button class="btn-search button" type="button">Print</button>
+  </div>
   <div class="table-responsive inv-adm-tbl">
     <table class="table">
         <thead>

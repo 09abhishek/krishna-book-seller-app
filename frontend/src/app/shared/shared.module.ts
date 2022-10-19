@@ -11,6 +11,8 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import {TableModule} from 'primeng/table';
 import { OnlyNumberDirective } from './directive/only-number.directive';
+import {ChartModule} from 'primeng/chart';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   imports: [
@@ -22,18 +24,20 @@ import { OnlyNumberDirective } from './directive/only-number.directive';
     MenuModule,
     ButtonModule,
     CalendarModule,
-    TableModule
+    TableModule,
+    ChartModule,
   ],
 
   providers: [
-    // InputMeetingService
+    // AppService
   ],
 
   declarations: [
     SideBarComponent,
     HeaderComponent,
     FooterComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    LoaderComponent
   ],
   exports: [
     SideBarComponent,
@@ -43,7 +47,9 @@ import { OnlyNumberDirective } from './directive/only-number.directive';
     ButtonModule,
     CalendarModule,
     TableModule,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    ChartModule,
+    LoaderComponent,
   ]
 
   // schemas: [CUSTOM_ELEMENTS_SCHEMA],

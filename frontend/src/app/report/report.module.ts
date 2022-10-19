@@ -8,6 +8,7 @@ import { CollectionReportComponent } from './component/collection-report/collect
 import { BookStockReportComponent } from './component/book-stock-report/book-stock-report.component';
 import { PublicationReportComponent } from './component/publication-report/publication-report.component';
 import { AllBookListComponent } from './component/all-book-list/all-book-list.component';
+import { GrantTotalReportComponent } from './component/grant-total-report/grant-total-report.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { AllBookListComponent } from './component/all-book-list/all-book-list.co
     BookStockReportComponent,
     PublicationReportComponent,
     AllBookListComponent,
+    GrantTotalReportComponent,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
