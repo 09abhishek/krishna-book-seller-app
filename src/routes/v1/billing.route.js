@@ -15,7 +15,21 @@ router.post(
   billingController.deleteInvoice
 );
 router.get("/search", auth("searchInvoice"), validate(billingValidation.searchInvoice), billingController.searchInvoice);
+router.get(
+  "/search/:billNum",
+  auth("searchInvoiceByNum"),
+  validate(billingValidation.searchInvoiceByNum),
+  billingController.searchInvoiceByNum
+);
 
+router.put(
+  "/invoice/:invoiceId",
+  auth("updateInvoice"),
+  validate(billingValidation.updateInvoice),
+  billingController.updateInvoice
+);
+
+router.get("/bill-num", auth("getBillNum"), validate(billingValidation.getBillNum), billingController.getLastBillNumber);
 module.exports = router;
 
 /**

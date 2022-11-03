@@ -1,7 +1,25 @@
 const allRoles = {
   user: ["submitInvoice"],
-  admin: ["submitInvoice", "submitInvoice", "getInvoiceById", "deleteInvoice", "searchInvoice"],
-  super_admin: ["submitInvoice", "submitInvoice", "getInvoiceById", "deleteInvoice", "searchInvoice"],
+  admin: [
+    "submitInvoice",
+    "submitInvoice",
+    "getInvoiceById",
+    "deleteInvoice",
+    "searchInvoice",
+    "searchInvoiceByNum",
+    "updateInvoice",
+    "getBillNum",
+  ],
+  super_admin: [
+    "submitInvoice",
+    "submitInvoice",
+    "getInvoiceById",
+    "deleteInvoice",
+    "searchInvoice",
+    "searchInvoiceByNum",
+    "updateInvoice",
+    "getBillNum",
+  ],
 };
 
 const roles = Object.keys(allRoles);
