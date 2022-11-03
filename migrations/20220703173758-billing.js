@@ -4,11 +4,11 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("billing", {
       id: {
-        type: Sequelize.INTEGER(6),
+        type: Sequelize.INTEGER(6).ZEROFILL,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true,
-        zerofill: true,
+        unsigned: true,
       },
       invoice_id: {
         type: Sequelize.STRING,

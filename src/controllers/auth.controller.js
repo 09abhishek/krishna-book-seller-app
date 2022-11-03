@@ -1,15 +1,16 @@
-const httpStatus = require("http-status");
-const bcrypt = require("bcrypt");
-const catchAsync = require("../utils/catchAsync");
-const { authService, userService, tokenService, emailService } = require("../services");
-const User = require("../models/User");
-const ApiError = require("../utils/ApiError");
+const httpStatus = require('http-status');
+const bcrypt = require('bcrypt');
+const catchAsync = require('../utils/catchAsync');
+const { authService, userService, tokenService, emailService } = require('../services');
+const User = require('../models/User');
+const ApiError = require('../utils/ApiError');
+const logger = require('../config/logger');
 
 const register = catchAsync(async (req, res) => {
   const { username } = req.body;
   const emailExists = await User.findOne({ where: { username } });
   if (emailExists) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Username already taken");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
   } else {
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
@@ -22,7 +23,7 @@ const register = catchAsync(async (req, res) => {
       mobile_num: req.body.mobileNum,
       user_type: req.body.userType,
     });
-    res.status(httpStatus.CREATED).send({ msg: "User Registered Successfully" });
+    res.status(httpStatus.CREATED).send({ msg: 'User Registered Successfully' });
   }
   // const user = await userService.createUser(req.body);
   // const tokens = await tokenService.generateAuthTokens(user);

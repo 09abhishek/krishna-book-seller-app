@@ -1,9 +1,9 @@
-const httpStatus = require("http-status");
 const { v4: uuidv4 } = require("uuid");
 const moment = require("moment");
-const Billing = require("../models/Billing");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
+const Billing = require("../models/Billing");
+const { handleResponse } = require("../utils/responseHandler");
 
 /**
  * Create a user
@@ -12,7 +12,7 @@ const { Op } = require("sequelize");
  */
 const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
-  return Billing.create({
+  let data = await Billing.create({
     invoice_id: invoiceId,
     name: body.name,
     class: body.stdClass,
@@ -24,6 +24,10 @@ const saveInvoice = async (body) => {
     year: moment().year(),
     date: moment().toISOString(),
   });
+  if (data && data.length) {
+    data = data.dataValues.invoice_id;
+  }
+  return handleResponse("success", data, "Invoice saved Successfully", "invoice");
 };
 
 /**
@@ -32,7 +36,8 @@ const saveInvoice = async (body) => {
  * @returns {Promise<User>}
  */
 const fetchInvoiceById = async (id) => {
-  return Billing.findOne({ where: { invoice_id: id } });
+  const data = await Billing.findOne({ where: { invoice_id: id } });
+  return handleResponse("success", [data], "Data Fetched Successfully");
 };
 
 /**
@@ -41,15 +46,17 @@ const fetchInvoiceById = async (id) => {
  * @param invoiceIds
  */
 const deleteInvoice = async (invoiceIds) => {
-  return Billing.destroy({
+  const data = await Billing.destroy({
     where: {
       invoice_id: invoiceIds,
     },
   });
+  const message = data ? "Invoice deleted successfully" : "Invoice Ids are not valid";
+  return handleResponse("success", [], message, "delete");
 };
 
 const findInvoiceByDate = async (fromDate, toDate) => {
-  return Billing.findAll(
+  const list = await Billing.findAll(
     {
       where: {
         [Op.and]: [
@@ -60,6 +67,53 @@ const findInvoiceByDate = async (fromDate, toDate) => {
     },
     { raw: true }
   );
+  return handleResponse("success", list, "Data Fetched Successfully");
+};
+
+const findInvoiceByNumber = async (billNum) => {
+  const data = await Billing.findAll(
+    {
+      where: {
+        id: { [Op.like]: `%${billNum}%` },
+      },
+    },
+    { raw: true }
+  );
+  return handleResponse("success", data, "Result Fetched Successfully");
+};
+
+const fetchBillNumber = async () => {
+  let data = await Billing.findAll({
+    attributes: ["id"],
+    order: [["id", "DESC"]],
+    limit: 1,
+  });
+  if (data && data.length) {
+    data = String([data[0].id]).padStart(6, "0");
+  } else {
+    data = String(1).padStart(6, "0");
+  }
+  return handleResponse("success", data, "Result Fetched Successfully");
+};
+
+const updateInvoiceDetails = async (invoiceId, billingData) => {
+  const foundItem = await Billing.findOne({ where: { invoice_id: invoiceId } });
+  if (!foundItem) {
+    return handleResponse("error", null, "Invoice not found", "invoiceNotFound");
+  }
+  await Billing.update(
+    {
+      name: billingData.name,
+      class: billingData.stdClass,
+      father_name: billingData.fatherName,
+      address: billingData.address,
+      mobile_num: billingData.mobileNum,
+      bill_data: billingData.billParticulars,
+      total_amount: billingData.totalAmount,
+    },
+    { where: { invoice_id: invoiceId } }
+  );
+  return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
 };
 
 module.exports = {
@@ -67,4 +121,7 @@ module.exports = {
   fetchInvoiceById,
   deleteInvoice,
   findInvoiceByDate,
+  findInvoiceByNumber,
+  updateInvoiceDetails,
+  fetchBillNumber,
 };
