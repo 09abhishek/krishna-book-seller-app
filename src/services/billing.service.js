@@ -52,7 +52,8 @@ const deleteInvoice = async (invoiceIds) => {
     },
   });
   const message = data ? "Invoice deleted successfully" : "Invoice Ids are not valid";
-  return handleResponse("success", [], message, "delete");
+  const status = data ? "success" : "error";
+  return handleResponse(status, [], message, "delete");
 };
 
 const findInvoiceByDate = async (fromDate, toDate) => {
@@ -67,7 +68,12 @@ const findInvoiceByDate = async (fromDate, toDate) => {
     },
     { raw: true }
   );
-  return handleResponse("success", list, "Data Fetched Successfully");
+
+  const invoiceList = list.map((invoice) => {
+    const invoiceNum = String(invoice.id).padStart(6, "0");
+    return { ...invoice.dataValues, id: invoiceNum };
+  });
+  return handleResponse("success", invoiceList, "Data Fetched Successfully");
 };
 
 const findInvoiceByNumber = async (billNum) => {
@@ -79,7 +85,12 @@ const findInvoiceByNumber = async (billNum) => {
     },
     { raw: true }
   );
-  return handleResponse("success", data, "Result Fetched Successfully");
+
+  const invoiceList = data.map((invoice) => {
+    const invoiceNum = String(invoice.id).padStart(6, "0");
+    return { ...invoice.dataValues, id: invoiceNum };
+  });
+  return handleResponse("success", invoiceList, "Result Fetched Successfully");
 };
 
 const fetchBillNumber = async () => {
@@ -89,11 +100,11 @@ const fetchBillNumber = async () => {
     limit: 1,
   });
   if (data && data.length) {
-    data = String([data[0].id]).padStart(6, "0");
+    data = String(parseInt([data[0].id], 10) + 1).padStart(6, "0");
   } else {
     data = String(1).padStart(6, "0");
   }
-  return handleResponse("success", data, "Result Fetched Successfully");
+  return handleResponse("success", [data], "Result Fetched Successfully");
 };
 
 const updateInvoiceDetails = async (invoiceId, billingData) => {

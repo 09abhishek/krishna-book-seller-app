@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/invoice", auth("submitInvoice"), validate(billingValidation.addInvoice), billingController.submitInvoice);
 router.get("/invoice/:id", auth("getInvoiceById"), validate(billingValidation.getInvoice), billingController.getInvoiceById);
-router.post(
+router.delete(
   "/delete-invoice",
   auth("deleteInvoice"),
   validate(billingValidation.deleteInvoice),

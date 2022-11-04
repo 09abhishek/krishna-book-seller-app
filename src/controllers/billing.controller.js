@@ -21,13 +21,13 @@ const submitInvoice = catchAsync(async (req, res) => {
 
 const getInvoiceById = catchAsync(async (req, res) => {
   const invoice = pick(req.params, ["id"]);
-  const response = await billingService.fetchInvoiceById(invoice.id, { raw: true });
+  const response = await billingService.fetchInvoiceById(invoice.id);
   return res.status(httpStatus.OK).send(response);
 });
 
 const deleteInvoice = catchAsync(async (req, res) => {
   const invoice = pick(req.body, ["invoiceId"]);
-  const response = await billingService.deleteInvoice(invoice.invoiceId, { raw: true });
+  const response = await billingService.deleteInvoice(invoice.invoiceId);
   return res.status(httpStatus.OK).send(response);
 });
 
