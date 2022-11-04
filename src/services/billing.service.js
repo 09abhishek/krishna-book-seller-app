@@ -42,7 +42,7 @@ const fetchInvoiceById = async (id) => {
   }
   const invoiceNum = String(invoice.id).padStart(6, "0");
   invoice = { ...invoice.dataValues, id: invoiceNum };
-  return handleResponse("success", invoice, "Data Fetched Successfully");
+  return handleResponse("success", [invoice], "Data Fetched Successfully");
 };
 
 /**
