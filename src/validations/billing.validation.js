@@ -47,9 +47,53 @@ const searchInvoice = {
   }),
 };
 
+const searchInvoiceByNum = {
+  params: Joi.object().keys({
+    billNum: Joi.string().required(),
+  }),
+};
+
+const getBillNum = {};
+
+const updateInvoice = {
+  params: Joi.object().keys({
+    invoiceId: Joi.string().required(),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    stdClass: Joi.string()
+      .required()
+      .valid(
+        "infant",
+        "nursery",
+        "prep",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+        "eleven",
+        "twelve"
+      ),
+    fatherName: Joi.string(),
+    billParticulars: Joi.array().required(),
+    totalAmount: Joi.number(),
+    address: Joi.string().optional(),
+    mobileNum: Joi.number().optional(),
+  }),
+};
+
 module.exports = {
   getInvoice,
   addInvoice,
   deleteInvoice,
   searchInvoice,
+  searchInvoiceByNum,
+  updateInvoice,
+  getBillNum,
 };

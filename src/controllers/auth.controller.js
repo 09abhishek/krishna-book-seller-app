@@ -4,6 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const { authService, userService, tokenService, emailService } = require("../services");
 const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
+const logger = require("../config/logger");
 
 const register = catchAsync(async (req, res) => {
   const { username } = req.body;

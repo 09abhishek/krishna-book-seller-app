@@ -1,13 +1,13 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.config");
 
-const Token = db.define("Billing", {
+const Billing = db.define("Billing", {
   id: {
-    type: Sequelize.INTEGER(6),
+    type: Sequelize.INTEGER(6).ZEROFILL,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
-    zerofill: true,
+    unsigned: true,
   },
   invoice_id: {
     type: Sequelize.STRING,
@@ -75,4 +75,4 @@ const Token = db.define("Billing", {
   },
 });
 
-module.exports = Token;
+module.exports = Billing;

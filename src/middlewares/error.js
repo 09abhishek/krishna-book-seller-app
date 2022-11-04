@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const httpStatus = require('http-status');
-const config = require('../config/config');
-const logger = require('../config/logger');
-const ApiError = require('../utils/ApiError');
+const mongoose = require("mongoose");
+const httpStatus = require("http-status");
+const config = require("../config/config");
+const logger = require("../config/logger");
+const ApiError = require("../utils/ApiError");
 
 const errorConverter = (err, req, res, next) => {
   let error = err;
@@ -18,7 +18,7 @@ const errorConverter = (err, req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   let { statusCode, message } = err;
-  if (config.env === 'production' && !err.isOperational) {
+  if (config.env === "production" && !err.isOperational) {
     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
   }
@@ -28,11 +28,11 @@ const errorHandler = (err, req, res, next) => {
   const response = {
     code: statusCode,
     message,
-    ...(config.env === 'development' && { stack: err.stack }),
+    ...(config.env === "development"),
   };
 
-  if (config.env === 'development') {
-    logger.error(err);
+  if (config.env === "development") {
+    // logger.error(err);
   }
 
   res.status(statusCode).send(response);

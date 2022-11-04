@@ -15,72 +15,51 @@ const submitInvoice = catchAsync(async (req, res) => {
     "year",
     "date",
   ]);
-  const invoice = await billingService.saveInvoice(body);
-  if (invoice) {
-    const id = invoice.dataValues.invoice_id;
-    res.status(httpStatus.CREATED).send({
-      invoiceId: id,
-      message: "Invoice submitted Successfully",
-    });
-  } else {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-      message: "Something went wrong!",
-    });
-  }
-});
-
-const getInvoice = catchAsync(async (req, res) => {
-  res.send("result");
+  const response = await billingService.saveInvoice(body);
+  return res.status(httpStatus.OK).send(response);
 });
 
 const getInvoiceById = catchAsync(async (req, res) => {
   const invoice = pick(req.params, ["id"]);
-  const result = await billingService.fetchInvoiceById(invoice.id, { raw: true });
-  if (!result) {
-    return res.send({ data: [] });
-  }
-  res.send({ data: [result] || [] });
+  const response = await billingService.fetchInvoiceById(invoice.id);
+  return res.status(httpStatus.OK).send(response);
 });
-
-// https://gist.github.com/igorjs/407ffc3126f6ef2a6fe8f918a0673b59
-
-// {
-//   "status": "success",
-//   "data": {
-//     /* Application-specific data would go here. */
-//   },
-//   "message": null /* Or optional success message */
-// }
-// Failed request:
-//
-// {
-//   "status": "error",
-//   "data": null, /* or optional error payload */
-//   "message": "Error xyz has occurred"
-// }
 
 const deleteInvoice = catchAsync(async (req, res) => {
   const invoice = pick(req.body, ["invoiceId"]);
-  const result = await billingService.deleteInvoice(invoice.invoiceId, { raw: true });
-  if (!result) {
-    return res.status(httpStatus.NOT_FOUND).send({ message: "Invoice Ids are not valid" });
-  }
-  res.send({ message: "Invoice deleted successfully" });
+  const response = await billingService.deleteInvoice(invoice.invoiceId);
+  return res.status(httpStatus.OK).send(response);
 });
 
 const searchInvoice = catchAsync(async (req, res) => {
   const date = pick(req.query, ["from", "to"]);
-  const result = await billingService.findInvoiceByDate(date.from, date.to);
-  if (!result) {
-    return res.status(httpStatus.OK).send({ data: [] });
-  }
-  res.send({ data: result });
+  const response = await billingService.findInvoiceByDate(date.from, date.to);
+  return res.status(httpStatus.OK).send(response);
+});
+
+const searchInvoiceByNum = catchAsync(async (req, res) => {
+  const bill = pick(req.params, ["billNum"]);
+  const response = await billingService.findInvoiceByNumber(bill.billNum);
+  return res.status(httpStatus.OK).send(response);
+});
+
+const updateInvoice = catchAsync(async (req, res) => {
+  const bill = pick(req.params, ["invoiceId"]);
+  const response = await billingService.updateInvoiceDetails(bill.invoiceId, req.body);
+  return res.status(httpStatus.OK).send(response);
+});
+
+const getLastBillNumber = catchAsync(async (req, res) => {
+  const response = await billingService.fetchBillNumber();
+  return res.status(httpStatus.OK).send(response);
 });
 
 module.exports = {
   submitInvoice,
-  getInvoice,
   getInvoiceById,
   deleteInvoice,
   searchInvoice,
+  searchInvoiceByNum,
+  updateInvoice,
+  getLastBillNumber,
 };
