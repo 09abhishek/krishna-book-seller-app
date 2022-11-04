@@ -76,7 +76,8 @@ const generateAuthTokens = async (user) => {
 
   const refreshTokenExpires = moment().add(config.jwt.refreshExpirationDays, "days");
   const refreshToken = generateToken(user.username, user.id, refreshTokenExpires, tokenTypes.REFRESH);
-  await saveToken(refreshToken, user.id.toString(), refreshTokenExpires, tokenTypes.REFRESH);
+  // Enable next line to save refresh token in db
+  // await saveToken(refreshToken, user.id.toString(), refreshTokenExpires, tokenTypes.REFRESH);
 
   return {
     access: {
