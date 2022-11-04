@@ -45,10 +45,20 @@ const Token = db.define("Book", {
       key: "id",
     },
   },
-  price: {
+  mrp: {
     type: Sequelize.DECIMAL(6, 2),
     allowNull: false,
-    defaultValue: false,
+    defaultValue: 0.0,
+  },
+  net_price: {
+    type: Sequelize.DECIMAL(6, 2),
+    allowNull: false,
+    defaultValue: 0.0,
+  },
+  total_count: {
+    type: Sequelize.INTEGER(3),
+    allowNull: false,
+    defaultValue: 0,
   },
   created_at: {
     type: Sequelize.DATE,

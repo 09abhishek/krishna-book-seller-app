@@ -36,8 +36,13 @@ const saveInvoice = async (body) => {
  * @returns {Promise<User>}
  */
 const fetchInvoiceById = async (id) => {
-  const data = await Billing.findOne({ where: { invoice_id: id } });
-  return handleResponse("success", [data], "Data Fetched Successfully");
+  let invoice = await Billing.findOne({ where: { invoice_id: id } });
+  if (!invoice) {
+    return handleResponse("error", null, "Invoice not found", "invoiceNotFound");
+  }
+  const invoiceNum = String(invoice.id).padStart(6, "0");
+  invoice = { ...invoice.dataValues, id: invoiceNum };
+  return handleResponse("success", invoice, "Data Fetched Successfully");
 };
 
 /**
