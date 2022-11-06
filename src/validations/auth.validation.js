@@ -53,44 +53,6 @@ const verifyEmail = {
   }),
 };
 
-const getBook = {
-  params: Joi.object().keys({
-    id: Joi.string().required(),
-  }),
-};
-
-const addBook = {
-  body: Joi.object().keys({
-    name: Joi.string().required(),
-    class: Joi.string().valid(
-      "infant",
-      "nursery",
-      "prep",
-      "one",
-      "two",
-      "three",
-      "four",
-      "five",
-      "six",
-      "seven",
-      "eight",
-      "nine",
-      "ten",
-      "eleven",
-      "twelve"
-    ),
-    publication_id: Joi.number().required(),
-    price: Joi.number().required(),
-    year: Joi.string().required(),
-  }),
-};
-
-const deleteBook = {
-  body: Joi.object().keys({
-    book_id: Joi.array().required(),
-  }),
-};
-
 module.exports = {
   register,
   login,
@@ -99,7 +61,4 @@ module.exports = {
   forgotPassword,
   resetPassword,
   verifyEmail,
-  getBook,
-  addBook,
-  deleteBook,
 };
