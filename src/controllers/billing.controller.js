@@ -37,6 +37,12 @@ const searchInvoice = catchAsync(async (req, res) => {
   return res.status(httpStatus.OK).send(response);
 });
 
+const getGrandTotalReport = catchAsync(async (req, res) => {
+  const date = pick(req.query, ["from", "to"]);
+  const response = await billingService.grandTotalReport(date.from, date.to);
+  return res.status(httpStatus.OK).send(response);
+});
+
 const searchInvoiceByNum = catchAsync(async (req, res) => {
   const bill = pick(req.params, ["billNum"]);
   const response = await billingService.findInvoiceByNumber(bill.billNum);
@@ -59,6 +65,7 @@ module.exports = {
   getInvoiceById,
   deleteInvoice,
   searchInvoice,
+  getGrandTotalReport,
   searchInvoiceByNum,
   updateInvoice,
   getLastBillNumber,

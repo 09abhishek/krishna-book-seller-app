@@ -16,6 +16,12 @@ router.delete(
 );
 router.get("/search", auth("searchInvoice"), validate(billingValidation.searchInvoice), billingController.searchInvoice);
 router.get(
+  "/grand-total",
+  auth("searchInvoice"),
+  validate(billingValidation.getBillNum),
+  billingController.getGrandTotalReport
+);
+router.get(
   "/search/:billNum",
   auth("searchInvoiceByNum"),
   validate(billingValidation.searchInvoiceByNum),

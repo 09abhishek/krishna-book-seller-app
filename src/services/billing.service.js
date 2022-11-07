@@ -8,7 +8,7 @@ const { handleResponse } = require("../utils/responseHandler");
 /**
  * Create a user
  * @param {any} body
- * @returns {Promise<User>}
+ * @returns {Promise<{data, message: *, status: *}|{data, message: *, status: *}>}
  */
 const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
@@ -24,16 +24,18 @@ const saveInvoice = async (body) => {
     year: moment().year(),
     date: moment().toISOString(),
   });
-  if (data && data.length) {
+  // Reduce the count based on the book Id:
+
+  if (data) {
     data = data.dataValues.invoice_id;
   }
-  return handleResponse("success", data, "Invoice saved Successfully", "invoice");
+  return handleResponse("success", [data], "Invoice saved Successfully", "invoice");
 };
 
 /**
  * Get Invoice by id
  * @param {ObjectId} id
- * @returns {Promise<User>}
+ * @returns {Promise<{data, message: *, status: *}|{data, message: string, status: *}>}
  */
 const fetchInvoiceById = async (id) => {
   let invoice = await Billing.findOne({ where: { invoice_id: id } });
@@ -47,7 +49,7 @@ const fetchInvoiceById = async (id) => {
 
 /**
  * Delete invoice by ids
- * @returns {Promise<User>}
+ * @returns {Promise<{data, message: *, status: *}|{data, message: string, status: *}>}
  * @param invoiceIds
  */
 const deleteInvoice = async (invoiceIds) => {
@@ -62,6 +64,7 @@ const deleteInvoice = async (invoiceIds) => {
 };
 
 const findInvoiceByDate = async (fromDate, toDate) => {
+  let sumOfTotal = 0.0;
   const list = await Billing.findAll(
     {
       where: {
@@ -76,9 +79,41 @@ const findInvoiceByDate = async (fromDate, toDate) => {
 
   const invoiceList = list.map((invoice) => {
     const invoiceNum = String(invoice.id).padStart(6, "0");
+    sumOfTotal += parseFloat(invoice.total_amount);
     return { ...invoice.dataValues, id: invoiceNum };
   });
+
+  invoiceList.push({ sum_of_totals: sumOfTotal.toFixed(2) });
+
   return handleResponse("success", invoiceList, "Data Fetched Successfully");
+};
+
+const grandTotalReport = async (fromDate, toDate) => {
+  let sumOfTotal = 0.0;
+  const list = await Billing.findAll(
+    {
+      attributes: [
+        [sequelize.fn("sum", sequelize.col("total_amount")), "total_amount"],
+        [sequelize.fn("date_format", sequelize.col("date"), "%d-%m-%Y"), "date"],
+        [sequelize.fn("count", sequelize.col("date")), "no_of_bills"],
+      ],
+      where: {
+        [Op.and]: [
+          sequelize.where(sequelize.fn("date", sequelize.col("date")), ">=", fromDate),
+          sequelize.where(sequelize.fn("date", sequelize.col("date")), "<=", toDate),
+        ],
+      },
+      group: ["date"],
+    },
+    { raw: true }
+  );
+
+  list.forEach((data) => {
+    sumOfTotal += parseFloat(data.total_amount);
+  });
+
+  list.push({ sum_of_totals: sumOfTotal.toFixed(2) });
+  return handleResponse("success", list, "Data Fetched Successfully");
 };
 
 const findInvoiceByNumber = async (billNum) => {
@@ -129,12 +164,17 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     },
     { where: { invoice_id: invoiceId } }
   );
+
+  // Reduce or Increase the count based on the book Id:
+  // Old data and new data is needed to calculate.
+
   return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
 };
 
 module.exports = {
   saveInvoice,
   fetchInvoiceById,
+  grandTotalReport,
   deleteInvoice,
   findInvoiceByDate,
   findInvoiceByNumber,
