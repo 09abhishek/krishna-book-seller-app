@@ -1,5 +1,6 @@
 const moment = require("moment");
 const Book = require("../models/Book");
+const Publication = require("../models/Publication");
 const { handleResponse } = require("../utils/responseHandler");
 
 const saveBook = async (body) => {
@@ -25,14 +26,14 @@ const saveBook = async (body) => {
 };
 
 const getAllBooks = async () => {
-  const bookList = await Book.findAll();
-  const response = {
-    book: bookList,
-  };
+  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+  Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
+
+  const bookList = await Book.findAll({ attributes: { exclude: ["created_at", "updated_at"] }, include: Publication });
   if (!bookList || !bookList.length) {
     return handleResponse("error", [], "Books not found", "bookNotFound");
   }
-  return handleResponse("success", [response], "Data Fetched Successfully");
+  return handleResponse("success", bookList, "Data Fetched Successfully");
 };
 
 const getBooksByClass = async (className) => {
@@ -40,7 +41,14 @@ const getBooksByClass = async (className) => {
     year: moment().year(),
     class: className.id,
   };
-  const bookList = await Book.findAll({ where });
+  Publication.hasMany(Book, { foreignKey: "publication_id" });
+  Book.belongsTo(Publication, { foreignKey: "publication_id" });
+
+  const bookList = await Book.findAll({
+    attributes: { exclude: ["created_at", "updated_at"] },
+    include: Publication,
+    where,
+  });
   const response = {
     class: className.id,
     book: bookList,
@@ -53,7 +61,7 @@ const getBooksByClass = async (className) => {
 
 /**
  * Delete books by ids
- * @returns {Promise<Book>}
+ * @returns {Promise<{data, message: *, status: *}|{data, message: string, status: *}>}
  * @param bookIds
  */
 const deleteBookById = async (bookIds) => {
