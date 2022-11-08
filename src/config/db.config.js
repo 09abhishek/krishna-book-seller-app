@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const config = require('./config');
+const { Sequelize } = require("sequelize");
+const config = require("./config");
 
 const db = config.mysql;
 
@@ -9,7 +9,7 @@ module.exports = new Sequelize({
   password: db.PASSWORD,
   host: db.HOST,
   port: Number(db.DB_PORT),
-  dialect: 'mysql',
+  dialect: "mysql",
   models: [],
   pool: { max: 10 },
   define: {
