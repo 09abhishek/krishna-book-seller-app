@@ -41,7 +41,7 @@ const Token = db.define("Book", {
     type: Sequelize.INTEGER,
     allowNull: true,
     references: {
-      model: "publication",
+      model: "Publication",
       key: "id",
     },
   },

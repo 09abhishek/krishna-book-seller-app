@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
 const { handleResponse } = require("../utils/responseHandler");
@@ -22,7 +22,7 @@ const queryUsers = async () => {
 };
 
 const getUserById = async (id) => {
-  const user = await User.findByPk(id);
+  const user = await User.findByPk(id, { raw: true });
   if (user) {
     delete user.password;
     return handleResponse("success", [user], "Data Fetched Successfully");
@@ -67,7 +67,7 @@ const updateUserById = async (userId, body) => {
   if (body.password !== body.confirmPassword) {
     throw new ApiError(httpStatus.NOT_FOUND, "Password and ConfirmPassword doesnt match");
   } else {
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId, { raw: true });
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
