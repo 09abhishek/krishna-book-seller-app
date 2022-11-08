@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const bcrypt = require("bcrypt");
 const catchAsync = require("../utils/catchAsync");
-const { authService, userService, tokenService, emailService } = require("../services");
+const { authService, tokenService } = require("../services");
 const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
 const logger = require("../config/logger");
@@ -20,7 +20,7 @@ const register = catchAsync(async (req, res) => {
       password: req.body.password,
       first_name: req.body.firstName,
       last_name: req.body.lastName,
-      mobile_num: req.body.mobileNum,
+      mobile_num: req.body.mobileNum ? req.body.mobileNum : null,
       user_type: req.body.userType,
     });
     res.status(httpStatus.CREATED).send({ msg: "User Registered Successfully" });

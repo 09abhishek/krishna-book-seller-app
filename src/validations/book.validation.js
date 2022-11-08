@@ -64,7 +64,8 @@ const updateBooks = {
       net_price: Joi.number().required(),
       mrp: Joi.number().required(),
       quantity: Joi.number().required(),
-    }),
+    })
+    .min(1),
 };
 
 const deleteBook = {

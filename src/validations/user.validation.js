@@ -1,55 +1,42 @@
 const Joi = require("joi");
-const { password, objectId } = require("./custom.validation");
 
 const createUser = {
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().custom(password),
+    password: Joi.string().required(),
     name: Joi.string().required(),
-    role: Joi.string().required().valid("user", "admin"),
-  }),
-};
-
-const submitInvoice = {
-  body: Joi.object().keys({
-    name: Joi.string(),
-    father_name: Joi.string(),
-    phone_num: Joi.string(),
-    bill_particulars: Joi.object(),
-    address: Joi.string(),
-    total_sum: Joi.number().integer(),
+    role: Joi.string().required().valid("admin", "super_admin", "accountant"),
   }),
 };
 
 const getUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    id: Joi.string().required(),
   }),
 };
+const getUsers = {};
 
 const updateUser = {
   params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
+    id: Joi.string().required(),
   }),
-  body: Joi.object()
-    .keys({
-      email: Joi.string().email(),
-      password: Joi.string().custom(password),
-      name: Joi.string(),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    password: Joi.string().required(),
+    confirmPassword: Joi.string().required(),
+    userType: Joi.string().optional().valid("admin", "super_admin", "accountant"),
+  }),
 };
 
 const deleteUser = {
-  params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+  body: Joi.object().keys({
+    userId: Joi.array().required().items(Joi.number()),
   }),
 };
 
 module.exports = {
   createUser,
-  submitInvoice,
   getUser,
+  getUsers,
   updateUser,
   deleteUser,
 };

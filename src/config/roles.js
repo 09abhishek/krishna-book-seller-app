@@ -1,5 +1,5 @@
 const allRoles = {
-  user: ["submitInvoice"],
+  accountant: ["submitInvoice"],
   admin: [
     "submitInvoice",
     "submitInvoice",
@@ -19,6 +19,10 @@ const allRoles = {
     "addPublications",
     "deletePublications",
     "updatePublication",
+    "getUsers",
+    "getUser",
+    "updateUsers",
+    "deleteUser",
   ],
   super_admin: [
     "submitInvoice",
@@ -39,6 +43,10 @@ const allRoles = {
     "addPublications",
     "deletePublications",
     "updatePublication",
+    "getUsers",
+    "getUser",
+    "updateUsers",
+    "deleteUser",
   ],
 };
 
