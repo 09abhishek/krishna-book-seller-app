@@ -49,14 +49,10 @@ const getBooksByClass = async (className) => {
     include: Publication,
     where,
   });
-  const response = {
-    class: className.id,
-    book: bookList,
-  };
   if (!bookList || !bookList.length) {
     return handleResponse("error", [], "Books not found", "bookNotFound");
   }
-  return handleResponse("success", [response], "Data Fetched Successfully");
+  return handleResponse("success", bookList, "Data Fetched Successfully");
 };
 
 /**
@@ -99,7 +95,7 @@ const updateBookDetails = async (body) => {
       publication_id: book.publicationId,
       mrp: book.mrp,
       year: moment().year(),
-      net_price: book.net_price,
+      net_price: book.netPrice,
       quantity: book.quantity,
     };
   });
