@@ -83,9 +83,14 @@ const findInvoiceByDate = async (fromDate, toDate) => {
     return { ...invoice.dataValues, id: invoiceNum };
   });
 
-  invoiceList.push({ sum_of_totals: sumOfTotal.toFixed(2) });
-
-  return handleResponse("success", invoiceList, "Data Fetched Successfully");
+  const response = {
+    invoice: invoiceList,
+    sum_of_totals: sumOfTotal.toFixed(2),
+  };
+  if (invoiceList.length) {
+    return handleResponse("success", response, "Data Fetched Successfully", "fetchedInvoice");
+  }
+  return handleResponse("error", response, "No Data found", "fetchedInvoice");
 };
 
 const grandTotalReport = async (fromDate, toDate) => {
@@ -111,9 +116,15 @@ const grandTotalReport = async (fromDate, toDate) => {
   list.forEach((data) => {
     sumOfTotal += parseFloat(data.total_amount);
   });
+  const response = {
+    invoice: list,
+    sum_of_totals: sumOfTotal.toFixed(2),
+  };
 
-  list.push({ sum_of_totals: sumOfTotal.toFixed(2) });
-  return handleResponse("success", list, "Data Fetched Successfully");
+  if (list.length) {
+    return handleResponse("success", response, "Data Fetched Successfully", "fetchedGrandTotal");
+  }
+  return handleResponse("error", response, "No Data found", "errorGrandTotal");
 };
 
 const findInvoiceByNumber = async (billNum) => {
