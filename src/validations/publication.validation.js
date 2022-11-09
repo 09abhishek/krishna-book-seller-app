@@ -15,10 +15,13 @@ const addPublications = {
 };
 
 const updatePublication = {
-  body: Joi.array().required().items({
-    id: Joi.number().required(),
-    name: Joi.string().required(),
-  }),
+  body: Joi.array()
+    .required()
+    .items({
+      id: Joi.number().required(),
+      name: Joi.string().required(),
+    })
+    .min(1),
 };
 
 const deletePublications = {

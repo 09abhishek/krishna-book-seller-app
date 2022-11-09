@@ -1,6 +1,8 @@
 const httpStatus = require("http-status");
+const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
+const { handleResponse } = require("../utils/responseHandler");
 
 /**
  * Create a user
@@ -14,27 +16,31 @@ const createUser = async (userBody) => {
   return User.create(userBody);
 };
 
-/**
- * Query for users
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
- */
-const queryUsers = async (filter, options) => {
-  const users = await User.paginate(filter, options);
-  return users;
+const queryUsers = async () => {
+  const response = await User.findAll({ raw: true });
+  return handleResponse("success", [response], "Data Fetched Successfully");
 };
 
-/**
- * Get user by id
- * @param {ObjectId} id
- * @returns {Promise<User>}
- */
 const getUserById = async (id) => {
-  return User.findById(id);
+  const user = await User.findByPk(id, { raw: true });
+  if (user) {
+    delete user.password;
+    return handleResponse("success", [user], "Data Fetched Successfully");
+  }
+  return handleResponse("error", [], "");
+};
+
+const getUsersList = async () => {
+  const users = await User.findAll({ raw: true });
+  if (users) {
+    const response = users.map((user) => {
+      // eslint-disable-next-line no-param-reassign
+      delete user.password;
+      return user;
+    });
+    return handleResponse("success", response, "Data Fetched Successfully");
+  }
+  return handleResponse("error", [], "");
 };
 
 /**
@@ -48,42 +54,60 @@ const getUserByUserName = async (username) => {
 
 /**
  * Update user by id
- * @param {ObjectId} userId
- * @param {Object} updateBody
- * @returns {Promise<User>}
+ * @param userId
+ * @param {Object} body
+ * @returns {Promise<{data, message: *, status: *}|{data, message: *, status: *}>}
  */
-const updateUserById = async (userId, updateBody) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+
+// if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
+//   throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
+// }
+
+const updateUserById = async (userId, body) => {
+  if (body.password !== body.confirmPassword) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Password and ConfirmPassword doesnt match");
+  } else {
+    const user = await User.findByPk(userId, { raw: true });
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(body.password, salt);
+    const payload = {};
+    payload.password = hashedPass;
+    if (body.userType) {
+      payload.user_type = body.userType;
+    }
+    await User.update(payload, { where: { id: userId } });
+    return handleResponse("success", [], "User Info Updated Successfully", "passwordUpdated");
   }
-  if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
-  }
-  Object.assign(user, updateBody);
-  await user.save();
-  return user;
 };
 
 /**
  * Delete user by id
- * @param {ObjectId} userId
- * @returns {Promise<User>}
+ * @returns {Promise<{data, message: *, status: *}|{data, message: *, status: *}>}
+ * @param userId
  */
-const deleteUserById = async (userId) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+const deleteUser = async (userId) => {
+  const result = await User.destroy({
+    where: {
+      id: userId,
+    },
+  });
+  const message = result ? "User deleted successfully" : "User Ids not found or invalid";
+  const status = result ? "success" : "error";
+  if (result) {
+    return handleResponse(status, [result], message, "delete");
   }
-  await user.remove();
-  return user;
+  return handleResponse(status, null, message, "delete");
 };
 
 module.exports = {
   createUser,
   queryUsers,
   getUserById,
+  getUsersList,
   getUserByUserName,
   updateUserById,
-  deleteUserById,
+  deleteUser,
 };

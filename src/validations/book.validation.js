@@ -61,10 +61,11 @@ const updateBooks = {
         "twelve"
       ),
       publicationId: Joi.number().required(),
-      net_price: Joi.number().required(),
+      netPrice: Joi.number().required(),
       mrp: Joi.number().required(),
       quantity: Joi.number().required(),
-    }),
+    })
+    .min(1),
 };
 
 const deleteBook = {

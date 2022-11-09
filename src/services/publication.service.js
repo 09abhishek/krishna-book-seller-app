@@ -1,6 +1,7 @@
 const moment = require("moment");
 const Publication = require("../models/Publication");
 const { handleResponse } = require("../utils/responseHandler");
+const Book = require("../models/Book");
 
 const savePublication = async (body) => {
   if (!body.length) {
@@ -25,7 +26,10 @@ const savePublication = async (body) => {
 };
 
 const getAllPublications = async () => {
-  const publicationList = await Publication.findAll();
+  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+  Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
+
+  const publicationList = await Publication.findAll({ include: Book });
   if (!publicationList || !publicationList.length) {
     return handleResponse("error", [], "Publication not found", "publicationNotFound");
   }
@@ -33,11 +37,17 @@ const getAllPublications = async () => {
 };
 
 const getPublication = async (publication) => {
+  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+  Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
+
   const where = {
     year: moment().year(),
     id: publication.id,
   };
-  const publicationRes = await Publication.findAll({ where });
+  const publicationRes = await Publication.findAll({
+    include: [{ model: Book, attributes: { exclude: ["created_at", "updated_at", "publication_id"] } }],
+    where,
+  });
   if (!publicationRes || !publicationRes.length) {
     return handleResponse("error", [], "Publication not found", "publicationListNotFound");
   }
