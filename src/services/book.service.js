@@ -1,11 +1,13 @@
 const moment = require("moment");
+const httpStatus = require("http-status");
 const Book = require("../models/Book");
 const Publication = require("../models/Publication");
 const { handleResponse } = require("../utils/responseHandler");
+const ApiError = require("../utils/ApiError");
 
 const saveBook = async (body) => {
   if (!body.length) {
-    return handleResponse("error", null, "Body must contain minimum one structured object", "addBookMinimumLimit");
+    throw new ApiError(httpStatus.BAD_REQUEST, "Body must contain minimum one structured object");
   }
   const bookList = body.map((book) => {
     return {
@@ -26,7 +28,7 @@ const saveBook = async (body) => {
 };
 
 const getAllBooks = async () => {
-  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
   Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
 
   const bookList = await Book.findAll({ attributes: { exclude: ["created_at", "updated_at"] }, include: Publication });
@@ -84,7 +86,8 @@ const updateBookDetails = async (body) => {
   });
 
   if (body.length !== response.length) {
-    return handleResponse("error", result, "Book Ids entries doesnt exists or invalid", "updateBook");
+    throw new ApiError(httpStatus.BAD_REQUEST, "Book Ids entries doesnt exists or invalid");
+    // return handleResponse("error", result, "Book Ids entries doesnt exists or invalid", "updateBook");
   }
 
   const bookList = body.map((book) => {

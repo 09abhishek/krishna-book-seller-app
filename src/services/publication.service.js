@@ -1,16 +1,13 @@
 const moment = require("moment");
+const httpStatus = require("http-status");
 const Publication = require("../models/Publication");
 const { handleResponse } = require("../utils/responseHandler");
 const Book = require("../models/Book");
+const ApiError = require("../utils/ApiError");
 
 const savePublication = async (body) => {
   if (!body.length) {
-    return handleResponse(
-      "error",
-      null,
-      "Body must contain minimum one structured object",
-      "addPublicationListMinimumLimit"
-    );
+    throw new ApiError(httpStatus.BAD_REQUEST, "Body must contain minimum one structured object");
   }
   const bookList = body.map((publication) => {
     return {
@@ -26,7 +23,7 @@ const savePublication = async (body) => {
 };
 
 const getAllPublications = async () => {
-  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
   Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
 
   const publicationList = await Publication.findAll({ include: Book });
@@ -37,7 +34,7 @@ const getAllPublications = async () => {
 };
 
 const getPublication = async (publication) => {
-  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "CASCADE", onUpdate: "CASCADE" });
+  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
   Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
 
   const where = {
