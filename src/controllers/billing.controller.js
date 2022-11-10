@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const pick = require("../utils/pick");
 const catchAsync = require("../utils/catchAsync");
-const { billingService } = require("../services");
+const { billingService, bookService } = require("../services");
 
 const submitInvoice = catchAsync(async (req, res) => {
   const body = pick(req.body, [

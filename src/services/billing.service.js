@@ -2,8 +2,11 @@ const { v4: uuidv4 } = require("uuid");
 const moment = require("moment");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
+const httpStatus = require("http-status");
 const Billing = require("../models/Billing");
+const Book = require("../models/Book");
 const { handleResponse } = require("../utils/responseHandler");
+const ApiError = require("../utils/ApiError");
 
 /**
  * Create a user
@@ -12,6 +15,35 @@ const { handleResponse } = require("../utils/responseHandler");
  */
 const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
+
+  const { billParticulars } = body;
+  const bookIds = billParticulars.map((book) => book.id);
+  const where = { class: body.stdClass };
+  const booksByClass = await Book.findAll({ attributes: ["id", "quantity", "name"], where, raw: true });
+
+  const checkBooksResponse = await Book.findAll({ where: { id: bookIds } });
+  const dbCount = {};
+
+  booksByClass.forEach((item) => {
+    if (item.quantity === 0 || item.quantity < 0) {
+      throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Book stock not available");
+    }
+    dbCount[item.id] = item.quantity;
+  });
+
+  if (bookIds.length !== checkBooksResponse.length) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Book ids entries doesnt exists or invalid");
+  } else {
+    billParticulars.forEach((item) => {
+      if (dbCount[item.id]) {
+        const updatedCount = dbCount[item.id] - item.quantity;
+        if (updatedCount < 0) {
+          throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough book stock to process the request");
+        }
+        dbCount[item.id] = updatedCount;
+      }
+    });
+  }
   let data = await Billing.create({
     invoice_id: invoiceId,
     name: body.name,
@@ -24,7 +56,17 @@ const saveInvoice = async (body) => {
     year: moment().year(),
     date: moment().toISOString(),
   });
-  // Reduce the count based on the book Id:
+
+  Object.entries(dbCount).forEach(([key, value]) => {
+    return Book.update({ quantity: value }, { where: { id: key } });
+  });
+
+  // loop over the inputs and return an array of promises, one for each update
+  // const promises = billParticulars.map((item) => {
+  //   return Book.update({ quantity: item.quantity }, { where: { id: item.id } });
+  // });
+  // resolve all the db calls at once
+  //  await Promise.all(promises);
 
   if (data) {
     data = data.dataValues.invoice_id;
@@ -161,7 +203,7 @@ const fetchBillNumber = async () => {
 const updateInvoiceDetails = async (invoiceId, billingData) => {
   const foundItem = await Billing.findOne({ where: { invoice_id: invoiceId } });
   if (!foundItem) {
-    return handleResponse("error", null, "Invoice not found", "invoiceNotFound");
+    throw new ApiError(httpStatus.NOT_FOUND, "Invoice not found");
   }
   await Billing.update(
     {
