@@ -36,6 +36,8 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   invoiceId: any;
   invoiceDetails: any;
   selectedBookListByid: any = {};
+  previousClassId: any;
+  previousSelectedBook: any = [];
   classList: any = [
     {id: 1, name: 'infant', value: 'infant'},
     {id: 2, name: 'nursery', value: 'nursery'},
@@ -118,13 +120,17 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     const params: any = {};
     let billParticulars: any = [];
     this.selectedBook.forEach((item: any) => {
-      if (item.qty && item.amount) {
+      if (item.quantity && item.amount) {
           const param: any = {};
-          param.name = item.name;
-          param.qty = item.qty;
-          param.price = item.amount;
           param.id = item.id;
-          param.rate = item.price;
+          param.name = item.name;
+          param.amount = item.amount;
+          param.class = item.class;
+          param.year = item.year;
+          param.publication_id = item.publication_id;
+          param.mrp = item.mrp;
+          param.net_price = item.net_price;
+          param.quantity = item.quantity ? Number(item.quantity) : '';
           billParticulars.push(param);
       }
     });
@@ -134,10 +140,13 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     params.fatherName = formValue.fathername;
     params.totalAmount = this.totalInvoiceAmount;
     params.address = formValue.address;
-    params.mobileNum = formValue.mobno;
+    if(formValue.mobno) {
+      params.mobileNum = formValue.mobno;
+    }
     params.billParticulars = billParticulars;
     if(this.invoiceId) {
       params.invoiceId = this.invoiceId ? this.invoiceId : '';
+      params.previousBillParticulars = this.previousSelectedBook;
     }
     this.printData = {};
     this.subscriptions['saveInvoice'] = this.invoiceService.saveInvoice(params).subscribe({
@@ -156,6 +165,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       }
     });
   }
+
   cancel() {
       this.selectedBook = [];
       this.selectedBookIds = [];
@@ -176,7 +186,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   resetparticularField() {
     this.bookList.forEach((item: any) => {
       if(this.selectedBookIds.indexOf(item.id) > -1) {
-         item.qty = '1';
+         item.quantity = '1';
          item.amount = '';
       }
     })
@@ -190,14 +200,14 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       this.bookList = [];
       this.selectedBookIds = [];
       this.selectedBook = [];
-      if(item && item.book) {
-        item.book.forEach((data: any) => {
-          data['qty'] = '1';
+      if(item && item.data) {
+        item.data.forEach((data: any) => {
+          data['quantity'] = '1';
           data['amount'] = '';
           this.selectedBookIds.push(data.id)
         })
-        this.bookList = item.book;
-        this.selectedBook = item.book;
+        this.bookList = item.data;
+        this.selectedBook = item.data;
       }
     });
 
@@ -223,8 +233,8 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     if(this.invoiceId && rate && qty && this.selectedBook.length > 0) {
       this.selectedBook.forEach((_item: any) => {
         if (_item.id === data.id) {
-          _item['qty'] = qty;
-          _item['amount'] = (Number(qty) * parseFloat(_item.price)).toFixed(2);
+          _item['quantity'] = qty;
+          _item['amount'] = (Number(qty) * parseFloat(_item.mrp)).toFixed(2);
         }
       });
     }
@@ -247,7 +257,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     let intialSum: any = 0;
     if(this.selectedBook.length > 0) {
       this.selectedBook.forEach((item: any) => {
-        if (item.price && item.qty && item.amount) {
+        if (item.mrp && item.quantity && item.amount) {
           const amt = parseFloat(item.amount);
           intialSum = intialSum + amt
         }
@@ -285,6 +295,8 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   getInvoiceDetails(id: any) {
     this.selectedBookIds = [];
     this.selectedBook = [];
+    this.previousClassId = '';
+    this.previousSelectedBook = [];
     this.subscriptions['invoiceDetails'] = this.invoiceService.getInvoiceDetails(id)
     .subscribe((item: any) => {
       if(item && item.data && item.data.length > 0) {
@@ -292,6 +304,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         this.selectedBookListByid = groupBy(this.invoiceDetails.bill_data, 'id');
         this.getBookList(this.invoiceDetails.class);
         this.classId = this.invoiceDetails.class;
+        this.previousClassId = this.invoiceDetails.class;
         this.invoiceForm.controls['name'].setValue(this.invoiceDetails.name);
         this.invoiceForm.controls['billno'].setValue(this.invoiceDetails.id);
         this.invoiceForm.controls['fathername'].setValue(this.invoiceDetails.father_name);
@@ -304,9 +317,11 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         if (this.invoiceDetails && this.invoiceDetails.bill_data) {
           this.invoiceDetails.bill_data.forEach((data: any) => {
             this.selectedBookIds.push(data.id);
-            this.selectedBook.push({id: data.id, name: data.name, amount: data.price, qty: data.qty, price: data.rate});
+            this.selectedBook.push({id: data.id, name: data.name, amount: data.amount, class: data.class, year: data.year, publication_id: data.publication_id, net_price: data.net_price, quantity: data.quantity, mrp: data.mrp});
+            this.previousSelectedBook.push({id: data.id, name: data.name, amount: data.amount, class: data.class, year: data.year, publication_id: data.publication_id, net_price: data.net_price, quantity: data.quantity, mrp: data.mrp});
           })
-        }console.log('this.selectedBookListByid', this.selectedBookListByid)
+        }
+        // console.log('this.selectedBookListByid', this.selectedBookListByid)
       }
     });
   }
@@ -315,15 +330,15 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     this.subscriptions['bookListdata'] = this.invoiceService.getBookList(id)
     .subscribe((item: any) => {
       this.intialPageLoader = false;
-      if(item && item.book) {
-        item.book.forEach((data: any) => {
-            data['qty'] = '1';
+      if(item && item.data) {
+        item.data.forEach((data: any) => {
+            data['quantity'] = '1';
           if (this.selectedBookListByid && this.selectedBookListByid[data.id]) {
-            data['qty'] = this.selectedBookListByid[data.id].length > 0 ? this.selectedBookListByid[data.id][0].qty : '1';
-            data['amount'] = this.selectedBookListByid[data.id].length > 0 ? this.selectedBookListByid[data.id][0].price : '';
+            data['quantity'] = this.selectedBookListByid[data.id].length > 0 ? this.selectedBookListByid[data.id][0].quantity : '1';
+            data['amount'] = this.selectedBookListByid[data.id].length > 0 ? this.selectedBookListByid[data.id][0].amount : '';
           }
         });
-        this.bookList = item.book;
+        this.bookList = item.data;
       }
     });
   }

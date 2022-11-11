@@ -19,6 +19,35 @@
         <button class="btn-cancel button" type="button" (click)="cancel()">Cancel</button>
     </div>
     </div>
+    <div class="table-responsive">
+      <p-table [value]="publicationDetails.Books" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
+
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th pSortableColumn="name">Book Name <p-sortIcon field="name"></p-sortIcon></th>
+                      <th pSortableColumn="class">Class<p-sortIcon field="class"></p-sortIcon></th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+                  <tr class="p-selectable-row">
+                      <td style="width: 50%;">
+                          <span class="p-column-title">Book_Name</span>
+                           {{customer.name}}
+                      </td>
+                      <td style="width: 50%;">
+                          <span class="p-column-title">class</span>
+                          <span class="image-text">{{getClassNo(classList, customer.class)}}</span>
+                      </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                  <tr>
+                      <td colspan="8" style="text-align:center;">No List found.</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+    </div>
   </form>
   </div>
 </div>

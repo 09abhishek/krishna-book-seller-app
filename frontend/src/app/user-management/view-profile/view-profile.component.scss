@@ -1,0 +1,30 @@
+.content-wrapper {
+  padding: 8px 19px;
+  background: white;
+  height: calc(100vh - 5rem);
+  .content-heading {
+    .content-details {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h5 {
+        padding: 10px;
+      }
+    }
+    .content-div {
+      width: 100%;
+      .content-item {
+        padding: 9px 0px;
+        label {
+          width: 25%;
+          color: gray;
+          font-weight: bold;
+        }
+        span {
+          width: 25%;
+          color: gray;
+        }
+      }
+    }
+  }
+}
