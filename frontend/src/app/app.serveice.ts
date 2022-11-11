@@ -16,4 +16,7 @@ export class AppService {
   doLogout(params: any): Observable<any> {
     return this.http.post(this.URL + '/auth/logout', params);
   }
+  getUserDetails(params: any): Observable<any> {
+    return this.http.get(this.URL + '/users/' + params);
+  }
 }

@@ -6,6 +6,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { routing } from './user.routing';
 import { SharedModule } from '../shared/shared.module';
 import { UserService } from './user.service';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { UserService } from './user.service';
 
   declarations: [
     AddUserComponent,
-    UserListComponent
+    UserListComponent,
+    ViewProfileComponent
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

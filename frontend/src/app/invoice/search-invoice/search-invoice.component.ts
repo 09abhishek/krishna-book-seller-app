@@ -18,8 +18,8 @@ export class SearchInvoiceComponent implements OnInit {
   searchInvoice = false;
   deleteLoader = false;
   todayDate: any = new Date();
-  fromDateValue: any = '';
-  toDateValue: any = '';
+  fromDateValue: any = new Date();
+  toDateValue: any = new Date();
   billId: any = '';
 
   constructor(

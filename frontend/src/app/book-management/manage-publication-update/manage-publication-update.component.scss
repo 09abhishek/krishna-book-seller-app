@@ -11,6 +11,8 @@
     }
     .content-field  {
       margin-top: 15px;
+      width: 100%;
+      align-items: center;
       .input-field {
         width: 49%;
         padding: 5px;
@@ -36,38 +38,9 @@
           padding: 0 13px;
           font-style: normal;
         }
-        select {
-          outline: 0;
-          // display: flex;
-          width: 65%;
-          height: 40px;
-          line-height: 15px;
-          background: #fff;
-          border: solid 1px #dfdfdf;
-        }
-
-        ::ng-deep .p-datepicker table td {
-          padding: 0.4rem !important;
-        }
-        ::ng-deep .p-datepicker table td > span {
-          width: 1.5rem !important;
-          height: 1.5rem !important;
-        }
-        ::ng-deep .ui-calendar .ui-datepicker {
-          height : 200px !important;
-       }
-          ::ng-deep  .p-button.p-button-icon-only {
-            height: 40px;
-       }
-       ::ng-deep  .p-calendar .p-inputtext {
-          height: 40px;
-       }
-       ::ng-deep .p-calendar {
-          width: 65%;
-       }
       }
       .content-btn {
-        width: 100%;
+        // width: 100%;
         padding: 20px 0px;
         align-items: center;
         justify-content: center;
@@ -82,7 +55,7 @@
           margin: 0px 30px;
           margin-right: 0;
           &.btn-save {
-            background-color: #198754;
+            background-color: #007bff;
           }
           &.btn-cancel {
             background-color: #6c757d;
@@ -98,6 +71,53 @@
           }
        }
       }
+    }
+    .table-responsive {
+      padding: 20px 0 ;
+      .p-button.p-button-icon-only {
+        width: 2rem;
+        padding: 0.5rem 0;
+      }
+      ::ng-deep .p-datatable.p-datatable-customers {
+        .p-datatable-header {
+            padding: 1rem;
+            text-align: left;
+            font-size: 1.5rem;
+        }
+
+        .p-paginator {
+            padding: 1rem;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+
+        .p-datatable-thead > tr > th {
+          padding: 12px 12px;
+        }
+
+        .p-datatable-tbody > tr > td {
+          padding: 6px 0px 5px 15px !important;
+        }
+        .p-button.p-button-icon-only {
+          width: 2rem;
+          padding: 0.5rem 0;
+        }
+        .p-button:enabled:hover {
+          background: none;
+          color: black;
+          border-color: black;
+          outline: none !important;
+      }
+      .p-button {
+        color: black;
+        background: none;
+        border: none;
+        outline: none !important;
+    }
+        .p-dropdown-label:not(.p-placeholder) {
+            text-transform: uppercase;
+        }
+    }
     }
   }
 }
