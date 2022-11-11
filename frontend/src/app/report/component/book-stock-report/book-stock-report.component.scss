@@ -1,0 +1,124 @@
+.content-wrapper {
+  padding: 8px 19px;
+  .content-heading {
+    .content-details {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h5 {
+        padding: 10px;
+      }
+    }
+    .content-field  {
+      .input-field {
+        width: 50%;
+        label {
+          width: 10%;
+          color: gray;
+        }
+        select {
+          outline: 0;
+          width: 50%;
+          height: 40px;
+          line-height: 15px;
+          background: #fff;
+          border: solid 1px #dfdfdf;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+  .table-responsive {
+    padding: 20px 0 ;
+    .basic-details {
+      justify-content: flex-end;
+      // width: calc(100% - 50px);
+      padding: 20px 0px 10px;
+      .grant-total-label {
+        font-weight: bold;
+        .grant-total-amount {
+          font-weight: normal;
+        }
+      }
+      .content-btn {
+        .button {
+          border: none;
+          color: white;
+          text-align: center;
+          padding: 8px 25px;
+          background-color: #2563eb;
+          margin: 0px 11px;
+          border-radius: 5px;
+          &.btn-excel {
+            background-color: transparent !important;
+            padding: 0;
+            // margin: 0;
+            img {
+              width: 20px;
+            }
+          }
+          &.btn-pdf {
+            background-color: transparent !important;
+            padding: 0;
+            // margin: 0;
+            img {
+              width: 20px;
+            }
+          }
+          &.btn-print {
+            background-color: transparent !important;
+            padding: 0;
+            // margin: 0;
+            img {
+              width: 20px;
+            }
+          }
+        }
+      }
+    }
+    .p-button.p-button-icon-only {
+      width: 2rem;
+      padding: 0.5rem 0;
+    }
+    ::ng-deep .p-datatable.p-datatable-customers {
+      .p-datatable-header {
+          padding: 1rem;
+          text-align: left;
+          font-size: 1.5rem;
+      }
+
+      .p-paginator {
+          padding: 1rem;
+          align-items: flex-end;
+          justify-content: flex-end;
+      }
+
+      .p-datatable-thead > tr > th {
+        padding: 12px 12px;
+      }
+
+      .p-datatable-tbody > tr > td {
+        padding: 12px 0px 12px 15px !important;
+      }
+      .p-button.p-button-icon-only {
+        width: 2rem;
+        padding: 0.5rem 0;
+      }
+      .p-button:enabled:hover {
+        background: none;
+        color: black;
+        border-color: black;
+        outline: none !important;
+    }
+    .p-button {
+      color: black;
+      background: none;
+      border: none;
+      outline: none !important;
+  }
+      .p-dropdown-label:not(.p-placeholder) {
+          text-transform: uppercase;
+      }
+  }
+  }
+}

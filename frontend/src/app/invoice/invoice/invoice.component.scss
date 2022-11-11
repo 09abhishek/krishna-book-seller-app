@@ -5,6 +5,9 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      h5 {
+        padding: 10px;
+      }
     }
     .content-field  {
       margin-top: 15px;
@@ -21,6 +24,10 @@
           border: solid 1px #e8e8e8;
           padding: 0 13px;
           font-style: normal;
+          &:disabled {
+            background: #ffffff;
+            opacity: 0.8;
+          }
         }
         textarea {
           width: 65%;
@@ -38,6 +45,7 @@
           background: #fff;
           border: solid 1px #dfdfdf;
         }
+
         ::ng-deep .p-datepicker table td {
           padding: 0.4rem !important;
         }
@@ -54,11 +62,14 @@
        ::ng-deep  .p-calendar .p-inputtext {
           height: 40px;
        }
+       ::ng-deep .p-calendar {
+          width: 65%;
+       }
       }
     }
   }
   .inv-adm-tbl {
-    padding: 20px 0px;
+    padding: 0px 0px 20px 0px;
     .table {
       width: 100%;
         tr {
@@ -163,7 +174,7 @@
           margin: 0px 30px;
           margin-right: 0;
           &.btn-save {
-            background-color: #198754;
+            background-color: #007bff;
           }
           &.btn-cancel {
             background-color: #6c757d;
@@ -175,7 +186,7 @@
             background-color: #0dcaf0;
           }
           &.btn-print {
-            background-color: #2563eb;
+            background-color: #007bff;
           }
        }
       }
@@ -190,9 +201,22 @@
           border: solid 1px #e8e8e8;
           padding: 0 4px;
           font-style: normal;
+          background: #ffffff;
+          opacity: 0.8;
         }
       }
 
+    }
+  }
+  .select-type {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 300px;
+    background: white;
+    .msg-type {
+      font-weight: 500;
+      padding-top: 10px;
     }
   }
 }
@@ -222,11 +246,20 @@
 }
 .report-print {
   justify-content: flex-end;
+  margin-top: 10px;
+  padding-bottom: 21px;
+  border-bottom: 1px solid black;
   .button {
     border: none;
     color: white;
     text-align: center;
     padding: 8px 25px;
     background-color: #2563eb;
+    &.btn-reset {
+      background-color: #6c757d;
+    }
   }
+}
+.position-error {
+  padding-left: 25%;
 }

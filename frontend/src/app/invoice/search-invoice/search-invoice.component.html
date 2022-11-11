@@ -1,69 +1,108 @@
 <div class="content-wrapper">
   <div class="content-heading">
     <div class="content-details flex">
-      <h4>Krishna Book Seller</h4>
-      <p>Mithanpura, Muzaffarpur-842002</p>
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>Mithanpura, Muzaffarpur-842002</p> -->
       <h5>SEARCH INVOICE</h5>
     </div>
-    <div class="content-field">
-      <p class="search-by">Search</p>
-      <div class="search-details flex">
-        <div class="search-date">
-          <label for="From">From</label>
-          <p-calendar inputId="From" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+    <div class="search-content flex">
+      <div class="search-Bill">
+        <p class="search-by">Search By Bill No.</p>
+        <div class="search-details flex">
+          <div class="search-bill-No flex">
+            <label for="bill">Bill No</label>
+            <input id="bill" type="text" [disabled]="(fromDateValue !== '' || toDateValue !== '')" [(ngModel)]="billId">
+          </div>
+          <div class="content-btn flex">
+            <button class="btn-search button" type="button" [disabled]="(fromDateValue || toDateValue) || !billId" (click)="onSearchByBillid();billLoading = false;dateLoading = true">Search
+              <span [hidden]="!loading && !dateLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <button class="btn-reset button" type="button" (click)="resetSearch()">Reset
+              <!-- <span [hidden]="!loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
+            </button>
+          </div>
         </div>
-        <div class="search-date">
-          <label for="To">To</label>
-          <p-calendar inputId="To" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
-        </div>
-        <div class="content-btn flex">
-          <button class="btn-search button" type="button">Search</button>
+      </div>
+      <div class="content-field">
+        <p class="search-by">Search By Date</p>
+        <div class="search-details flex">
+          <div class="search-date-field flex">
+            <div class="search-date">
+              <label for="From">From</label>
+              <p-calendar inputId="From" [(ngModel)]="fromDateValue" [disabled]="billId !== '' "  [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+            </div>
+            <div class="search-date serch-left">
+              <label for="To">To</label>
+              <p-calendar inputId="To" [(ngModel)]="toDateValue" [disabled]="billId !== '' " [minDate]="fromDateValue" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+            </div>
+         </div>
+          <div class="content-btn flex">
+            <button class="btn-search button" type="button" [disabled]="((fromDateValue == '' || toDateValue == '') || billId !== '')" (click)="onSearch();billLoading = true;dateLoading = false">Search
+              <span [hidden]="!loading && !billLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <button class="btn-reset button" type="button" (click)="resetSearch()">Reset
+              <!-- <span [hidden]="!loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="table-responsive">
-    <p-table [value]="customers" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+    <ng-container *ngIf="!searchInvoice">
+      <div class="select-type flex" >
+        <img src="assets/img/document.svg"/>
+        <p class="msg-type">please search by date or Bill no</p>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="searchInvoice">
+    <p-table [value]="invoiceList" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
      [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
 
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="name">Bill No <p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="country.name">Name <p-sortIcon field="country.name"></p-sortIcon></th>
-                    <th pSortableColumn="representative.name">Total Amount <p-sortIcon field="representative.name"></p-sortIcon></th>
-                    <th pSortableColumn="id">Father's Name <p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="id">Bill No <p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="father_name">Father Name <p-sortIcon field="father_name"></p-sortIcon></th>
+                    <th pSortableColumn="class">Class<p-sortIcon field="class"></p-sortIcon></th>
+                    <th pSortableColumn="total_amount">Total Amount (&#x20B9;)<p-sortIcon field="total_amount"></p-sortIcon></th>
                     <th style="width: 8rem">Action</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
                 <tr class="p-selectable-row">
                     <td>
-                        <span class="p-column-title">Name</span>
-                        {{customer.name}}
+                        <span class="p-column-title">id</span>
+                        {{customer.id}}
                     </td>
                     <td>
-                        <span class="p-column-title">Country</span>
-                        <span class="image-text">{{customer.country.name}}</span>
+                        <span class="p-column-title">name</span>
+                        <span class="image-text">{{customer.name}}</span>
                     </td>
                     <td>
-                        <span class="p-column-title">Representative</span>
-                        <span class="image-text">{{customer.representative.name}}</span>
+                        <span class="p-column-title">father_name</span>
+                        <span class="image-text">{{customer.father_name}}</span>
                     </td>
                     <td>
-                        <span class="p-column-title">Date</span>
-                        {{customer.date}}
+                        <span class="p-column-title">class</span>
+                        {{customer.class}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">total_amount</span>
+                        {{customer.total_amount}}
                     </td>
                     <td style="width: 8rem">
-                        <button pButton type="button" class="secondary" icon="pi pi-pencil"></button>
-                        <button pButton type="button" class="danger" icon="pi pi-trash"></button>
+                        <button pButton type="button" class="secondary" icon="pi pi-pencil" (click)="updateInvoice(customer.invoice_id)"></button>
+                        <button pButton type="button" class="danger" icon="pi pi-trash" (click)="openConfirmationDialog(customer.invoice_id)"></button>
                     </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">No customers found.</td>
+                    <td colspan="8" style="text-align:center;">No List found.</td>
                 </tr>
             </ng-template>
         </p-table>
+      </ng-container>
   </div>
 </div>

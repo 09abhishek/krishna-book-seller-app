@@ -1,1 +1,71 @@
-<p>all-book-list works!</p>
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>Mithanpura, Muzaffarpur-842002</p> -->
+      <h5>All Book</h5>
+    </div>
+  <div class="table-responsive">
+    <div class="basic-details flex">
+      <!-- <p class="grant-total-label">Total Amount (&#x20B9;): <span class="grant-total-amount"> {{totalAmount}}</span></p> -->
+      <div class="content-btn flex">
+        <ng-container *ngIf="allBookList.length > 0">
+          <button class="btn-excel button" type="button" (click)="exportExcel()"><img src="assets/img/file-excel.svg"></button>
+          <button class="btn-pdf button" type="button" (click)="generatePdf('download')"><img src="assets/img/file-pdf.svg"></button>
+          <button class="btn-print button" type="button" (click)="generatePdf('print')"><img src="assets/img/file-print.svg"></button>
+        </ng-container>
+      </div>
+    </div>
+    <p-table [value]="allBookList" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+     [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name">Book Name<p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="Publication.name">Publication<p-sortIcon field="Publication.name"></p-sortIcon></th>
+                    <th pSortableColumn="quantity">Quantity<p-sortIcon field="quantity"></p-sortIcon></th>
+                    <th pSortableColumn="net_price">Net Price<p-sortIcon field="net_price"></p-sortIcon></th>
+                    <th pSortableColumn="mrp">MRP<p-sortIcon field="mrp"></p-sortIcon></th>
+                    <th pSortableColumn="class">Class<p-sortIcon field="class"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+                <tr class="p-selectable-row">
+                    <td>
+                        <span class="p-column-title">Book_Name</span>
+                         {{customer.name}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Publication</span>
+                        <span class="image-text">{{customer.Publication.name}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Quantity</span>
+                        <span class="image-text">{{customer.quantity}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">net_price</span>
+                        <span class="image-text">{{customer.net_price}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">mrp</span>
+                        <span class="image-text">{{customer.mrp}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">class</span>
+                        <span class="image-text">{{getClassNo(classList, customer.class)}}</span>
+                    </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" style="text-align:center;">No List found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+  </div>
+</div>
+
+
+

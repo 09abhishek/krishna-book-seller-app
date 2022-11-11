@@ -1,0 +1,68 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p> -->
+      <h5>Quantity Change</h5>
+    </div>
+    <div class="content-field flex">
+      <div class="input-field">
+        <label>Class</label>
+        <select class="search select-drop" id="mysel" [(ngModel)]="classId" (change)="onChangeClass($event.target)">
+          <ng-container *ngFor="let class of classList">
+            <option [value]="class.name">{{class.value}}</option>
+          </ng-container>
+      </select>
+      </div>
+    </div>
+  </div>
+  <div class="select-type flex" *ngIf="!classId">
+    <img src="assets/img/document.svg"/>
+    <p class="msg-type">please Select class</p>
+  </div>
+  <div class="intial-loader" *ngIf="intialPageLoader && classId">
+    <app-loader></app-loader>
+  </div>
+  <ng-container *ngIf="classId">
+  <div class="table-responsive inv-adm-tbl">
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="inv-check"></th>
+            <th class="inv-particular text-center">Book List</th>
+            <th class="inv-rate text-center">Rate</th>
+            <th class="inv-qty text-center">Current Qty</th>
+            <th class="inv-amt text-center">Update Qty</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="bookList.length === 0">
+            <td height="250" colspan="5" style="text-align: center; vertical-align: middle; background: white">
+                <p style="margin-top: 20px;">No Data found</p>
+            </td>
+        </tr>
+          <ng-container *ngFor="let iteam of bookList">
+            <tr>
+                <td>
+                  <input id="{{iteam.id}}"  [checked]="selectedBookIds.indexOf(iteam.id) > -1"  class="checkbox-custom" type="checkbox" (change)="onSelectBook($event, iteam)">
+                  <label for="{{iteam.id}}" class="checkbox-custom-label"></label>
+                </td>
+                <td>{{iteam.name}}</td>
+                <td class="text-center"><input type="text" disabled [(ngModel)]="iteam.mrp" appOnlyNumber numericType="decimal"></td>
+                <td class="text-center"><input type="text" appOnlyNumber disabled numericType="number" [(ngModel)]="iteam.oldquantity"></td>
+                <td class="text-center"><input type="text" appOnlyNumber numericType="number" [(ngModel)]="iteam.quantity"></td>
+            </tr>
+          </ng-container>
+        </tbody>
+    </table>
+    <div class="content-btn-details flex">
+      <div class="content-btn flex">
+        <button class="btn-save button" type="button" (click)="openConfirmationDialog()">Update
+          <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button class="btn-cancel button" type="button" (click)="cancel()">Reset</button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+</div>

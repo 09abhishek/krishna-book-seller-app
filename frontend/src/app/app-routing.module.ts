@@ -25,6 +25,16 @@ const routes: Routes = [
           loadChildren: () => import('./dashboard/dashboad.module').then(m => m.DashboardModule)
         },
         {
+          path: 'user',
+          canActivate: [AuthGuard],
+          loadChildren: () => import('./user-management/user.module').then(m => m.UserModule)
+        },
+        {
+          path: 'book-management',
+          canActivate: [AuthGuard],
+          loadChildren: () => import('./book-management/book-management.module').then(m => m.BookManagementModule)
+        },
+        {
           path: '',
           redirectTo: 'dashboard',
           pathMatch: 'full'

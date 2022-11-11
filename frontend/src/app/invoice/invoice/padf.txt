@@ -1,0 +1,84 @@
+generatePdf() {
+  console.log('generatePdf');
+  let docDefinition: any = {
+    pageOrientation: 'landscape',
+    content: [
+      { text: 'Krishna Book Seller', style: 'topheader' },
+      { text: 'Mithanpura, Muzaffarpur-842002', style: 'address' },
+      { text: 'Receipt', bold: true, style: 'invoice' },
+      // basic info details
+      {
+        style: "basicdetails",
+        layout: 'noBorders',
+        table: {
+          widths: [ '*', 'auto'],
+          body: [
+            ['Name:' +'  '+ this.basicDetails?.name,                   'Bill No:' +'  '+  this.basicDetails?.bill_no],
+            ['Father\'s Name:' +'  '+ this.basicDetails?.father_name,  'Class:' +'  '+ this.basicDetails?.class],
+            ['Mobile No:' +'  '+  this.basicDetails?.Mob_no,           'Bill Date:' +'  '+  moment(this.billingDate).format('DD-MM-YYYY')],
+            ['Address:' +'  '+  this.basicDetails?.address,            ''],
+          ]
+        },
+      },
+      this.table(
+        this.tableData,
+        //first row
+        [
+          { text: 'Particulars', bold: true },
+          { text: 'Rate', bold: true },
+          { text: 'Quantity', bold: true },
+          { text: 'Amount (₹)', bold: true },
+        ],
+        // api row find with key text
+        [
+          { text: 'name', bold: true },
+          { text: 'rate', bold: true },
+          { text: 'quantity', bold: true },
+          { text: 'amount', bold: true },
+        ],
+      ),
+      {text: 'Total Amount (₹):' +'  '+ this.basicDetails?.Total_amt, style: 'totalAmt'},
+      {text: 'Authorised Signatory', bold: true, margin: [0, 20, 10, 20], alignment: 'right', fontSize: 10, },
+      {text: 'SP Note.', bold: true, margin: [0, 5, 0, 0], fontSize: 8, },
+      {text: '1. Book once distributed will not be exchanged or returned under any circumstances.', fontSize: 5, },
+      {text: '2. Bill should be kept very carefully and should not be misplaced under any circumstances.', fontSize: 5, },
+      {text: '3. All books must be checked at the counter itself at the time of delivery.No complains will be entertained later on.', fontSize: 5, },
+      // Print Section Repeat Again __________________________________________________________________________________________
+
+    ],
+    styles: {
+      topheader: {
+        fontSize: 12,
+        alignment: 'center',
+        bold: true,
+        margin: [0, 0, 0, 0],
+        screenLeft: 100
+      },
+      address: {
+        fontSize: 8,
+        alignment: 'center',
+      },
+      invoice: {
+        fontSize: 10,
+        bold: true,
+        margin: [0, 0, 0, 6],
+        alignment: 'center',
+      },
+      basicdetails: {
+        margin: [0, 0, 0, 10],
+        fontSize: 8,
+      },
+      totalAmt: {
+        margin: [0, 8, 8, 10],
+        alignment: 'right',
+        bold: true,
+        fontSize: 10,
+      },
+      tableDataDetails: {
+        fontSize: 8,
+      }
+    },
+  };
+  const win = window.open('', '_blank');
+  pdfMake.createPdf(docDefinition).open({}, win);
+}

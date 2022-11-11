@@ -12,7 +12,7 @@ import { routing } from './auth.routing';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    // HttpClientModule,
     SharedModule,
     routing
   ],

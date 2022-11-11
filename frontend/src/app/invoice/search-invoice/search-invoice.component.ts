@@ -1,4 +1,9 @@
+import { ConfirmationDialogService } from './../../shared/components/confirmation-dialog/confirmation-dialog.service';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { MessageService } from 'primeng/api';
+import { InvoiceService } from '../invoice.service';
 
 @Component({
   selector: 'app-search-invoice',
@@ -6,141 +11,119 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-invoice.component.scss']
 })
 export class SearchInvoiceComponent implements OnInit {
-  customers: any = [];
+  invoiceList: any = [];
   loading = false;
-  constructor() { }
+  billLoading = false;
+  dateLoading = false;
+  searchInvoice = false;
+  deleteLoader = false;
+  todayDate: any = new Date();
+  fromDateValue: any = '';
+  toDateValue: any = '';
+  billId: any = '';
+
+  constructor(
+    private messageService: MessageService,
+    private router: Router,
+    private confirmationDialogService: ConfirmationDialogService,
+    private invoiceService: InvoiceService) { }
 
   ngOnInit(): void {
-    this.customers = [
-      {
-        "id": 1000,
-        "name": "James Butt",
-        "country": {
-            "name": "Algeria",
-            "code": "dz"
-        },
-        "company": "Benton, John B Jr",
-        "date": "2015-09-13",
-        "status": "unqualified",
-        "activity": 17,
-        "representative": {
-            "name": "Ioni Bowcher",
-            "image": "ionibowcher.png"
+
+  }
+  onSearch() {
+    // if (!this.fromDateValue || !this.toDateValue) {
+    //   this.messageService.add({severity:'error', summary: 'Error', detail: 'Please Select Date'});
+    //   return;
+    // }
+    this.loading = true;
+    const params: any = {};
+    params.from = moment(this.fromDateValue).format('YYYY-MM-DD');
+    params.to = moment(this.toDateValue).format('YYYY-MM-DD');
+    this.invoiceService.searchInvoice(params).subscribe({
+      next: (res) => {
+        if (res && res.data) {
+          this.invoiceList = res.data.invoice;
         }
-    },
-    {
-        "id": 1001,
-        "name": "Josephine Darakjy",
-        "country": {
-            "name": "Egypt",
-            "code": "eg"
-        },
-        "company": "Chanay, Jeffrey A Esq",
-        "date": "2019-02-09",
-        "status": "proposal",
-        "activity": 0,
-        "representative": {
-            "name": "Amy Elsner",
-            "image": "amyelsner.png"
-        }
-    },
-    {
-        "id": 1002,
-        "name": "Art Venere",
-        "country": {
-            "name": "Panama",
-            "code": "pa"
-        },
-        "company": "Chemel, James L Cpa",
-        "date": "2017-05-13",
-        "status": "qualified",
-        "activity": 63,
-        "representative": {
-            "name": "Asiya Javayant",
-            "image": "asiyajavayant.png"
-        }
-    },
-    {
-        "id": 1003,
-        "name": "Lenna Paprocki",
-        "country": {
-            "name": "Slovenia",
-            "code": "si"
-        },
-        "company": "Feltz Printing Service",
-        "date": "2020-09-15",
-        "status": "new",
-        "activity": 37,
-        "representative": {
-            "name": "Xuxue Feng",
-            "image": "xuxuefeng.png"
-        }
-    },
-    {
-        "id": 1004,
-        "name": "Donette Foller",
-        "country": {
-            "name": "South Africa",
-            "code": "za"
-        },
-        "company": "Printing Dimensions",
-        "date": "2016-05-20",
-        "status": "proposal",
-        "activity": 33,
-        "representative": {
-            "name": "Asiya Javayant",
-            "image": "asiyajavayant.png"
-        }
-    },
-    {
-        "id": 1005,
-        "name": "Simona Morasca",
-        "country": {
-            "name": "Egypt",
-            "code": "eg"
-        },
-        "company": "Chapman, Ross E Esq",
-        "date": "2018-02-16",
-        "status": "qualified",
-        "activity": 68,
-        "representative": {
-            "name": "Ivan Magalhaes",
-            "image": "ivanmagalhaes.png"
-        }
-    },
-    {
-        "id": 1006,
-        "name": "Mitsue Tollner",
-        "country": {
-            "name": "Paraguay",
-            "code": "py"
-        },
-        "company": "Morlong Associates",
-        "date": "2018-02-19",
-        "status": "renewal",
-        "activity": 54,
-        "representative": {
-            "name": "Ivan Magalhaes",
-            "image": "ivanmagalhaes.png"
-        }
-    },
-    {
-        "id": 1007,
-        "name": "Leota Dilliard",
-        "country": {
-            "name": "Serbia",
-            "code": "rs"
-        },
-        "company": "Commercial Press",
-        "date": "2019-08-13",
-        "status": "renewal",
-        "activity": 69,
-        "representative": {
-            "name": "Onyama Limba",
-            "image": "onyamalimba.png"
-        }
+      },
+      error: (error) => {
+        this.loading = false;
+        this.searchInvoice = true;
+        this.billLoading = false;
+        this.dateLoading = false;
+      },
+      complete: () => {
+        this.loading = false;
+        this.searchInvoice = true;
+        this.billLoading = false;
+        this.dateLoading = false;
+      }
+    });
+  }
+  onSearchByBillid() {
+    if(!this.billId) {
+      return;
     }
-    ];
+    this.loading = true;
+    const params: any = {};
+    params.billId = this.billId;
+    this.invoiceService.serachInvoiceByBillNo(params).subscribe({
+      next: (res) => {
+        if (res && res.data) {
+          this.invoiceList = res.data;
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        this.searchInvoice = true;
+        this.billLoading = false;
+        this.dateLoading = false;
+      },
+      complete: () => {
+        this.loading = false;
+        this.searchInvoice = true;
+        this.billLoading = false;
+        this.dateLoading = false;
+      }
+    });
+  }
+  resetSearch() {
+    this.billId = '';
+    this.fromDateValue = '';
+    this.toDateValue = '';
+  }
+  updateInvoice(id: any) {
+    this.router.navigate(['invoice/update-invoice', id]);
+  }
+  public openConfirmationDialog(id: any) {
+    this.confirmationDialogService.confirm('Confirmation', "Are you sure you want delete?",
+        "Okay", "Cancel","danger", "secondary")
+        .then((confirmed) => {
+            console.log('User confirmed:', confirmed);
+            if (confirmed) {
+              this.deleteInvoice(id);
+            }
+      })
+       .catch(() => {
+       console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)');
+    });
+  }
+  deleteInvoice(id: any) {
+    const invoiceId = [];
+    invoiceId.push(id);
+    const params: any = {};
+    params.invoiceId = invoiceId;
+    this.invoiceService.deleteInvoice(params).subscribe({
+      next: (res) => {
+        if (res && res.message) {
+          this.invoiceList = this.invoiceList.filter((item: any) => item.invoice_id !== id);
+        }
+      },
+      error: (error) => {
+      },
+      complete: () => {
+      }
+    });
   }
 
 }

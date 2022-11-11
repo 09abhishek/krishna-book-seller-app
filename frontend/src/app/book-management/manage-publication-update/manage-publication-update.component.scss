@@ -1,0 +1,106 @@
+.content-wrapper {
+  padding: 8px 19px;
+  .content-heading {
+    .content-details {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h5 {
+        padding: 10px;
+      }
+    }
+    .content-field  {
+      margin-top: 15px;
+      .input-field {
+        width: 49%;
+        padding: 5px;
+        label {
+          width: 25%;
+          color: gray;
+        }
+        input {
+          width: 65%;
+          height: 40px;
+          border: solid 1px #e8e8e8;
+          padding: 0 13px;
+          font-style: normal;
+          &:disabled {
+            background: #ffffff;
+            opacity: 0.8;
+          }
+        }
+        textarea {
+          width: 65%;
+          height: 75px;
+          border: solid 1px #e8e8e8;
+          padding: 0 13px;
+          font-style: normal;
+        }
+        select {
+          outline: 0;
+          // display: flex;
+          width: 65%;
+          height: 40px;
+          line-height: 15px;
+          background: #fff;
+          border: solid 1px #dfdfdf;
+        }
+
+        ::ng-deep .p-datepicker table td {
+          padding: 0.4rem !important;
+        }
+        ::ng-deep .p-datepicker table td > span {
+          width: 1.5rem !important;
+          height: 1.5rem !important;
+        }
+        ::ng-deep .ui-calendar .ui-datepicker {
+          height : 200px !important;
+       }
+          ::ng-deep  .p-button.p-button-icon-only {
+            height: 40px;
+       }
+       ::ng-deep  .p-calendar .p-inputtext {
+          height: 40px;
+       }
+       ::ng-deep .p-calendar {
+          width: 65%;
+       }
+      }
+      .content-btn {
+        width: 100%;
+        padding: 20px 0px;
+        align-items: center;
+        justify-content: center;
+        .button {
+          border: none;
+          width: 100px;
+          background-color: black;
+          padding-left: 15px;
+          color: white;
+          text-align: center;
+          padding: 8px;
+          margin: 0px 30px;
+          margin-right: 0;
+          &.btn-save {
+            background-color: #198754;
+          }
+          &.btn-cancel {
+            background-color: #6c757d;
+          }
+          &.btn-delete {
+            background-color: #e24c4c;
+          }
+          &.btn-update {
+            background-color: #0dcaf0;
+          }
+          &.btn-print {
+            background-color: #2563eb;
+          }
+       }
+      }
+    }
+  }
+}
+.position-error {
+  padding-left: 25%;
+}

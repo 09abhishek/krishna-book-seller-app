@@ -1,12 +1,15 @@
 <header class="flex header-content">
   <div class="hdr-lft flex">
+    <span class="left-containt flex">
       <img src="assets/img/logo.png">
-      <h4 style="text-transform: uppercase;">Amit Kumar</h4>
+      <p>Krishna Book Seller</p>
+    </span>
+      <h4 style="text-transform: uppercase;">{{(userDetails?.first_name ? userDetails.first_name : '') + ' '+(userDetails?.last_name ? userDetails.last_name : '')}}</h4>
   </div>
   <div class="flex alert-profile">
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="assets/img/logo.png">
+        <img src="assets/img/user.jpg">
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
         <li><a class="dropdown-item" href="javascript:void(0)">View Profile </a></li>
