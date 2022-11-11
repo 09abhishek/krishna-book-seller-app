@@ -9,46 +9,61 @@ const { handleResponse } = require("../utils/responseHandler");
 const ApiError = require("../utils/ApiError");
 
 const manageStockQuantity = async (billParticulars, stdClass, operation) => {
-  const bookIds = billParticulars.map((book) => book.id);
-  const where = { class: stdClass };
-  const booksByClass = await Book.findAll({ attributes: ["id", "quantity", "name", "class"], where, raw: true });
-
-  const checkIfAllBookIdsValid = await Book.findAll({ where: { id: bookIds, class: stdClass } });
   const dbCount = {};
+  const bookIds = billParticulars.map((book) => book.id);
+  const where = operation === "REDUCE" ? { class: stdClass, id: { [Op.in]: bookIds } } : { id: { [Op.in]: bookIds } };
 
-  booksByClass.forEach((item) => {
-    if (item.class !== stdClass) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "Class and Books are not matching");
-    }
-    if (item.quantity === 0 || item.quantity < 0) {
-      throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Book stock not available");
-    }
+  const booksListFromDB = await Book.findAll({ attributes: ["id", "quantity", "name", "class"], where, raw: true });
+
+  // console.log("booksListFromDB", booksListFromDB);
+
+  booksListFromDB.forEach((item) => {
     dbCount[item.id] = item.quantity;
   });
 
-  if (bookIds.length !== checkIfAllBookIdsValid.length) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Class and Books are not matching or Book ids invalid");
+  // console.log("dbCount Before any reduce or add operation obj", dbCount);
+
+  if (operation === "REDUCE") {
+    const checkIfAllBookIdsValid = await Book.findAll({ where: { id: bookIds, class: stdClass } });
+
+    if (bookIds.length !== checkIfAllBookIdsValid.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Books ids not matching with class or invalid in new bill particulars");
+    }
+    let reduceCount = 0;
+
+    billParticulars.forEach((item) => {
+      if (dbCount[item.id] !== undefined) {
+        reduceCount = dbCount[item.id] - item.quantity;
+
+        if (reduceCount === 0 || reduceCount < 0) {
+          throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough books quantity in stock to process the request");
+        }
+        dbCount[item.id] = reduceCount;
+      }
+    });
   } else {
     let updatedCount = 0;
     billParticulars.forEach((item) => {
-      if (dbCount[item.id]) {
-        if (operation === "REDUCE") {
-          updatedCount = dbCount[item.id] - item.quantity;
-        } else {
-          updatedCount = dbCount[item.id] + item.quantity;
-        }
-        if (updatedCount < 0) {
-          throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough book stock to process the request");
-        }
+      if (dbCount[item.id] !== undefined) {
+        updatedCount = dbCount[item.id] + item.quantity;
         dbCount[item.id] = updatedCount;
       }
     });
   }
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(dbCount)) {
+  // console.log("final DB count to be updated in to DB", dbCount);
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < Object.entries(dbCount).length; i++) {
+    const [key, value] = Object.entries(dbCount)[i];
     // eslint-disable-next-line no-await-in-loop
     await Book.update({ quantity: value }, { where: { id: key } });
   }
+
+  // const promises = billParticulars.map((item) => {
+  //   return Book.update({ quantity: item.quantity }, { where: { id: item.id } });
+  // });
+  // resolve all the db calls at once
+  //  await Promise.all(promises);
 };
 
 const saveInvoice = async (body) => {
@@ -68,12 +83,6 @@ const saveInvoice = async (body) => {
     year: moment().year(),
     date: moment().toISOString(),
   });
-
-  // const promises = billParticulars.map((item) => {
-  //   return Book.update({ quantity: item.quantity }, { where: { id: item.id } });
-  // });
-  // resolve all the db calls at once
-  //  await Promise.all(promises);
 
   if (data) {
     data = data.dataValues.invoice_id;
@@ -213,7 +222,7 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     throw new ApiError(httpStatus.NOT_FOUND, "Invoice not found");
   }
   if (billingData.previousBillParticulars) {
-    await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
+  //  await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
   }
   await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
 
