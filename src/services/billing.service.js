@@ -7,9 +7,8 @@ const Billing = require("../models/Billing");
 const Book = require("../models/Book");
 const { handleResponse } = require("../utils/responseHandler");
 const ApiError = require("../utils/ApiError");
-const { bookService } = require(".");
 
-const manageStockQuantity = async (billParticulars, stdClass) => {
+const manageStockQuantity = async (billParticulars, stdClass, operation) => {
   const bookIds = billParticulars.map((book) => book.id);
   const where = { class: stdClass };
   const booksByClass = await Book.findAll({ attributes: ["id", "quantity", "name", "class"], where, raw: true });
@@ -30,9 +29,14 @@ const manageStockQuantity = async (billParticulars, stdClass) => {
   if (bookIds.length !== checkIfAllBookIdsValid.length) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Class and Books are not matching or Book ids invalid");
   } else {
+    let updatedCount = 0;
     billParticulars.forEach((item) => {
       if (dbCount[item.id]) {
-        const updatedCount = dbCount[item.id] - item.quantity;
+        if (operation === "REDUCE") {
+          updatedCount = dbCount[item.id] - item.quantity;
+        } else {
+          updatedCount = dbCount[item.id] + item.quantity;
+        }
         if (updatedCount < 0) {
           throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough book stock to process the request");
         }
@@ -40,14 +44,18 @@ const manageStockQuantity = async (billParticulars, stdClass) => {
       }
     });
   }
-  return dbCount;
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(dbCount)) {
+    // eslint-disable-next-line no-await-in-loop
+    await Book.update({ quantity: value }, { where: { id: key } });
+  }
 };
 
 const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
-
   const { billParticulars } = body;
-  const dbCount = await manageStockQuantity(billParticulars, body.stdClass);
+  await manageStockQuantity(billParticulars, body.stdClass, "reduce");
+
   let data = await Billing.create({
     invoice_id: invoiceId,
     name: body.name,
@@ -61,13 +69,6 @@ const saveInvoice = async (body) => {
     date: moment().toISOString(),
   });
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(dbCount)) {
-    // eslint-disable-next-line no-await-in-loop
-    await Book.update({ quantity: value }, { where: { id: key } });
-  }
-
-  // loop over the inputs and return an array of promises, one for each update
   // const promises = billParticulars.map((item) => {
   //   return Book.update({ quantity: item.quantity }, { where: { id: item.id } });
   // });
@@ -211,8 +212,10 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
   if (!foundItem) {
     throw new ApiError(httpStatus.NOT_FOUND, "Invoice not found");
   }
-
-  const dbCount = await manageStockQuantity(billingData.billParticulars, billingData.stdClass);
+  if (billingData.previousBillParticulars) {
+    await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
+  }
+  await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
 
   await Billing.update(
     {
@@ -226,11 +229,6 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     },
     { where: { invoice_id: invoiceId } }
   );
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(dbCount)) {
-    // eslint-disable-next-line no-await-in-loop
-    await Book.update({ quantity: value }, { where: { id: key } });
-  }
 
   return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
 };

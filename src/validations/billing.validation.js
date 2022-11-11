@@ -82,6 +82,7 @@ const updateInvoice = {
       ),
     fatherName: Joi.string(),
     billParticulars: Joi.array().required(),
+    previousBillParticulars: Joi.array().optional(),
     totalAmount: Joi.number(),
     address: Joi.string().optional(),
     mobileNum: Joi.number().optional(),
