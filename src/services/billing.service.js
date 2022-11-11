@@ -50,7 +50,7 @@ const manageStockQuantity = async (billParticulars, stdClass, operation) => {
       }
     });
   }
-  // console.log("final DB count to be updated in to DB", dbCount);
+  console.log("final DB count to be updated in to DB", dbCount);
 
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < Object.entries(dbCount).length; i++) {
@@ -222,7 +222,7 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     throw new ApiError(httpStatus.NOT_FOUND, "Invoice not found");
   }
   if (billingData.previousBillParticulars) {
-  //  await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
+    await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
   }
   await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
 
