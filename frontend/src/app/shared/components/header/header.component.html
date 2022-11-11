@@ -12,8 +12,8 @@
         <img src="assets/img/user.jpg">
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="javascript:void(0)">View Profile </a></li>
-        <li><a class="dropdown-item" href="javascript:void(0)">change password</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0)" routerLink="/user/profile">View Profile </a></li>
+        <li><a class="dropdown-item" href="javascript:void(0)" (click)="changepassword()">change password</a></li>
         <li (click)="logout()"><a class="dropdown-item" href="javascript:void(0)">Logout</a></li>
       </ul>
     </div>

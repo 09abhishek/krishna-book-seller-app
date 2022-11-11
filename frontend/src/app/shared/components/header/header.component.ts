@@ -23,4 +23,7 @@ export class HeaderComponent implements OnInit {
     this.appService.doLogout({}).subscribe(((item: any) => {}));
     this.router.navigate(['/login']);
   }
+  changepassword() {
+    this.router.navigate(['/user/update', this.userDetails.id]);
+  }
 }

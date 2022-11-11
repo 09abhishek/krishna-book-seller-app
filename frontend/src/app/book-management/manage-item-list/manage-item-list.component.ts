@@ -115,7 +115,8 @@ deleteBook(id: any) {
 }
 
   updateBook(data: any) {
-  this.router.navigate(['book-management/manage-item-update'], { queryParams: { BookDetails: JSON.stringify(data)}});
+    localStorage.setItem('BookDetails' ,JSON.stringify(data));
+  this.router.navigate(['book-management/manage-item-update']);
   }
 
 }

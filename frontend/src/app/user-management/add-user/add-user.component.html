@@ -24,21 +24,22 @@
       </div>
       <div class="input-field">
         <label>Mobile No.</label>
-        <input type="text" formControlName="mobno">
+        <input type="text" formControlName="mobno" appOnlyNumber numericType="number">
       </div>
       <div class="input-field">
         <label>Password</label>
-        <input type="text" formControlName="password">
+        <input type="password" formControlName="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
           <div *ngIf="(userForm.controls['password'].hasError('required') && userForm.controls['password'].touched)" class="error-data position-error">Password is required</div>
-          <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('minlength')"> Password Should Contain Minimum 5 Characters </div>
+          <!-- <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('minlength')"> Password Should Contain Minimum 8 Characters </div> -->
+          <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('pattern')"> Password Should Contain Minimum 8 Characters at least 1 letter and 1 number</div>
       </div>
       <div class="input-field">
         <label>Confirm Password</label>
-        <input type="text" formControlName="confirmPassword">
+        <input type="password" formControlName="confirmPassword">
           <div *ngIf="(userForm.controls['confirmPassword'].hasError('required') && userForm.controls['confirmPassword'].touched)" class="error-data position-error">Confirm Password is required</div>
           <div class="error-data position-error" *ngIf="userForm.controls['confirmPassword'].touched && userForm.hasError('mismatchedPasswords')"> Password Does Not Match </div>
       </div>
-      <ng-container *ngIf="userDetails?.user_type === 'super_admin'">
+      <ng-container *ngIf="(!showPrivilage || userDetails.user_type == 'super_admin')">
         <div class="input-field">
           <label>privilege Type</label>
           <select class="search select-drop" id="mysel" formControlName="privalageType">
@@ -53,7 +54,7 @@
         <button class="btn-save button" type="button" (click)="onSaveConfirmation()">{{userId ? 'Update' : 'Save'}}
           <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
-        <button class="btn-cancel button" type="button" (click)="reset()">Reset</button>
+        <button class="btn-cancel button" type="button" (click)="reset()">{{userId ? 'Cancel' : 'Reset'}} </button>
     </div>
     </div>
   </form>

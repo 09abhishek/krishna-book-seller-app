@@ -65,6 +65,7 @@ export class ManagePublicationListComponent implements OnInit {
     });
   }
   updatePublication(data: any) {
-    this.router.navigate(['book-management/manage-publication-update'], { queryParams: { publicationDetails: JSON.stringify(data)}});
+    localStorage.setItem('publicationDetails', JSON.stringify(data));
+    this.router.navigate(['book-management/manage-publication-update']);
     }
 }
