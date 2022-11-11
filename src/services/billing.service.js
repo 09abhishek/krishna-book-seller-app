@@ -7,32 +7,28 @@ const Billing = require("../models/Billing");
 const Book = require("../models/Book");
 const { handleResponse } = require("../utils/responseHandler");
 const ApiError = require("../utils/ApiError");
+const { bookService } = require(".");
 
-/**
- * Create a user
- * @param {any} body
- * @returns {Promise<{data, message: *, status: *}|{data, message: *, status: *}>}
- */
-const saveInvoice = async (body) => {
-  const invoiceId = uuidv4();
-
-  const { billParticulars } = body;
+const manageStockQuantity = async (billParticulars, stdClass) => {
   const bookIds = billParticulars.map((book) => book.id);
-  const where = { class: body.stdClass };
-  const booksByClass = await Book.findAll({ attributes: ["id", "quantity", "name"], where, raw: true });
+  const where = { class: stdClass };
+  const booksByClass = await Book.findAll({ attributes: ["id", "quantity", "name", "class"], where, raw: true });
 
-  const checkBooksResponse = await Book.findAll({ where: { id: bookIds } });
+  const checkIfAllBookIdsValid = await Book.findAll({ where: { id: bookIds, class: stdClass } });
   const dbCount = {};
 
   booksByClass.forEach((item) => {
+    if (item.class !== stdClass) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Class and Books are not matching");
+    }
     if (item.quantity === 0 || item.quantity < 0) {
       throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Book stock not available");
     }
     dbCount[item.id] = item.quantity;
   });
 
-  if (bookIds.length !== checkBooksResponse.length) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Book ids entries doesnt exists or invalid");
+  if (bookIds.length !== checkIfAllBookIdsValid.length) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Class and Books are not matching or Book ids invalid");
   } else {
     billParticulars.forEach((item) => {
       if (dbCount[item.id]) {
@@ -44,6 +40,14 @@ const saveInvoice = async (body) => {
       }
     });
   }
+  return dbCount;
+};
+
+const saveInvoice = async (body) => {
+  const invoiceId = uuidv4();
+
+  const { billParticulars } = body;
+  const dbCount = await manageStockQuantity(billParticulars, body.stdClass);
   let data = await Billing.create({
     invoice_id: invoiceId,
     name: body.name,
@@ -57,9 +61,11 @@ const saveInvoice = async (body) => {
     date: moment().toISOString(),
   });
 
-  Object.entries(dbCount).forEach(([key, value]) => {
-    return Book.update({ quantity: value }, { where: { id: key } });
-  });
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(dbCount)) {
+    // eslint-disable-next-line no-await-in-loop
+    await Book.update({ quantity: value }, { where: { id: key } });
+  }
 
   // loop over the inputs and return an array of promises, one for each update
   // const promises = billParticulars.map((item) => {
@@ -205,6 +211,9 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
   if (!foundItem) {
     throw new ApiError(httpStatus.NOT_FOUND, "Invoice not found");
   }
+
+  const dbCount = await manageStockQuantity(billingData.billParticulars, billingData.stdClass);
+
   await Billing.update(
     {
       name: billingData.name,
@@ -217,9 +226,11 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     },
     { where: { invoice_id: invoiceId } }
   );
-
-  // Reduce or Increase the count based on the book Id:
-  // Old data and new data is needed to calculate.
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(dbCount)) {
+    // eslint-disable-next-line no-await-in-loop
+    await Book.update({ quantity: value }, { where: { id: key } });
+  }
 
   return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
 };

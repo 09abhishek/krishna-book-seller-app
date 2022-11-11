@@ -87,20 +87,18 @@ const updateBookDetails = async (body) => {
 
   if (body.length !== response.length) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Book Ids entries doesnt exists or invalid");
-    // return handleResponse("error", result, "Book Ids entries doesnt exists or invalid", "updateBook");
   }
 
+  const fields = ["id", "name", "stdClass", "publicationId", "mrp", "netPrice", "quantity"];
+
   const bookList = body.map((book) => {
-    return {
-      id: book.id,
-      name: book.name,
-      class: book.stdClass,
-      publication_id: book.publicationId,
-      mrp: book.mrp,
-      year: moment().year(),
-      net_price: book.netPrice,
-      quantity: book.quantity,
-    };
+    const obj = {};
+    fields.forEach((field) => {
+      if (book[field]) {
+        obj[field] = book[field];
+      }
+    });
+    return obj;
   });
   // eslint-disable-next-line no-restricted-syntax
   for await (const book of bookList) {

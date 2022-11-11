@@ -21,8 +21,7 @@ const updateUser = {
     id: Joi.string().required(),
   }),
   body: Joi.object().keys({
-    password: Joi.string().required(),
-    confirmPassword: Joi.string().required(),
+    password: Joi.string().optional().min(5),
     userType: Joi.string().optional().valid("admin", "super_admin", "accountant"),
   }),
 };
