@@ -54,7 +54,7 @@ const manageStockQuantity = async (billParticulars, stdClass, operation) => {
 const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
   const { billParticulars } = body;
-  await manageStockQuantity(billParticulars, body.stdClass, "reduce");
+  await manageStockQuantity(billParticulars, body.stdClass, "REDUCE");
 
   let data = await Billing.create({
     invoice_id: invoiceId,
