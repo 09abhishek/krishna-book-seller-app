@@ -64,23 +64,26 @@ const getUserByUserName = async (username) => {
 // }
 
 const updateUserById = async (userId, body) => {
-  if (body.password !== body.confirmPassword) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Password and ConfirmPassword doesnt match");
-  } else {
-    const user = await User.findByPk(userId, { raw: true });
-    if (!user) {
-      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(body.password, salt);
-    const payload = {};
-    payload.password = hashedPass;
-    if (body.userType) {
-      payload.user_type = body.userType;
-    }
-    await User.update(payload, { where: { id: userId } });
-    return handleResponse("success", [], "User Info Updated Successfully", "passwordUpdated");
+  const payload = {};
+  // eslint-disable-next-line no-prototype-builtins
+  if (body.hasOwnProperty("userType")) {
+    payload.user_type = body.userType;
   }
+  // eslint-disable-next-line no-prototype-builtins
+  if (body.hasOwnProperty("password")) {
+    if (body.password.trim().length !== 0) {
+      const user = await User.findByPk(userId, { raw: true });
+      if (!user) {
+        throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+      }
+      const salt = await bcrypt.genSalt(10);
+      payload.password = await bcrypt.hash(body.password, salt);
+    } else {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Invalid password");
+    }
+  }
+  const response = await User.update(payload, { where: { id: userId } });
+  return handleResponse("success", response, "User Info Updated Successfully", "passwordUpdated");
 };
 
 /**
