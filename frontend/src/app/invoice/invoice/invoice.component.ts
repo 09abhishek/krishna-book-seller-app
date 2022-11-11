@@ -38,6 +38,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   selectedBookListByid: any = {};
   previousClassId: any;
   previousSelectedBook: any = [];
+  errorMessage: any = ''
   classList: any = [
     {id: 1, name: 'infant', value: 'infant'},
     {id: 2, name: 'nursery', value: 'nursery'},
@@ -116,6 +117,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     this.openConfirmationDialog();
   }
   SaveInvoice() {
+    this.errorMessage = '';
     const formValue = this.invoiceForm.getRawValue();
     const params: any = {};
     let billParticulars: any = [];
@@ -161,6 +163,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         }
       },
       error: (error)=> {
+        this.errorMessage = error?.error?.message;
         this.submitLoader = false;
       }
     });
@@ -318,7 +321,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
           this.invoiceDetails.bill_data.forEach((data: any) => {
             this.selectedBookIds.push(data.id);
             this.selectedBook.push({id: data.id, name: data.name, amount: data.amount, class: data.class, year: data.year, publication_id: data.publication_id, net_price: data.net_price, quantity: data.quantity, mrp: data.mrp});
-            this.previousSelectedBook.push({id: data.id, name: data.name, amount: data.amount, class: data.class, year: data.year, publication_id: data.publication_id, net_price: data.net_price, quantity: data.quantity, mrp: data.mrp});
+            this.previousSelectedBook.push({id: data.id, quantity: data.quantity});
           })
         }
         // console.log('this.selectedBookListByid', this.selectedBookListByid)
