@@ -1,0 +1,266 @@
+.content-wrapper {
+  padding: 8px 19px;
+  .content-heading {
+    .content-details {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h5 {
+        padding: 10px;
+      }
+    }
+    .content-field  {
+      margin-top: 15px;
+      .input-field {
+        width: 49%;
+        padding: 5px;
+        label {
+          width: 10%;
+          color: gray;
+        }
+        input {
+          width: 65%;
+          height: 40px;
+          border: solid 1px #e8e8e8;
+          padding: 0 13px;
+          font-style: normal;
+          &:disabled {
+            background: #ffffff;
+            opacity: 0.8;
+          }
+        }
+        textarea {
+          width: 65%;
+          height: 75px;
+          border: solid 1px #e8e8e8;
+          padding: 0 13px;
+          font-style: normal;
+        }
+        select {
+          outline: 0;
+          // display: flex;
+          width: 65%;
+          height: 40px;
+          line-height: 15px;
+          background: #fff;
+          border: solid 1px #dfdfdf;
+        }
+
+        ::ng-deep .p-datepicker table td {
+          padding: 0.4rem !important;
+        }
+        ::ng-deep .p-datepicker table td > span {
+          width: 1.5rem !important;
+          height: 1.5rem !important;
+        }
+        ::ng-deep .ui-calendar .ui-datepicker {
+          height : 200px !important;
+       }
+          ::ng-deep  .p-button.p-button-icon-only {
+            height: 40px;
+       }
+       ::ng-deep  .p-calendar .p-inputtext {
+          height: 40px;
+       }
+       ::ng-deep .p-calendar {
+          width: 65%;
+       }
+      }
+    }
+  }
+  .inv-adm-tbl {
+    padding: 0px 0px 20px 0px;
+    .table {
+      width: 100%;
+        tr {
+            th {
+                font-size: 14px;
+                font-weight: 600;
+                font-family: sans-serif;
+                color: #222426;
+                vertical-align: top;
+                &.inv-check {
+                  width: 5%;
+                }
+                &.inv-particular {
+                  width: 50%;
+                }
+                &.inv-rate {
+                  width: 10%;
+                }
+                &.inv-qty {
+                  width: 10%;
+                }
+                &.inv-amt {
+                  width: 10%;
+                }
+            }
+            td {
+                background: white;
+                font-size: 14px;
+                color: black;
+                padding: 10px;
+                vertical-align: middle;
+                input[type="text"] {
+                  width: 80%;
+                  height: 35px;
+                  border: solid 1px #e8e8e8;
+                  padding: 0 4px;
+                  font-style: normal;
+                }
+                .checkbox-custom {
+                  display: none;
+                }
+                .checkbox-custom-label {
+                  display: inline-block;
+                  position: relative;
+                  vertical-align: middle;
+                  margin: 5px;
+                  cursor: pointer;
+                }
+                .checkbox-custom-label:before {
+                  display: inline-block;
+                  position: relative;
+                  vertical-align: middle;
+                  margin: 5px;
+                  cursor: pointer;
+                }
+                .checkbox-custom + .checkbox-custom-label:before {
+                  content: '';
+                  background: #fff;
+                  border-radius: 2px;
+                  border: 2px solid #495057a6;
+                  display: inline-block;
+                  vertical-align: middle;
+                  width: 20px;
+                  height: 20px;
+                  padding: 2px;
+                }
+                .checkbox-custom:checked + .checkbox-custom-label:before {
+                  background: #0d6efd;
+                  border: 1px solid #bfdbfe
+              }
+                .checkbox-custom:checked + .checkbox-custom-label:after {
+                  content: "";
+                  padding: 2px;
+                  position: absolute;
+                  width: 1px;
+                  height: 17px;
+                  border: solid #fff;
+                  border-width: 0 3px 3px 0;
+                  transform: rotate(45deg);
+                  top: 5px;
+                  left: 12px;
+                }
+            }
+
+        }
+    }
+  }
+  .table-responsive {
+    .content-btn-details {
+      .content-btn {
+        width: 100%;
+        padding: 0px 40px 0px 5px;
+        justify-content: flex-end;
+        .button {
+          border: none;
+          width: 100px;
+          background-color: black;
+          padding-left: 15px;
+          color: white;
+          text-align: center;
+          padding: 8px;
+          margin: 0px 30px;
+          margin-right: 0;
+          &.btn-save {
+            background-color: #007bff;
+          }
+          &.btn-cancel {
+            background-color: #6c757d;
+          }
+          &.btn-delete {
+            background-color: #e24c4c;
+          }
+          &.btn-update {
+            background-color: #0dcaf0;
+          }
+          &.btn-print {
+            background-color: #007bff;
+          }
+       }
+      }
+      .total-amt{
+        width: 22%;
+        p {
+          padding: 5px 10px ;
+        }
+        input {
+          width: 40%;
+          height: 35px;
+          border: solid 1px #e8e8e8;
+          padding: 0 4px;
+          font-style: normal;
+          background: #ffffff;
+          opacity: 0.8;
+        }
+      }
+
+    }
+  }
+  .select-type {
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 300px;
+    background: white;
+    .msg-type {
+      font-weight: 500;
+      padding-top: 10px;
+    }
+  }
+}
+.container-search {
+  input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    width: 40%;
+    border: 1px solid #e8e8e8;
+  }
+
+  button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #ccc;
+  }
+}
+.report-print {
+  justify-content: flex-end;
+  margin-top: 10px;
+  padding-bottom: 21px;
+  border-bottom: 1px solid black;
+  .button {
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 8px 25px;
+    background-color: #2563eb;
+    &.btn-reset {
+      background-color: #6c757d;
+    }
+  }
+}
+.position-error {
+  padding-left: 25%;
+}

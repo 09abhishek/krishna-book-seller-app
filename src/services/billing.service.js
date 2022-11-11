@@ -2,16 +2,52 @@ const { v4: uuidv4 } = require("uuid");
 const moment = require("moment");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
+const httpStatus = require("http-status");
 const Billing = require("../models/Billing");
+const Book = require("../models/Book");
 const { handleResponse } = require("../utils/responseHandler");
+const ApiError = require("../utils/ApiError");
+const { bookService } = require(".");
 
-/**
- * Create a user
- * @param {any} body
- * @returns {Promise<{data, message: *, status: *}|{data, message: *, status: *}>}
- */
+const manageStockQuantity = async (billParticulars, stdClass) => {
+  const bookIds = billParticulars.map((book) => book.id);
+  const where = { class: stdClass };
+  const booksByClass = await Book.findAll({ attributes: ["id", "quantity", "name", "class"], where, raw: true });
+
+  const checkIfAllBookIdsValid = await Book.findAll({ where: { id: bookIds, class: stdClass } });
+  const dbCount = {};
+
+  booksByClass.forEach((item) => {
+    if (item.class !== stdClass) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Class and Books are not matching");
+    }
+    if (item.quantity === 0 || item.quantity < 0) {
+      throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Book stock not available");
+    }
+    dbCount[item.id] = item.quantity;
+  });
+
+  if (bookIds.length !== checkIfAllBookIdsValid.length) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Class and Books are not matching or Book ids invalid");
+  } else {
+    billParticulars.forEach((item) => {
+      if (dbCount[item.id]) {
+        const updatedCount = dbCount[item.id] - item.quantity;
+        if (updatedCount < 0) {
+          throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough book stock to process the request");
+        }
+        dbCount[item.id] = updatedCount;
+      }
+    });
+  }
+  return dbCount;
+};
+
 const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
+
+  const { billParticulars } = body;
+  const dbCount = await manageStockQuantity(billParticulars, body.stdClass);
   let data = await Billing.create({
     invoice_id: invoiceId,
     name: body.name,
@@ -24,7 +60,19 @@ const saveInvoice = async (body) => {
     year: moment().year(),
     date: moment().toISOString(),
   });
-  // Reduce the count based on the book Id:
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(dbCount)) {
+    // eslint-disable-next-line no-await-in-loop
+    await Book.update({ quantity: value }, { where: { id: key } });
+  }
+
+  // loop over the inputs and return an array of promises, one for each update
+  // const promises = billParticulars.map((item) => {
+  //   return Book.update({ quantity: item.quantity }, { where: { id: item.id } });
+  // });
+  // resolve all the db calls at once
+  //  await Promise.all(promises);
 
   if (data) {
     data = data.dataValues.invoice_id;
@@ -161,8 +209,11 @@ const fetchBillNumber = async () => {
 const updateInvoiceDetails = async (invoiceId, billingData) => {
   const foundItem = await Billing.findOne({ where: { invoice_id: invoiceId } });
   if (!foundItem) {
-    return handleResponse("error", null, "Invoice not found", "invoiceNotFound");
+    throw new ApiError(httpStatus.NOT_FOUND, "Invoice not found");
   }
+
+  const dbCount = await manageStockQuantity(billingData.billParticulars, billingData.stdClass);
+
   await Billing.update(
     {
       name: billingData.name,
@@ -175,9 +226,11 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     },
     { where: { invoice_id: invoiceId } }
   );
-
-  // Reduce or Increase the count based on the book Id:
-  // Old data and new data is needed to calculate.
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(dbCount)) {
+    // eslint-disable-next-line no-await-in-loop
+    await Book.update({ quantity: value }, { where: { id: key } });
+  }
 
   return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
 };

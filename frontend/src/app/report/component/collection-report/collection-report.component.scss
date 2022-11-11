@@ -5,6 +5,9 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      h5 {
+        padding: 10px;
+      }
     }
     .content-field  {
       margin-top: 15px;
@@ -59,7 +62,7 @@
     padding: 20px 0 ;
     .basic-details {
       justify-content: space-between;
-      width: calc(100% - 50px);
+      // width: calc(100% - 50px);
       padding: 20px 0px 10px;
       .grant-total-label {
         font-weight: bold;
@@ -67,12 +70,40 @@
           font-weight: normal;
         }
       }
-      .button {
-        border: none;
-        color: white;
-        text-align: center;
-        padding: 8px 25px;
-        background-color: #2563eb;
+      .content-btn {
+        .button {
+          border: none;
+          color: white;
+          text-align: center;
+          padding: 8px 25px;
+          background-color: #2563eb;
+          margin: 0px 11px;
+          border-radius: 5px;
+          &.btn-excel {
+            background-color: transparent !important;
+            padding: 0;
+            // margin: 0;
+            img {
+              width: 20px;
+            }
+          }
+          &.btn-pdf {
+            background-color: transparent !important;
+            padding: 0;
+            // margin: 0;
+            img {
+              width: 20px;
+            }
+          }
+          &.btn-print {
+            background-color: transparent !important;
+            padding: 0;
+            // margin: 0;
+            img {
+              width: 20px;
+            }
+          }
+        }
       }
     }
     .p-button.p-button-icon-only {

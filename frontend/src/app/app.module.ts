@@ -10,24 +10,26 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { FullLayoutComponent } from './full-layout/full-layout.component';
 import { AppService } from './app.serveice';
 import { LoginComponent } from './auth/login/login.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './providers/interceptor/request.interceptor';
 import { APP_BASE_HREF } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { AuthGuard } from './providers/guards/auth.guard';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmationDialogService } from './shared/components/confirmation-dialog/confirmation-dialog.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ForgotPasswordComponent,
     FullLayoutComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
@@ -35,6 +37,7 @@ import { ToastModule } from 'primeng/toast';
   ],
   providers: [
     AppService,
+    ConfirmationDialogService,
     AuthGuard,
     {
       provide: APP_BASE_HREF,

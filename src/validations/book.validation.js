@@ -42,7 +42,7 @@ const updateBooks = {
     .required()
     .items({
       id: Joi.number().required(),
-      name: Joi.string().required(),
+      name: Joi.string().optional(),
       stdClass: Joi.string().valid(
         "infant",
         "nursery",
@@ -60,10 +60,10 @@ const updateBooks = {
         "eleven",
         "twelve"
       ),
-      publicationId: Joi.number().required(),
-      netPrice: Joi.number().required(),
-      mrp: Joi.number().required(),
-      quantity: Joi.number().required(),
+      publicationId: Joi.number().optional(),
+      netPrice: Joi.number().optional(),
+      mrp: Joi.number().optional(),
+      quantity: Joi.number().optional(),
     })
     .min(1),
 };

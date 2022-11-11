@@ -1,0 +1,59 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p> -->
+      <h5>Update Book details</h5>
+    </div>
+    <form [formGroup]="bookUpdateForm">
+    <div class="content-field flex">
+      <div class="input-field">
+        <label>Book Name</label>
+        <input type="text" formControlName="bookname">
+        <div *ngIf="(bookUpdateForm.controls['bookname'].hasError('required') && bookUpdateForm.controls['bookname'].touched)" class="error-data position-error">Book Name is required</div>
+      </div>
+      <div class="input-field">
+        <label>Class</label>
+        <select class="search select-drop" id="mysel" formControlName="class">
+          <ng-container *ngFor="let data of classList">
+            <option [value]="data.name">{{data.value}}</option>
+          </ng-container>
+        </select>
+        <div *ngIf="(bookUpdateForm.controls['class'].hasError('required') && bookUpdateForm.controls['class'].touched)" class="error-data position-error">class is required</div>
+      </div>
+      <div class="input-field">
+        <label>Publication</label>
+        <select class="search select-drop" id="mysel" formControlName="publication">
+          <ng-container *ngFor="let data of publicationList">
+            <option [value]="data.id">{{data.name}}</option>
+          </ng-container>
+        </select>
+        <div *ngIf="(bookUpdateForm.controls['publication'].hasError('required') && bookUpdateForm.controls['publication'].touched)" class="error-data position-error">publication is required</div>
+      </div>
+      <div class="input-field">
+        <label>Quantity</label>
+        <input type="text" formControlName="Quantity" appOnlyNumber numericType="number">
+        <div *ngIf="(bookUpdateForm.controls['Quantity'].hasError('required') && bookUpdateForm.controls['Quantity'].touched)" class="error-data position-error">Quantity is required</div>
+      </div>
+      <div class="input-field">
+        <label>MRP(₹)</label>
+        <input type="text" formControlName="mrp" >
+          <div *ngIf="(bookUpdateForm.controls['mrp'].hasError('required') && bookUpdateForm.controls['mrp'].touched)" class="error-data position-error">MRP is required</div>
+      </div>
+      <div class="input-field">
+        <label>Net Price(₹)</label>
+        <input type="text" formControlName="netprice">
+          <div *ngIf="(bookUpdateForm.controls['netprice'].hasError('required') && bookUpdateForm.controls['netprice'].touched)" class="error-data position-error">net Price is required</div>
+      </div>
+      <div class="content-btn flex">
+        <button class="btn-save button" type="button" (click)="onSaveConfirmation()">Update
+          <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button class="btn-cancel button" type="button" (click)="cancel()">Cancel</button>
+    </div>
+    </div>
+  </form>
+  </div>
+</div>
+
+

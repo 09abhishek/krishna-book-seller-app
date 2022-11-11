@@ -1,6 +1,9 @@
+import { ReportService } from './../../report.service';
 import { Component, OnInit } from '@angular/core';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as XLSX from 'xlsx';
+import * as moment from 'moment';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -11,120 +14,54 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 })
 export class GrantTotalReportComponent implements OnInit {
   loading = false;
+  intialPageLoaded = false;
   tableData: any = [];
   customers: any = [];
-  header = 'amit kumar'
-  basicDetails: any = {
-    name: 'mahesh kumar',
-    Mob_no: 9939099390,
-    class: 10,
-    bill_no: 123456,
-    father_name: 'ramesh kumar',
-    bill_date: '21/10/2022',
-    Total_amt: 5800
-  }
-  constructor() { }
+  todayDate: any = new Date();
+  fromDateValue: any = new Date();
+  toDateValue: any = new Date();
+  grandCollectionReport: any = [];
+  printExportData: any = [];
+  totalAmount: any;
+
+  constructor(public reportService: ReportService) { }
 
   ngOnInit(): void {
-    this.tableData = [
-      {
-        "id": 1000,
-        "name": 'James Butt',
-        "rate": '12',
-        "quantity": '2',
-        "amount": '200',
-        "country": {
-            "name": "Algeria",
-            "code": "dz"
-        },
-        "company": "Benton, John B Jr",
-        "date": "2015-09-13",
-        "status": "unqualified",
-        "activity": 17,
-        "representative": {
-            "name": "Ioni Bowcher",
-            "image": "ionibowcher.png"
+
+  }
+  generateReport() {
+    this.loading = true;
+    const params: any = {};
+    params.from = moment(this.fromDateValue).format('YYYY-MM-DD');
+    params.to = moment(this.toDateValue).format('YYYY-MM-DD');
+    this.reportService.getGrandcollectionReport(params).subscribe({
+      next: (res) => {
+        this.intialPageLoaded = true;
+        if (res && res.data) {
+          this.grandCollectionReport = res.data.invoice;
+          this.totalAmount = res.data.sum_of_totals;
+          res.data.invoice.forEach((item: any, index: number) => {
+              const params: any = {};
+              params.sno = (index + 1);
+              params.feedate = item.date ? moment(item.date).format('DD-MMM-YYYY') : '';
+              params.name = item.name;
+              params.totalamount = item.total_amount;
+              this.printExportData.push(params);
+          });
         }
-    },
-    {
-        "id": 1001,
-        "name": "Josephine Darakjy",
-        "rate": '122',
-        "quantity": '2',
-        "amount": '2002',
-        "country": {
-            "name": "Egypt",
-            "code": "eg"
-        },
-        "company": "Chanay, Jeffrey A Esq",
-        "date": "2019-02-09",
-        "status": "proposal",
-        "activity": 0,
-        "representative": {
-            "name": "Amy Elsner",
-            "image": "amyelsner.png"
-        }
-    },
-    {
-        "id": 1002,
-        "name": "Art Venere",
-        "rate": '123',
-        "quantity": '23',
-        "amount": '2003',
-        "country": {
-            "name": "Panama",
-            "code": "pa"
-        },
-        "company": "Chemel, James L Cpa",
-        "date": "2017-05-13",
-        "status": "qualified",
-        "activity": 63,
-        "representative": {
-            "name": "Asiya Javayant",
-            "image": "asiyajavayant.png"
-        }
-    },
-    ];
-    this.customers = [
-      {
-        "id": 1000,
-        "S_no": 1,
-        "name": "James Butt",
-        "amount": '3000',
-        "father_name": "Ramesh kumar",
-        "country": {
-            "name": "Algeria",
-            "code": "dz"
-        },
-        "company": "Benton, John B Jr",
-        "date": "2015-09-13",
-        "status": "unqualified",
-        "activity": 17,
-        "representative": {
-            "name": "Ioni Bowcher",
-            "image": "ionibowcher.png"
-        }
-    },
-    {
-        "id": 1001,
-        "S_no": 2,
-        "name": "Josephine Darakjy",
-        "amount": '4000',
-        "father_name": "Ramesh kumar",
-        "country": {
-            "name": "Egypt",
-            "code": "eg"
-        },
-        "company": "Chanay, Jeffrey A Esq",
-        "date": "2019-02-09",
-        "status": "proposal",
-        "activity": 0,
-        "representative": {
-            "name": "Amy Elsner",
-            "image": "amyelsner.png"
-        }
-    },
-    ];
+      },
+      error: (error) => {
+        this.loading = false;
+        this.intialPageLoaded = true;
+      },
+      complete: () => {
+        this.loading = false;
+        this.intialPageLoaded = true;
+      }
+    });
+  }
+  getBillDate(date: any) {
+    return moment(date).format('DD-MM-YYYY');
   }
 
   buildTableBody(data: any, headerColums: any, bodyColumns: any) {
@@ -145,85 +82,101 @@ export class GrantTotalReportComponent implements OnInit {
   table(data: any, headerColums: any, bodyColumns: any): any {
     return {
       table: {
-        headerRows: 4,
-        widths: [ '*', 'auto', 100, '*'],
+        headerRows: 1,
+        widths: [ '*', '*', '*'],
         body: this.buildTableBody(data, headerColums, bodyColumns),
       },
     };
   }
 
-  generatePdf() {
+  generatePdf(type: string) {
     console.log('generatePdf');
     let docDefinition: any = {
       content: [
-        { text: 'krishna Book Seller', style: 'topheader' },
+        { text: 'Krishna Book Seller', style: 'topheader' },
         { text: 'Mithanpura, Muzaffarpur-842002', style: 'address' },
-        { text: 'invoice', bold: true, style: 'invoice' },
-        // basic info details
+        { text: 'Grand Total Report', bold: true, style: 'invoice' },
         {
-          style: "basicdetails",
+          style: "dateTable",
           layout: 'noBorders',
           table: {
-            widths: [ '*', 'auto'],
+            widths: [ '*', '*'],
             body: [
-              ['Name:' +'  '+ this.basicDetails?.name,                   'Bill No:' +'  '+  this.basicDetails?.bill_no],
-              ['Father\'s Name:' +'  '+ this.basicDetails?.father_name,  'Class:' +'  '+ this.basicDetails?.class],
-              ['Mobile No:' +'  '+  this.basicDetails?.Mob_no,           'Bill Date:' +'  '+  this.basicDetails?.bill_date],
+              [{ text: `Date ${(this.fromDateValue ? moment(this.fromDateValue).format('DD-MMM-YYYY') : '')} To ${(this.toDateValue ? moment(this.toDateValue).format('DD-MMM-YYYY') : '')}`}, {text: `Print Date ${(moment(this.todayDate).format('DD-MMM-YYYY'))}`, alignment: 'right' }],
             ]
           },
         },
         this.table(
-          this.tableData,
+          this.printExportData,
           //first row
           [
-            { text: 'Particulars', bold: true },
-            { text: 'Rate', bold: true },
-            { text: 'Quantity', bold: true },
-            { text: 'Amount', bold: true },
+            { text: 'S.No', bold: true },
+            { text: 'Fee-Date', bold: true },
+            { text: 'Total (₹)', bold: true },
           ],
           // api row find with key text
           [
-            { text: 'name', bold: true },
-            { text: 'rate', bold: true },
-            { text: 'quantity', bold: true },
-            { text: 'amount', bold: true },
+            { text: 'sno', bold: true },
+            { text: 'feedate', bold: true },
+            { text: 'totalamount', bold: true },
           ],
         ),
-        {text: 'Total Amount Rs:' +'  '+ this.basicDetails?.Total_amt, style: 'totalAmt'},
-        {text: 'Authorised Signatory', bold: true, margin: [0, 20, 10, 20], alignment: 'right' },
-        {text: 'SP Note.', bold: true, margin: [0, 5, 0, 0], fontSize: 10, },
-        {text: '1. Book once distributed will not be exchanged or returned under any circumstances.', fontSize: 10, },
-        {text: '2. Bill should be kept very carefully and should not be misplaced under any circumstances.', fontSize: 10, },
-        {text: '3. All books must be checked at the counter itself at the time of delivery.No complains will be entertained later on.', fontSize: 10, },
+        {text: 'Grand Total (₹): ' + this.totalAmount, style: 'totalAmt'},
       ],
       styles: {
         topheader: {
-          fontSize: 18,
+          fontSize: 15,
 			    alignment: 'center',
           bold: true,
         },
         address: {
-          fontSize: 11,
+          fontSize: 10,
 			    alignment: 'center',
         },
         invoice: {
-          fontSize: 15,
+          fontSize: 13,
           bold: true,
-          margin: [0, 0, 0, 10],
+          margin: [0, 15, 0, 5],
           alignment: 'center',
-        },
-        basicdetails: {
-          margin: [0, 0, 0, 10]
         },
         totalAmt: {
           margin: [0, 10, 10, 20],
           alignment: 'right',
           bold: true,
+        },
+        peroidDate: {
+          margin: [0, 5, 0, 8],
+        },
+        dateTable: {
+          margin: [0, 5, 0, 8],
         }
       },
     };
     const win = window.open('', '_blank');
-    pdfMake.createPdf(docDefinition).open({}, win);
+    const download = window.open('', '_self');
+    if(type == 'print') {
+      pdfMake.createPdf(docDefinition).print({}, win);
+    } else {
+      const fileName = 'grandcollectionreport ' + moment(this.todayDate).format('DD-MMM-YYYY') + '.pdf';
+      pdfMake.createPdf(docDefinition).download(fileName);
+    }
   }
+
+  exportExcel() {
+      const fileName = 'grandcollectionreport ' + moment(this.todayDate).format('DD-MMM-YYYY') + '.xlsx';
+      this.printExportData.push({sno: '', feedate: '', totalamount: 'Total Amout (₹): ' + this.totalAmount})
+      let Heading = [['S.No', 'Fee-Date','Total (₹)']];
+      //Had to create a new workbook and then add the header
+      const wb = XLSX.utils.book_new();
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+      XLSX.utils.sheet_add_aoa(ws, Heading);
+
+      //Starting in the second row to avoid overriding and skipping headers
+      XLSX.utils.sheet_add_json(ws, this.printExportData, { origin: 'A2', skipHeader: true });
+
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      XLSX.writeFile(wb, fileName);
+    }
 
 }

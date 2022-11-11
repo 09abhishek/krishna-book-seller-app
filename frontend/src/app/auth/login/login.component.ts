@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   }
   public initLoginForm(): void {
     this.loginForm = this.fb.group({
-      username: ['',  Validators.required],
+      username: ['',  [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
@@ -38,9 +38,9 @@ export class LoginComponent implements OnInit {
       next: (res) => {
           if (res && res.user && res.user.id) {
             this.messageService.add({severity:'success', summary: 'Success', detail: "Login SuccessFully"});
-            localStorage.setItem('userDetails', res.user);
+            localStorage.setItem('userDetails', JSON.stringify(res.user));
             localStorage.setItem('tokensDetails', JSON.stringify(res.tokens));
-            localStorage.setItem('token', JSON.stringify(res?.tokens?.access?.token));
+            localStorage.setItem('token', (res?.tokens?.access?.token));
             localStorage.setItem('refreshTokenDetails', JSON.stringify(res.refresh));
             this.router.navigate(['/dashboard']);
           }

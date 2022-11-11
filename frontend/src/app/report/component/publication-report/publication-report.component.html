@@ -1,1 +1,53 @@
-<p>publication-report works!</p>
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>Mithanpura, Muzaffarpur-842002</p> -->
+      <h5>Publication</h5>
+    </div>
+  <div class="table-responsive">
+    <div class="basic-details flex">
+      <!-- <p class="grant-total-label">Total Amount (&#x20B9;): <span class="grant-total-amount"> {{totalAmount}}</span></p> -->
+      <div class="content-btn flex">
+        <ng-container *ngIf="publicationList.length > 0">
+          <button class="btn-excel button" type="button" (click)="exportExcel()"><img src="assets/img/file-excel.svg"></button>
+          <button class="btn-pdf button" type="button" (click)="generatePdf('download')"><img src="assets/img/file-pdf.svg"></button>
+          <button class="btn-print button" type="button" (click)="generatePdf('print')"><img src="assets/img/file-print.svg"></button>
+        </ng-container>
+      </div>
+    </div>
+    <p-table [value]="publicationList" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+     [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="id">S No<p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="name">Publication Name<p-sortIcon field="name"></p-sortIcon></th>
+
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+                <tr class="p-selectable-row">
+                    <td style="width: 50%">
+                        <span class="p-column-title">Book_Name</span>
+                         {{rowIndex + 1}}
+                    </td>
+                    <td style="width: 50%">
+                        <span class="p-column-title">class</span>
+                        <span class="image-text">{{customer.name}}</span>
+                    </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" style="text-align:center;">No List found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+  </div>
+</div>
+
+
+

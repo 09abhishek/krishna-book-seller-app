@@ -1,63 +1,213 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ConfirmationDialogService } from './../../shared/components/confirmation-dialog/confirmation-dialog.service';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { MessageService } from 'primeng/api';
+import { InvoiceService } from '../invoice.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import {each, groupBy} from 'lodash';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { InvoicePrintService } from './invoice-print.service';
+
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.scss']
 })
-export class InvoiceComponent implements OnInit, AfterContentChecked {
+export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy {
+
   public invoiceForm: any;
-  invoiceData: any = []
+  bookList: any = [];
+  classId: any;
   selectedBook: any = [];
   selectedBookIds: any = [];
   totalInvoiceAmount: any = '';
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) { }
+  submitLoader = false;
+  intialPageLoader = false;
+  showPrint = false;
+  billingDate: any = new Date();
+  private sub: any;
+  private subscriptions: any = {};
+  printData: any;
+  invoiceId: any;
+  invoiceDetails: any;
+  selectedBookListByid: any = {};
+  classList: any = [
+    {id: 1, name: 'infant', value: 'infant'},
+    {id: 2, name: 'nursery', value: 'nursery'},
+    {id: 3, name: 'prep', value: 'prep'},
+    {id: 4, name: 'one', value: '1'},
+    {id: 5, name: 'two', value: '2'},
+    {id: 6, name: 'three', value: '3'},
+    {id: 7, name: 'four', value: '4'},
+    {id: 8, name: 'five', value: '5'},
+    {id: 9, name: 'six', value: '6'},
+    {id: 10, name: 'seven', value: '7'},
+    {id: 11, name: 'eight', value: '8'},
+    {id: 12, name: 'nine', value: '9'},
+    {id: 13, name: 'ten', value: '10'},
+    {id: 14, name: 'eleven', value: '11'},
+    {id: 14, name: 'twelve', value: '12'},
+  ];
+  constructor(
+     private fb: FormBuilder,
+     private cdr: ChangeDetectorRef,
+     private confirmationDialogService: ConfirmationDialogService,
+     private invoiceService: InvoiceService,
+     private route: ActivatedRoute,
+     private invoicePrintService: InvoicePrintService,
+     private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.invoiceData = [
-      {
-        id: 123,
-        Particulars: 'CSS Mastery',
-        rate: '',
-        qty: '',
-        amount: ''
-      },
-      {
-        id: 124,
-        Particulars: 'CSS Pocket Reference: Visual Presentation for the Web',
-        rate: '',
-        qty: '',
-        amount: ''
-      },
-      {
-        id: 125,
-        Particulars: 'CSS in Depth',
-        rate: '',
-        qty: '',
-        amount: ''
+    this.getRouteParams();
+  }
+  getRouteParams() {
+    this.sub = this.route.params.subscribe(params => {
+        console.log('params', params);
+        this.invoiceId = '';
+        if (params && params['id']) {
+            this.invoiceId = params['id'];
+            this.intialPageLoader = true;
+            this.getInvoiceDetails(this.invoiceId);
+        } else {
+          this.getInvoiceNumber();
+        }
+    });
+  }
+  getInvoiceNumber() {
+    this.subscriptions['getInvoiceNumber'] = this.invoiceService.getInvoiceNo({}).subscribe((item: any) => {
+      if(item && item.data) {
+        this.invoiceForm.controls['billno'].setValue(item.data[0]);
       }
-    ]
+    });
   }
   ngAfterContentChecked() {
     this.cdr.detectChanges();
 }
   public initForm(): void {
     this.invoiceForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required]],
       billno: [''],
-      fathername: [''],
+      fathername: ['', [Validators.required]],
       mobno: [''],
-      classno: [''],
-      date: [''],
+      classno: ['', [Validators.required]],
+      date: ['', [Validators.required]],
       address: ['']
     });
+    this.invoiceForm.controls['billno'].disable();
+    this.invoiceForm.controls['date'].disable();
   }
-  onsave() {
-    console.log(this.invoiceForm.value);
-    console.log(this.selectedBook);
-    console.log(this.invoiceData);
+  onSaveConfirmation() {
+    if (!this.invoiceForm.valid) {
+      this.validateAllFormFields(this.invoiceForm);
+      return;
+    }
+    if (this.selectedBook.length === 0) {
+      this.messageService.add({severity:'error', summary: 'Error', detail: 'atLeast Select one book'});
+      return;
+    }
+    this.openConfirmationDialog();
+  }
+  SaveInvoice() {
+    const formValue = this.invoiceForm.getRawValue();
+    const params: any = {};
+    let billParticulars: any = [];
+    this.selectedBook.forEach((item: any) => {
+      if (item.qty && item.amount) {
+          const param: any = {};
+          param.name = item.name;
+          param.qty = item.qty;
+          param.price = item.amount;
+          param.id = item.id;
+          param.rate = item.price;
+          billParticulars.push(param);
+      }
+    });
+    this.submitLoader = true;
+    params.name = formValue.name;
+    params.stdClass = formValue.classno;
+    params.fatherName = formValue.fathername;
+    params.totalAmount = this.totalInvoiceAmount;
+    params.address = formValue.address;
+    params.mobileNum = formValue.mobno;
+    params.billParticulars = billParticulars;
+    if(this.invoiceId) {
+      params.invoiceId = this.invoiceId ? this.invoiceId : '';
+    }
+    this.printData = {};
+    this.subscriptions['saveInvoice'] = this.invoiceService.saveInvoice(params).subscribe({
+      next: (res) => {
+        if(res) {
+          // this.messageService.add({severity:'success', summary: 'Success', detail: "SuccessFully Created"});
+          this.submitLoader = false;
+          this.showPrint = true;
+          this.printData = params;
+          this.printData['bill_no'] =  formValue.billno ? formValue.billno : '';
+          // this.cancel();
+        }
+      },
+      error: (error)=> {
+        this.submitLoader = false;
+      }
+    });
+  }
+  cancel() {
+      this.selectedBook = [];
+      this.selectedBookIds = [];
+      this.totalInvoiceAmount = '';
+      this.showPrint = false;
+    if(this.invoiceId) {
+      this.getInvoiceDetails(this.invoiceId);
+    } else {
+      this.invoiceForm.controls['name'].reset();
+      this.invoiceForm.controls['fathername'].reset();
+      this.invoiceForm.controls['mobno'].reset();
+      this.invoiceForm.controls['address'].reset();
+      this.invoiceForm.controls['classno'].reset();
+      this.classId = '';
+      this.getInvoiceNumber();
+    }
+  }
+  resetparticularField() {
+    this.bookList.forEach((item: any) => {
+      if(this.selectedBookIds.indexOf(item.id) > -1) {
+         item.qty = '1';
+         item.amount = '';
+      }
+    })
+  }
+  onChangeClass(val: any) {
+    this.intialPageLoader = true;
+    this.classId = val.value;
+    this.subscriptions['bookList'] = this.invoiceService.getBookList(this.classId)
+    .subscribe((item: any) => {
+      this.intialPageLoader = false;
+      this.bookList = [];
+      this.selectedBookIds = [];
+      this.selectedBook = [];
+      if(item && item.book) {
+        item.book.forEach((data: any) => {
+          data['qty'] = '1';
+          data['amount'] = '';
+          this.selectedBookIds.push(data.id)
+        })
+        this.bookList = item.book;
+        this.selectedBook = item.book;
+      }
+    });
+
+    this.resetparticularField();
+    setTimeout(()=> {
+      this.selectedBook = [];
+      this.selectedBookIds = [];
+      this.totalInvoiceAmount = '';
+      this.showPrint = false;
+    }, 10);
   }
   onSelectBook(event: any, data: any) {
     const idx = this.selectedBookIds.indexOf(data.id);
@@ -70,10 +220,18 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
      }
   }
   calculatedAmount(rate: any, qty: number, data: any): any {
+    if(this.invoiceId && rate && qty && this.selectedBook.length > 0) {
+      this.selectedBook.forEach((_item: any) => {
+        if (_item.id === data.id) {
+          _item['qty'] = qty;
+          _item['amount'] = (Number(qty) * parseFloat(_item.price)).toFixed(2);
+        }
+      });
+    }
     if (rate && qty) {
       const rateVal = parseFloat(rate);
       const amt: any = (rateVal*qty).toFixed(2);
-      this.invoiceData.forEach((item: any)=> {
+      this.bookList.forEach((item: any)=> {
         if(item.id === data.id) {
           item.amount = amt;
         }
@@ -84,21 +242,12 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
       return '';
     }
   }
-  changeTotal(event: any, data: any) {
-    console.log(event);
-    this.invoiceData.forEach((item: any)=> {
-      if(item.id === data.id) {
-        console.log('inside', item)
-        item.amount = event;
-      }
-    });
-  }
   totalAmount(): any {
     let total: any = '';
     let intialSum: any = 0;
     if(this.selectedBook.length > 0) {
       this.selectedBook.forEach((item: any) => {
-        if (item.rate && item.qty && item.amount) {
+        if (item.price && item.qty && item.amount) {
           const amt = parseFloat(item.amount);
           intialSum = intialSum + amt
         }
@@ -118,6 +267,74 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
         this.validateAllFormFields(control);
       }
     });
+  }
 
+  public openConfirmationDialog() {
+    this.confirmationDialogService.confirm('Confirmation', `Are you sure you want to ${this.invoiceId ? 'Update' : 'Save'} Invoice!`,
+        "Okay", "Cancel","primary", "secondary")
+        .then((confirmed) => {
+            console.log('User confirmed:', confirmed);
+            if (confirmed) {
+              this.SaveInvoice();
+            }
+      })
+       .catch(() => {
+       console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)');
+    });
+  }
+  getInvoiceDetails(id: any) {
+    this.selectedBookIds = [];
+    this.selectedBook = [];
+    this.subscriptions['invoiceDetails'] = this.invoiceService.getInvoiceDetails(id)
+    .subscribe((item: any) => {
+      if(item && item.data && item.data.length > 0) {
+        this.invoiceDetails = item.data[0];
+        this.selectedBookListByid = groupBy(this.invoiceDetails.bill_data, 'id');
+        this.getBookList(this.invoiceDetails.class);
+        this.classId = this.invoiceDetails.class;
+        this.invoiceForm.controls['name'].setValue(this.invoiceDetails.name);
+        this.invoiceForm.controls['billno'].setValue(this.invoiceDetails.id);
+        this.invoiceForm.controls['fathername'].setValue(this.invoiceDetails.father_name);
+        this.invoiceForm.controls['mobno'].setValue(this.invoiceDetails.mobile_num);
+        this.invoiceForm.controls['classno'].setValue(this.invoiceDetails.class);
+        // this.invoiceForm.controls['date'].setValue(this.invoiceDetails.date);
+        this.invoiceForm.controls['address'].setValue(this.invoiceDetails.address);
+        // this.totalInvoiceAmount = this.invoiceDetails.total_amount;
+        this.billingDate = new Date(this.invoiceDetails.date);
+        if (this.invoiceDetails && this.invoiceDetails.bill_data) {
+          this.invoiceDetails.bill_data.forEach((data: any) => {
+            this.selectedBookIds.push(data.id);
+            this.selectedBook.push({id: data.id, name: data.name, amount: data.price, qty: data.qty, price: data.rate});
+          })
+        }console.log('this.selectedBookListByid', this.selectedBookListByid)
+      }
+    });
+  }
+
+  getBookList(id: any) {
+    this.subscriptions['bookListdata'] = this.invoiceService.getBookList(id)
+    .subscribe((item: any) => {
+      this.intialPageLoader = false;
+      if(item && item.book) {
+        item.book.forEach((data: any) => {
+            data['qty'] = '1';
+          if (this.selectedBookListByid && this.selectedBookListByid[data.id]) {
+            data['qty'] = this.selectedBookListByid[data.id].length > 0 ? this.selectedBookListByid[data.id][0].qty : '1';
+            data['amount'] = this.selectedBookListByid[data.id].length > 0 ? this.selectedBookListByid[data.id][0].price : '';
+          }
+        });
+        this.bookList = item.book;
+      }
+    });
+  }
+  generatePdf() {
+    this.invoicePrintService.generatePdf(this.printData, this.billingDate, this.classList);
+  }
+
+  ngOnDestroy(): void {
+    // this.sub.unsubscribe();
+    each(this.subscriptions, (subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 }

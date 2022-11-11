@@ -1,0 +1,27 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p> -->
+      <h5>Update Publication</h5>
+    </div>
+    <form [formGroup]="publicationUpdateForm">
+    <div class="content-field flex">
+      <div class="input-field">
+        <label>Publication Name</label>
+        <input type="text" formControlName="publicationName">
+        <div *ngIf="(publicationUpdateForm.controls['publicationName'].hasError('required') && publicationUpdateForm.controls['publicationName'].touched)" class="error-data position-error">Publication Name is required</div>
+      </div>
+      <div class="content-btn flex">
+        <button class="btn-save button" type="button" (click)="onSaveConfirmation()">update
+          <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button class="btn-cancel button" type="button" (click)="cancel()">Cancel</button>
+    </div>
+    </div>
+  </form>
+  </div>
+</div>
+
+
+

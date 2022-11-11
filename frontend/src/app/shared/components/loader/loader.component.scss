@@ -10,13 +10,13 @@
     box-sizing: border-box;
     display: block;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 150px;
+    height: 150px;
     margin: 6px;
-    border: 3px solid white;
+    border: 10px solid #a4a3e9;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 1, 0.5, 1) infinite;
-    border-color: white transparent transparent transparent;
+    border-color: #a4a3e9 transparent transparent transparent;
 }
 
 .lds-ring div {

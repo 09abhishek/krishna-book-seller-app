@@ -1,0 +1,62 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p> -->
+      <h5>{{userId ? 'Update' : 'Create'}} User</h5>
+    </div>
+    <form [formGroup]="userForm">
+    <div class="content-field flex">
+      <div class="input-field">
+        <label>First Name</label>
+        <input type="text" formControlName="firstname">
+        <div *ngIf="(userForm.controls['firstname'].hasError('required') && userForm.controls['firstname'].touched)" class="error-data position-error">First Name is required</div>
+      </div>
+      <div class="input-field">
+        <label>Last Name</label>
+        <input type="text" formControlName="lastname">
+        <div *ngIf="(userForm.controls['lastname'].hasError('required') && userForm.controls['lastname'].touched)" class="error-data position-error">Last Name is required</div>
+      </div>
+      <div class="input-field">
+        <label>User Name</label>
+        <input type="text" formControlName="username">
+        <div *ngIf="(userForm.controls['username'].hasError('required') && userForm.controls['username'].touched)" class="error-data position-error">User Name is required</div>
+      </div>
+      <div class="input-field">
+        <label>Mobile No.</label>
+        <input type="text" formControlName="mobno">
+      </div>
+      <div class="input-field">
+        <label>Password</label>
+        <input type="text" formControlName="password">
+          <div *ngIf="(userForm.controls['password'].hasError('required') && userForm.controls['password'].touched)" class="error-data position-error">Password is required</div>
+          <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('minlength')"> Password Should Contain Minimum 5 Characters </div>
+      </div>
+      <div class="input-field">
+        <label>Confirm Password</label>
+        <input type="text" formControlName="confirmPassword">
+          <div *ngIf="(userForm.controls['confirmPassword'].hasError('required') && userForm.controls['confirmPassword'].touched)" class="error-data position-error">Confirm Password is required</div>
+          <div class="error-data position-error" *ngIf="userForm.controls['confirmPassword'].touched && userForm.hasError('mismatchedPasswords')"> Password Does Not Match </div>
+      </div>
+      <ng-container *ngIf="userDetails?.user_type === 'super_admin'">
+        <div class="input-field">
+          <label>privilege Type</label>
+          <select class="search select-drop" id="mysel" formControlName="privalageType">
+            <ng-container *ngFor="let iteam of userType">
+              <option [value]="iteam.type">{{iteam.name}}</option>
+            </ng-container>
+        </select>
+        <div *ngIf="(userForm.controls['privalageType'].hasError('required') && userForm.controls['privalageType'].touched)" class="error-data position-error">Class is required</div>
+        </div>
+      </ng-container>
+      <div class="content-btn flex">
+        <button class="btn-save button" type="button" (click)="onSaveConfirmation()">{{userId ? 'Update' : 'Save'}}
+          <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button class="btn-cancel button" type="button" (click)="reset()">Reset</button>
+    </div>
+    </div>
+  </form>
+  </div>
+</div>
+
