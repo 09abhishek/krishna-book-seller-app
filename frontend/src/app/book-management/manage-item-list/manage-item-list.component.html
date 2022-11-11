@@ -1,0 +1,82 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>Mithanpura, Muzaffarpur-842002</p> -->
+      <h5>Manage Book Item</h5>
+    </div>
+    <div class="content-field">
+      <div class="input-field">
+        <label for="mysel">Class</label>
+        <select class="search select-drop" id="mysel" [(ngModel)]="classId" (change)="onChangeClass($event.target)">
+          <ng-container *ngFor="let class of classList">
+            <option [value]="class.name">{{class.value}}</option>
+          </ng-container>
+      </select>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <ng-container *ngIf="!intialPageLoaded">
+      <div class="select-type flex" >
+        <img src="assets/img/document.svg"/>
+        <p class="msg-type">Please Select Class</p>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="intialPageLoaded">
+    <p-table [value]="bookStoreList" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+     [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name">Book Name <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="class">Class<p-sortIcon field="class"></p-sortIcon></th>
+                    <th pSortableColumn="Publication.name">Publication<p-sortIcon field="Publication.name"></p-sortIcon></th>
+                    <th pSortableColumn="quantity">Qty<p-sortIcon field="quantity"></p-sortIcon></th>
+                    <th pSortableColumn="mrp">MRP(&#x20B9;) <p-sortIcon field="mrp"></p-sortIcon></th>
+                    <th pSortableColumn="net_price">Net Price(&#x20B9;) <p-sortIcon field="net_price"></p-sortIcon></th>
+                    <th style="width: 8rem">Action</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+                <tr class="p-selectable-row">
+                    <td>
+                        <span class="p-column-title">Book_Name</span>
+                         {{customer.name}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">class</span>
+                        <span class="image-text">{{getClassNo(classList, customer.class)}}</span>
+                    </td>
+                    <td>
+                      <span class="p-column-title">Publication</span>
+                      <span class="image-text">{{customer.Publication.name}}</span>
+                    </td>
+                    <td>
+                      <span class="p-column-title">Qty</span>
+                      <span class="image-text">{{customer.quantity}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">MRP</span>
+                        <span class="image-text">{{customer.mrp}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Net_Price</span>
+                        <span class="image-text">{{customer.net_price}}</span>
+                    </td>
+                    <td style="width: 8rem">
+                      <button pButton type="button" class="secondary" icon="pi pi-pencil" (click)="updateBook(customer)"></button>
+                      <button pButton type="button" class="danger" icon="pi pi-trash" (click)="openConfirmationDialog(customer.id)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" style="text-align:center;">No List found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+  </div>
+</div>
+
+

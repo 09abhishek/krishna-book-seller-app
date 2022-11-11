@@ -13,11 +13,13 @@ import {TableModule} from 'primeng/table';
 import { OnlyNumberDirective } from './directive/only-number.directive';
 import {ChartModule} from 'primeng/chart';
 import { LoaderComponent } from './components/loader/loader.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
+    // HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
@@ -26,6 +28,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     CalendarModule,
     TableModule,
     ChartModule,
+    NgbModule
   ],
 
   providers: [
@@ -37,7 +40,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     HeaderComponent,
     FooterComponent,
     OnlyNumberDirective,
-    LoaderComponent
+    LoaderComponent,
+    ConfirmationDialogComponent
   ],
   exports: [
     SideBarComponent,
@@ -50,8 +54,10 @@ import { LoaderComponent } from './components/loader/loader.component';
     OnlyNumberDirective,
     ChartModule,
     LoaderComponent,
-  ]
+    NgbModule
+  ],
 
+  entryComponents: [ConfirmationDialogComponent],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule { }

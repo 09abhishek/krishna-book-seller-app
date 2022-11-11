@@ -1,8 +1,8 @@
 <div class="content-wrapper">
   <div class="content-heading">
     <div class="content-details flex">
-      <h4>Krishna Book Seller</h4>
-      <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p>
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p> -->
       <h5>INVOICE</h5>
     </div>
     <form [formGroup]="invoiceForm">
@@ -11,6 +11,7 @@
       <div class="input-field">
         <label>Name</label>
         <input type="text" formControlName="name">
+        <div *ngIf="(invoiceForm.controls['name'].hasError('required') && invoiceForm.controls['name'].touched)" class="error-data position-error">Name is required</div>
       </div>
       <div class="input-field">
         <label>Bill No</label>
@@ -19,38 +20,52 @@
       <div class="input-field">
         <label>Father's Name</label>
         <input type="text" formControlName="fathername">
+        <div *ngIf="(invoiceForm.controls['fathername'].hasError('required') && invoiceForm.controls['fathername'].touched)" class="error-data position-error">Father Name is required</div>
       </div>
       <div class="input-field">
         <label>Mob. No</label>
         <input type="text" appOnlyNumber numericType="number" formControlName="mobno">
+        <!-- <div *ngIf="(invoiceForm.controls['mobno'].hasError('required') && invoiceForm.controls['mobno'].touched)" class="error-data position-error">Mobile No is required</div> -->
       </div>
       <div class="input-field">
         <label>Class</label>
-        <select class="search select-drop" id="mysel" formControlName="classno">
-          <option value="5">1</option>
-          <option value="10">2</option>
-          <option value="15">3</option>
-          <option value="20">4</option>
+        <select class="search select-drop" id="mysel" formControlName="classno" (change)="onChangeClass($event.target)">
+          <ng-container *ngFor="let class of classList">
+            <option [value]="class.name">{{class.value}}</option>
+          </ng-container>
       </select>
+      <div *ngIf="(invoiceForm.controls['classno'].hasError('required') && invoiceForm.controls['classno'].touched)" class="error-data position-error">Class is required</div>
       </div>
       <div class="input-field">
         <label for="To">Date</label>
-          <p-calendar inputId="To" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" formControlName="date"></p-calendar>
+          <p-calendar inputId="To" [(ngModel)]="billingDate" [showIcon]="false" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" formControlName="date"></p-calendar>
+          <!-- <div *ngIf="(invoiceForm.controls['date'].hasError('required') && invoiceForm.controls['date'].touched)" class="error-data position-error">Date is required</div> -->
       </div>
       <div class="input-field flex">
         <label>Address</label>
-        <textarea formControlName="address" style="overflow:auto;resize:none;height: 50px;"></textarea>
+        <input type="text" formControlName="address">
+        <!-- <textarea formControlName="address" style="overflow:auto;resize:none;height: 50px;"></textarea> -->
+        <!-- <div *ngIf="(invoiceForm.controls['address'].hasError('required') && invoiceForm.controls['address'].touched)" class="error-data position-error">Addess is required</div> -->
       </div>
     <!-- </form> -->
     </div>
   </form>
   </div>
-  <!-- <div class="container-search flex">
-    <input type="text" placeholder="Search.." name="search">
-    <button type="submit"><img src="/assets/img/search.svg"></button>
+  <div class="select-type flex" *ngIf="!classId">
+    <img src="assets/img/document.svg"/>
+    <p class="msg-type">please Select class</p>
+  </div>
+  <div class="intial-loader" *ngIf="intialPageLoader && classId">
+    <app-loader></app-loader>
+  </div>
+  <!-- <div class="intial-loader" *ngIf="intialPageLoader && classId">
+    <p style="margin-top: 20px;">No Data found</p>
   </div> -->
-  <div class="report-print flex">
-    <button class="btn-search button" type="button">Print</button>
+  <ng-container *ngIf="classId && bookList.length > 0">
+  <div class="report-print flex" *ngIf="classId && showPrint">
+  <!-- <div class="report-print flex"> -->
+    <!-- <button class="btn-reset button" type="button" (click)="generatePdf()">Reset</button> -->
+    <button class="btn-search button" type="button" (click)="generatePdf()">Print</button>
   </div>
   <div class="table-responsive inv-adm-tbl">
     <table class="table">
@@ -60,57 +75,41 @@
             <th class="inv-particular text-center">Particulars</th>
             <th class="inv-rate text-center">Rate</th>
             <th class="inv-qty text-center">Qty</th>
-            <th class="inv-amt text-center">Amount Rs</th>
+            <th class="inv-amt text-center">Amount (&#x20B9;)</th>
         </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let invoicelist of invoiceData">
+          <tr *ngIf="bookList.length === 0">
+            <td height="250" colspan="5" style="text-align: center; vertical-align: middle; background: white">
+                <p style="margin-top: 20px;">No Data found</p>
+            </td>
+        </tr>
+          <ng-container *ngFor="let invoicelist of bookList">
             <tr>
-                <!-- <td><input type="checkbox"></td> -->
                 <td>
-                  <input id="{{invoicelist.id}}" class="checkbox-custom" type="checkbox" (change)="onSelectBook($event, invoicelist)">
+                  <input id="{{invoicelist.id}}"  [checked]="selectedBookIds.indexOf(invoicelist.id) > -1"  class="checkbox-custom" type="checkbox" (change)="onSelectBook($event, invoicelist)">
                   <label for="{{invoicelist.id}}" class="checkbox-custom-label"></label>
                 </td>
-                <td>{{invoicelist.Particulars}}</td>
-                <td class="text-center"><input type="text" [(ngModel)]="invoicelist.rate" appOnlyNumber numericType="decimal"></td>
+                <td>{{invoicelist.name}}</td>
+                <td class="text-center"><input type="text" disabled [(ngModel)]="invoicelist.price" appOnlyNumber numericType="decimal"></td>
                 <td class="text-center"><input type="text" appOnlyNumber numericType="number" [(ngModel)]="invoicelist.qty"></td>
-                <td class="text-center"><input type="text" (ngModelChange)="changeTotal($event, invoicelist)" [value]="calculatedAmount(invoicelist.rate, invoicelist.qty, invoicelist)" [(ngModel)]="invoicelist.amount" appOnlyNumber numericType="decimal"></td>
+                <td class="text-center"><input type="text" disabled  [value]="calculatedAmount(invoicelist.price, invoicelist.qty, invoicelist)" [(ngModel)]="invoicelist.amount" appOnlyNumber numericType="decimal"></td>
             </tr>
           </ng-container>
-
-            <!-- <tr>
-              <td>
-                <input id="checkbox-2" class="checkbox-custom" type="checkbox">
-                <label for="checkbox-2" class="checkbox-custom-label"></label>
-              </td>
-              <td>CSS Pocket Reference: Visual Presentation for the Web</td>
-              <td class="text-center"><input type="text"></td>
-              <td class="text-center"><input type="text"> </td>
-              <td class="text-center"><input type="text"></td>
-              </tr><tr>
-                    <td>
-                      <input id="checkbox-2" class="checkbox-custom" type="checkbox">
-                      <label for="checkbox-2" class="checkbox-custom-label"></label>
-                    </td>
-                    <td>CSS in Depth</td>
-                    <td class="text-center"><input type="text"></td>
-                    <td class="text-center"><input type="text"> </td>
-                    <td class="text-center"><input type="text"></td>
-                </tr> -->
         </tbody>
     </table>
     <div class="content-btn-details flex">
       <div class="content-btn flex">
-        <button class="btn-save button" type="button" (click)="onsave()">Save</button>
-        <button class="btn-cancel button" type="button">Cancel</button>
-        <!-- <button class="btn-delete button" type="button">Delete</button> -->
-        <!-- <button class="btn-update button" type="button">update</button> -->
-        <!-- <button class="btn-print button" type="button">print</button> -->
+        <button class="btn-save button" type="button" (click)="onSaveConfirmation()">{{invoiceId ? 'Update' : 'Save'}}
+          <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button class="btn-cancel button" type="button" (click)="cancel()">Cancel</button>
       </div>
       <div class="total-amt flex">
-        <p>Total Amount Rs</p>
-        <input type="text" [(ngModel)]="totalInvoiceAmount">
+        <p>Total Amount (&#x20B9;)</p>
+        <input class="total-amt" type="text" disabled [(ngModel)]="totalInvoiceAmount">
       </div>
     </div>
   </div>
+</ng-container>
 </div>

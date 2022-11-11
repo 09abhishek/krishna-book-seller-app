@@ -29,16 +29,20 @@ export class SideBarComponent implements OnInit {
       items: [{
         label: 'Invoice',
         routerLink: '/invoice/list',
-        icon: 'pi pi-book'
+        icon: 'pi pi-book',
+        // visible: false,
      },
      {
       label: 'Search Invoice',
       routerLink: '/invoice/search-invoice',
-      icon: 'pi pi-book'
+      icon: 'pi pi-book',
+      // visible: false,
      }],
       },
       {
           label: 'Master',
+          // visible: false,
+          escape: false,
           items: [{
               label: 'Add Qty',
               icon: 'pi pi-plus-circle'
@@ -64,18 +68,18 @@ export class SideBarComponent implements OnInit {
               icon: 'pi pi-file',
           },
           {
-              label: 'Grant Collection',
+              label: 'Grand Collection',
               routerLink: '/report/grant-collection-report',
               icon: 'pi pi-file',
           },
           {
-              label: 'All Book Stock Report',
+              label: 'Book Stock',
               routerLink: '/report/book-stock-report',
               routerLinkActiveOptions: {exact: true},
               icon: 'pi pi-file',
           },
           {
-              label: 'Publication Report',
+              label: 'Publication',
               routerLink: '/report/publication-report',
               routerLinkActiveOptions: {exact: true},
               icon: 'pi pi-file',

@@ -9,6 +9,7 @@ import { BookStockReportComponent } from './component/book-stock-report/book-sto
 import { PublicationReportComponent } from './component/publication-report/publication-report.component';
 import { AllBookListComponent } from './component/all-book-list/all-book-list.component';
 import { GrantTotalReportComponent } from './component/grant-total-report/grant-total-report.component';
+import { ReportService } from './report.service';
 
 
 @NgModule({
@@ -16,13 +17,13 @@ import { GrantTotalReportComponent } from './component/grant-total-report/grant-
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    // HttpClientModule,
     routing,
     SharedModule
   ],
 
   providers: [
-    // InputMeetingService
+    ReportService
   ],
 
   declarations: [

@@ -22,7 +22,7 @@ export const routes = [
       RouterModule.forChild(routes),
       FormsModule,
       ReactiveFormsModule,
-      HttpClientModule,
+      // HttpClientModule,
       SharedModule,
     ],
     declarations: [

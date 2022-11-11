@@ -8,8 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(private router: Router, private appService: AppService) { }
+  userDetails: any;
+  constructor(private router: Router, private appService: AppService) {
+    this.userDetails = localStorage.getItem('userDetails')  ? JSON.parse(localStorage.getItem('userDetails')!) : '';
+   }
 
   ngOnInit(): void {
   }

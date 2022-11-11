@@ -5,55 +5,137 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-    }
-    .content-field  {
-      margin-top: 15px;
-      .search-by {
-        padding: 12px 0;
-        color: black;
-        font-weight: 600;
+      h5 {
+        padding: 10px;
       }
-      .search-details {
-        justify-content: space-between;
-        width: calc(100% - 300px);
-        .search-date {
-          label {
-            padding-right: 30px;
-            color: gray;
-          }
-          // .custom-style{
-          ::ng-deep .p-datepicker table td {
-            padding: 0.4rem !important;
-          }
-          ::ng-deep .p-datepicker table td > span {
-            width: 1.5rem !important;
-            height: 1.5rem !important;
-          }
-          ::ng-deep .ui-calendar .ui-datepicker {
-            height : 200px !important;
-         }
-         ::ng-deep  .p-button.p-button-icon-only {
+    }
+    .search-content {
+      padding: 20px 10px;
+      justify-content: space-between;
+      .content-field  {
+        width: 60%;
+        // margin-top: 15px;
+        .search-by {
+          // padding: 12px 0;
+          color: black;
+          font-weight: 600;
+        }
+        .search-details {
+          flex-direction: column;
+          // justify-content: space-between;
+          // width: calc(100% - 300px);
+          .search-date-field {
+          .search-date {
+            padding: 28px 0;
+            label {
+              padding-right: 30px;
+              width: 50px;
+              color: gray;
+            }
+            // .custom-style{
+            ::ng-deep .p-datepicker table td {
+              padding: 0.4rem !important;
+            }
+            ::ng-deep .p-datepicker table td > span {
+              width: 1.5rem !important;
+              height: 1.5rem !important;
+            }
+            ::ng-deep .ui-calendar .ui-datepicker {
+              height : 200px !important;
+           }
+           ::ng-deep  .p-button.p-button-icon-only {
+                height: 40px;
+           }
+           ::ng-deep  .p-calendar .p-inputtext {
               height: 40px;
+           }
+            // }
+            &.serch-left {
+              margin-left: 30px
+            }
+          }
          }
-         ::ng-deep  .p-calendar .p-inputtext {
-            height: 40px;
-         }
-          // }
-        }
-        .content-btn {
-          .button {
-            border: none;
-            width: 100px;
-            background-color: black;
-            padding-left: 15px;
-            color: white;
-            text-align: center;
-            padding: 8px;
-            background-color: #6c757d;
-         }
+          .content-btn {
+            // justify-content: space-between;
+            // padding-top: 30px;
+            // padding-left: 50px;
+            .button {
+              border: none;
+              width: 100px;
+              background-color: black;
+              padding-left: 15px;
+              color: white;
+              text-align: center;
+              padding: 8px;
+              background-color: #6c757d;
+              &.btn-search {
+                background-color: #2563eb;
+              }
+              &.btn-reset {
+                margin-left: 135px;
+              }
+              &:disabled {
+                opacity: 0.6;
+              }
+           }
+          }
         }
       }
+      .search-Bill {
+        width: 40%;
+        .search-by {
+          // padding: 12px 0;
+          color: black;
+          font-weight: 600;
+        }
+        .search-details {
+          flex-direction: column;
+          .search-bill-No {
+            padding: 28px 0;
+            label {
+              padding-right: 30px;
+              color: gray;
+              width: 90px;
+            }
+            input {
+              width: 250px;
+              height: 40px;
+              border: solid 1px #e8e8e8;
+              padding: 0 13px;
+              font-style: normal;
+              &:disabled {
+                background: #fff;
+                opacity: 0.7;
+              }
+            }
+          }
+          .content-btn {
+            // justify-content: space-between;
+            // padding-top: 30px;
+            button {
+              border: none;
+              width: 100px;
+              background-color: black;
+              padding-left: 15px;
+              color: white;
+              text-align: center;
+              padding: 8px;
+              background-color: #6c757d;
+              &.btn-search {
+                background-color: #2563eb;
+              }
+              &.btn-reset {
+                margin-left: 135px;
+              }
+              &:disabled {
+                opacity: 0.6;
+              }
+           }
+          }
+      }
+      }
     }
+
   }
   .table-responsive {
     padding: 20px 0 ;

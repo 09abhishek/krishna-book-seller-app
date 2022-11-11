@@ -1,0 +1,64 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <!-- <h4>Krishna Book Seller</h4> -->
+      <!-- <p>Mithanpura, Muzaffarpur-842002</p> -->
+      <h5>User List</h5>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <p-table [value]="userList" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+     [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="sno">S No <p-sortIcon field="sno"></p-sortIcon></th>
+                    <th pSortableColumn="username">User Name <p-sortIcon field="username"></p-sortIcon></th>
+                    <th pSortableColumn="firstname">First Name<p-sortIcon field="firstname"></p-sortIcon></th>
+                    <th pSortableColumn="lastname">Last Name <p-sortIcon field="lastname"></p-sortIcon></th>
+                    <th pSortableColumn="mobileno">Mobile No. <p-sortIcon field="mobileno"></p-sortIcon></th>
+                    <th pSortableColumn="privilegetype">Privilege Type<p-sortIcon field="privilegetype"></p-sortIcon></th>
+                    <th style="width: 8rem">Action</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+                <tr class="p-selectable-row">
+                    <td>
+                        <span class="p-column-title">S No</span>
+                        {{rowIndex + 1}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">User Name</span>
+                        <span class="image-text">{{customer.username}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">First Name</span>
+                        <span class="image-text">{{customer.first_name}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Last Name</span>
+                        <span class="image-text">{{customer.last_name}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Mobile No.</span>
+                        {{customer.mobileno ? customer.mobileno : '--'}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Privilege Type</span>
+                        {{getuserType(customer.user_type)}}
+                    </td>
+                    <td style="width: 8rem">
+                      <button pButton type="button" class="secondary" icon="pi pi-pencil" (click)="updateUser(customer.id)"></button>
+                      <button pButton type="button" class="danger" icon="pi pi-trash" (click)="openConfirmationDialog(customer.id)"></button>
+                  </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No customers found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+  </div>
+</div>
+

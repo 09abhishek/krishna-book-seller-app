@@ -31,8 +31,8 @@ export class RequestInterceptor implements HttpInterceptor {
       map((responsedata: any) => {
         if (responsedata instanceof HttpResponse) {
           const response = responsedata.body;
-          if (response && response.message !== '' && req.method !== 'GET') {
-            // this.showNotificationSuccess('Success', response.message);
+          if (response && response.message && response.message !== '' && req.method !== 'GET') {
+            this.showNotificationSuccess('Success', response.message);
           }
         }
         return responsedata;
