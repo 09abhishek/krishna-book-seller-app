@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.config");
 
-const Token = db.define("Publication", {
+const Token = db.define("publication", {
   id: {
     type: Sequelize.INTEGER,
     allowNull: false,

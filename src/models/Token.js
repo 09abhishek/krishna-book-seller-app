@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.config");
 
-const Token = db.define("Token", {
+const Token = db.define("token", {
   token: {
     type: Sequelize.STRING,
     allowNull: false,
