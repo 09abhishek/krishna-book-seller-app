@@ -5,28 +5,31 @@
   width: 100%;
   height: 100vh;
   padding: 11px 18px;
-  // background-image: url(../../../assets/img/login.svg);
-  background-image: url(../../../assets/img/book-management.jpg);
+  background-image: url(../../../assets/img/background.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  // background-image: url(../../../assets/img/book-management.jpg);
   .login-header {
       width: 100%;
-      padding: 32px 30px;
+      // padding: 32px 30px;
       justify-content: flex-start;
       align-items: center;
       border-radius: 15px 15px 0 0;
       // background: rgba(255, 255, 255, 0.93);
       .logo {
           img {
-            width: 50px;
+            width: 100px;
             border-radius: 50%;
-            height: 50px;
-              margin-right: 58px;
+            height: 100px;
           }
       }
       h3 {
-          font-size: 22px;
-          font-weight: normal;
+          font-size: 45px;
+          font-weight: 600;
           color: #ced4da;
           font-family: 'Kanit', sans-serif;
+          padding-left: 1%
       }
   }
 }
@@ -47,7 +50,8 @@
       width: 388px;
       box-shadow: 6px 9px 21px 0 rgba(0, 0, 0, 0.5);
       border-radius: 4px;
-      background-color: #545252;
+      // background-color: #545252;
+      background-color: rgb(249 235 235 / 25%);
       padding: 28px 18px 14px;
       .lb-top {
           justify-content: flex-start;

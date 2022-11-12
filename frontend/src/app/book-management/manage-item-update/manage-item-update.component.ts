@@ -98,6 +98,7 @@ fillbookForm(bookDetails : any) {
   this.bookUpdateForm.controls['Quantity'].setValue(bookDetails.quantity);
   this.bookUpdateForm.controls['mrp'].setValue(bookDetails.mrp);
   this.bookUpdateForm.controls['netprice'].setValue(bookDetails.net_price);
+  this.bookUpdateForm.controls['Quantity'].disable();
 }
 
   public openConfirmationDialog() {

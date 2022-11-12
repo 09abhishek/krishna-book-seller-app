@@ -141,9 +141,11 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     params.stdClass = formValue.classno;
     params.fatherName = formValue.fathername;
     params.totalAmount = this.totalInvoiceAmount;
-    params.address = formValue.address;
     if(formValue.mobno) {
       params.mobileNum = formValue.mobno;
+    }
+    if(formValue.address) {
+      params.address = formValue.address;
     }
     params.billParticulars = billParticulars;
     if(this.invoiceId) {
@@ -163,6 +165,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         }
       },
       error: (error)=> {
+        console.log('error', error.error);
         this.errorMessage = error?.error?.message;
         this.submitLoader = false;
       }
@@ -197,6 +200,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   onChangeClass(val: any) {
     this.intialPageLoader = true;
     this.classId = val.value;
+    this.errorMessage = '';
     this.subscriptions['bookList'] = this.invoiceService.getBookList(this.classId)
     .subscribe((item: any) => {
       this.intialPageLoader = false;

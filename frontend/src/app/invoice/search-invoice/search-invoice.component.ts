@@ -63,7 +63,11 @@ export class SearchInvoiceComponent implements OnInit {
     params.to = moment(this.toDateValue).format('YYYY-MM-DD');
     this.invoiceService.searchInvoice(params).subscribe({
       next: (res) => {
+        this.invoiceList = [];
         if (res && res.data) {
+          res.data.invoice.forEach((item: any) => {
+            item['class_no'] = this.getClassNo(this.classList, item.class);
+          });
           this.invoiceList = res.data.invoice;
         }
       },
@@ -88,9 +92,13 @@ export class SearchInvoiceComponent implements OnInit {
     this.loading = true;
     const params: any = {};
     params.billId = this.billId;
+    this.invoiceList = [];
     this.invoiceService.serachInvoiceByBillNo(params).subscribe({
       next: (res) => {
         if (res && res.data) {
+          res.data.forEach((item: any) => {
+            item['class_no'] = this.getClassNo(this.classList, item.class);
+          });
           this.invoiceList = res.data;
         }
       },
@@ -115,6 +123,15 @@ export class SearchInvoiceComponent implements OnInit {
       this.fromDateValue = '';
       this.toDateValue = '';
     }
+  }
+  getClassNo(list: any, classNo: any): any {
+    let val = '';
+    list.forEach((item: any) => {
+      if (item.name == classNo) {
+        val = item.value;
+      }
+    });
+    return val;
   }
   updateInvoice(id: any) {
     this.router.navigate(['invoice/update-invoice', id]);

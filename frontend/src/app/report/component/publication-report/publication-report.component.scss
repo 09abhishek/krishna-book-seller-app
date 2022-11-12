@@ -29,8 +29,12 @@
           text-align: center;
           padding: 8px 25px;
           background-color: #2563eb;
-          margin: 0px 11px;
+          margin: 0px 7px;
           border-radius: 5px;
+          i {
+            color: black;
+            font-size: 25px
+          }
           &.btn-excel {
             background-color: transparent !important;
             padding: 0;
