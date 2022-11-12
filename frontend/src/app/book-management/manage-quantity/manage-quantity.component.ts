@@ -126,10 +126,13 @@ export class ManageQuantityComponent implements OnInit {
     });
   }
   cancel() {
-      this.selectedBook = [];
-      this.selectedBookIds = [];
-      this.classId = '';
-      this.bookList = [];
+    const parms: any = {};
+    parms.value = this.classId;
+    this.onChangeClass(parms);
+      // this.selectedBook = [];
+      // this.selectedBookIds = [];
+      // this.classId = '';
+      // this.bookList = [];
   }
 
   ngOnDestroy(): void {

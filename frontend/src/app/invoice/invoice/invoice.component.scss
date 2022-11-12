@@ -244,16 +244,15 @@
     background: #ccc;
   }
 }
+.error-msg {
+  justify-content: flex-start;
+  margin-top: 15px
+}
 .report-print {
-  // justify-content: flex-end;
+  justify-content: flex-end;
   margin-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid black;
-  width: 100%;
-  .error-msg {
-    width: calc(100% - 100px);
-    line-height: 2;
-  }
+  // border-bottom: 1px solid black;
   .button {
     border: none;
     color: white;

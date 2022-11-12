@@ -59,6 +59,9 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
         this.intialPageLoaded = true;
         this.collectionReport = [];
         if (res && res.data && res.data.invoice) {
+          res.data.invoice.forEach((item: any) => {
+            item['class_no'] = this.getClassNo(this.classList, item.class)
+          });
           this.collectionReport = res.data.invoice;
           this.totalAmount = res.data.sum_of_totals;
           res.data.invoice.forEach((item: any) => {
