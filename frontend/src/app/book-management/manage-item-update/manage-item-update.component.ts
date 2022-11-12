@@ -47,13 +47,15 @@ export class ManageItemUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getpublicationList();
-    this.route.queryParams.subscribe( (params: any) => {
-      if(params) {
-        this.bookDetails = JSON.parse(params['BookDetails']);
-        this.fillbookForm(this.bookDetails);
-      }
-     }
-    )
+    this.bookDetails = localStorage.getItem('BookDetails')  ? JSON.parse(localStorage.getItem('BookDetails')!) : '';
+    this.fillbookForm(this.bookDetails);
+    // this.route.queryParams.subscribe( (params: any) => {
+    //   if(params) {
+    //     this.bookDetails = JSON.parse(params['BookDetails']);
+    //     this.fillbookForm(this.bookDetails);
+    //   }
+    //  }
+    // )
   }
   public initForm(): void {
     this.bookUpdateForm = this.fb.group({
@@ -96,11 +98,12 @@ fillbookForm(bookDetails : any) {
   this.bookUpdateForm.controls['Quantity'].setValue(bookDetails.quantity);
   this.bookUpdateForm.controls['mrp'].setValue(bookDetails.mrp);
   this.bookUpdateForm.controls['netprice'].setValue(bookDetails.net_price);
+  this.bookUpdateForm.controls['Quantity'].disable();
 }
 
   public openConfirmationDialog() {
     this.confirmationDialogService.confirm('Confirmation', "Are you sure you want to Update Book!",
-        "Okay", "Cancel","success", "secondary")
+        "Okay", "Cancel","primary", "secondary")
         .then((confirmed) => {
             console.log('User confirmed:', confirmed);
             if (confirmed) {

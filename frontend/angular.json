@@ -30,6 +30,12 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "pdfmake/build/pdfmake",
+              "moment",
+              "pdfmake/build/vfs_fonts"
+            ],
             "styles": [
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",

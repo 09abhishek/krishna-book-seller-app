@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogService } from './../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,6 +18,7 @@ export class AddUserComponent implements OnInit {
   submitLoader = false;
   userId: any;
   userDetails: any;
+  showPrivilage = false;
   userType = [
     {name: 'Super Admin', type: 'super_admin'},
     {name: 'Admin', type: 'admin'},
@@ -26,6 +27,7 @@ export class AddUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private userService: UserService,
     private confirmationDialogService: ConfirmationDialogService) { }
 
@@ -38,6 +40,7 @@ export class AddUserComponent implements OnInit {
         if (params && params.id) {
           this.userId = params.id;
           this.getUserDetails(this.userId);
+          this.showPrivilage = true;
         } else {
             this.setPasswordValidatiors();
         }
@@ -56,17 +59,20 @@ export class AddUserComponent implements OnInit {
     });
   }
   public initForm(): void {
+    const passwordPattern = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$";
     this.userForm = this.fb.group({
       username: ['', [Validators.required]],
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
       mobno: [''],
       privalageType: ['', [Validators.required]],
-      password: ['', [Validators.minLength(5)]],
+      password: ['', [Validators.maxLength(5)]],
       confirmPassword: ['']
-    }, {validator: this.mismatchingPasswords('password', 'confirmPassword')});
+    },
+    {validator: this.mismatchingPasswords('password', 'confirmPassword')}
+    );
   }
-  onSaveConfirmation() {
+  onSaveConfirmation() { console.log(this.userForm)
     if (!this.userForm.valid) {
       this.validateAllFormFields(this.userForm);
       return;
@@ -118,7 +124,7 @@ setPasswordValidatiors() {
 
   public openConfirmationDialog() {
     this.confirmationDialogService.confirm('Confirmation', "Are you sure you want to save User!",
-        "Okay", "Cancel","success", "secondary")
+        "Okay", "Cancel","primary", "secondary")
         .then((confirmed) => {
             console.log('User confirmed:', confirmed);
             if (confirmed) {
@@ -133,15 +139,23 @@ setPasswordValidatiors() {
     this.submitLoader = true;
     const formValue = this.userForm.getRawValue();
     const params: any = {};
-    // params.username = formValue.username;
-    // params.firstName = formValue.firstname;
-    // params.lastName = formValue.lastname;
-    // params.mobileNum = formValue.mobno;
-    // if (formValue.privalageType === 'super_admin') {
+    if (this.userId) {
+      params.id = this.userId;
+      params.password = formValue.password;
+      params.confirm_password = formValue.confirmPassword;
+      if (formValue.privalageType === 'super_admin') {
+       params.user_type = formValue.privalageType;
+      }
+    } else {
+      params.username = formValue.username;
+      params.firstName = formValue.firstname;
+      params.lastName = formValue.lastname;
+      if (formValue.mobno) {
+        params.mobileNum = formValue.mobno;
+      }
       params.userType = formValue.privalageType;
-    // }
-    params.password = formValue.password;
-
+      params.password = formValue.password;
+    }
     this.subscriptions['saveUser'] = this.userService.register(params).subscribe({
       next: (res) => {
         if(res) {
@@ -155,7 +169,7 @@ setPasswordValidatiors() {
   }
   reset() {
     if(this.userId) {
-
+      this.router.navigate(['/user/list']);
     } else {
       this.userForm.reset();
     }

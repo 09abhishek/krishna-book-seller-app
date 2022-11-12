@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.config");
 
-const Billing = db.define("Billing", {
+const Billing = db.define("billing", {
   id: {
     type: Sequelize.INTEGER(6).ZEROFILL,
     autoIncrement: true,

@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
 body {
-  font-family: 'Sintony', sans-serif;
+  font-family: 'Nunito', sans-serif;
   margin: 0;
   background-color: #ecf0f6;
 }
@@ -25,6 +27,9 @@ li {
 
 ul {
   list-style: none;
+}
+input, select, div, button {
+  border-radius: 10px !important;
 }
 
 a:focus,
@@ -74,7 +79,7 @@ img {
       }
       p {
         font-weight: bold;
-        font-size: 24px;
+        font-size: 30px;
         color: #5b6064;
         // font-family: serif;
         margin-left: 15px;
@@ -109,7 +114,7 @@ img {
           border-radius: 2px;
           box-shadow: 0 8px 17px 0 rgba(19, 18, 18, 0.09);
           background: white;
-          padding: 20px;
+          padding: 8px 3px;
           top: 50px;
           p {
               font-size: 13px;
@@ -117,12 +122,18 @@ img {
               color: #46489e;
               margin-bottom: 20px;
           }
+          i {
+            color: black;
+            padding-right: 10px;
+            font-size: 13px;
+          }
           a {
               font-size: 13px;
               font-weight: normal;
-              color: #919191;
+              color: black;
+              // color: #919191;
               width: 100%;
-              margin: 0 0 11px;
+              margin: 0 0 5px;
               display: block;
           }
       }
@@ -131,7 +142,7 @@ img {
 }
 .sidebar-menu {
   width: 200px !important;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.16) !important;
   box-shadow: 0 0.5rem 1rem 0 rgb(44 51 73 / 10%);
 
   // fixed side bar adding below style
@@ -231,10 +242,10 @@ img {
         // width: 100% !important;
         // border-radius: 0px !important;
         &:focus {
-          background-color: white !important;
+          background-color: inherit;
         }
         &:hover {
-          background-color: white !important;
+          background-color: inherit;
         }
       }
       .collapse {
@@ -279,5 +290,12 @@ img {
   h5 {
     font-weight: bold;
     color: #6c757d;
+  }
+}
+.content-details {
+  background: #e3e7e9 !important;
+    margin-bottom: 2% !important;
+  h5 {
+    color: #383737 !important
   }
 }

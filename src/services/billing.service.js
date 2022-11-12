@@ -9,61 +9,62 @@ const { handleResponse } = require("../utils/responseHandler");
 const ApiError = require("../utils/ApiError");
 
 const manageStockQuantity = async (billParticulars, stdClass, operation) => {
-  const dbCount = {};
+  const finalCalculatedQty = [];
   const bookIds = billParticulars.map((book) => book.id);
   const where = operation === "REDUCE" ? { class: stdClass, id: { [Op.in]: bookIds } } : { id: { [Op.in]: bookIds } };
 
-  const booksListFromDB = await Book.findAll({ attributes: ["id", "quantity", "name", "class"], where, raw: true });
+  console.log("where condition :", where);
 
-  // console.log("booksListFromDB", booksListFromDB);
+  const originalCountFromDB = await Book.findAll({ attributes: ["id", "quantity"], where, raw: true });
 
-  booksListFromDB.forEach((item) => {
-    dbCount[item.id] = item.quantity;
+  if (bookIds.length !== originalCountFromDB.length) {
+    if (operation === "REDUCE") {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        `Class and book's class not matching or Book ids in new bill particulars invalid for : ${operation} Operation`
+      );
+    } else {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        `One or more Book ids in old bill particulars are invalid or doesn't exist in db for : ${operation} Operation`
+      );
+    }
+  }
+  const modifyingBookQtyList = billParticulars.map((book) => {
+    return {
+      id: book.id,
+      quantity: book.quantity,
+    };
   });
 
-  // console.log("dbCount Before any reduce or add operation obj", dbCount);
+  console.log(`Books List count to ${operation} in db  : `, modifyingBookQtyList);
+  console.log(`Books Original count in db  :  `, originalCountFromDB);
 
-  if (operation === "REDUCE") {
-    const checkIfAllBookIdsValid = await Book.findAll({ where: { id: bookIds, class: stdClass } });
-
-    if (bookIds.length !== checkIfAllBookIdsValid.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "Books ids not matching with class or invalid in new bill particulars");
+  for (let i = 0; i < modifyingBookQtyList.length; i++) {
+    if (operation === "REDUCE" || operation === "ROLL_BACK") {
+      // minus
+      finalCalculatedQty.push({
+        id: modifyingBookQtyList[i].id,
+        quantity: originalCountFromDB[i].quantity - modifyingBookQtyList[i].quantity,
+      });
+      if (originalCountFromDB[i].quantity - modifyingBookQtyList[i].quantity < 0) {
+        throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough books quantity in stock to process the request");
+      }
+    } else {
+      // plus
+      finalCalculatedQty.push({
+        id: modifyingBookQtyList[i].id,
+        quantity: originalCountFromDB[i].quantity + modifyingBookQtyList[i].quantity,
+      });
     }
-    let reduceCount = 0;
-
-    billParticulars.forEach((item) => {
-      if (dbCount[item.id] !== undefined) {
-        reduceCount = dbCount[item.id] - item.quantity;
-
-        if (reduceCount === 0 || reduceCount < 0) {
-          throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough books quantity in stock to process the request");
-        }
-        dbCount[item.id] = reduceCount;
-      }
-    });
-  } else {
-    let updatedCount = 0;
-    billParticulars.forEach((item) => {
-      if (dbCount[item.id] !== undefined) {
-        updatedCount = dbCount[item.id] + item.quantity;
-        dbCount[item.id] = updatedCount;
-      }
-    });
   }
-  // console.log("final DB count to be updated in to DB", dbCount);
+  console.log("final Calculated Qty : ", finalCalculatedQty);
 
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < Object.entries(dbCount).length; i++) {
-    const [key, value] = Object.entries(dbCount)[i];
-    // eslint-disable-next-line no-await-in-loop
-    await Book.update({ quantity: value }, { where: { id: key } });
-  }
-
-  // const promises = billParticulars.map((item) => {
-  //   return Book.update({ quantity: item.quantity }, { where: { id: item.id } });
-  // });
+  const promises = finalCalculatedQty.map((item) => {
+    return Book.update({ quantity: item.quantity }, { where: { id: item.id } });
+  });
   // resolve all the db calls at once
-  //  await Promise.all(promises);
+  await Promise.all(promises);
 };
 
 const saveInvoice = async (body) => {
@@ -221,25 +222,35 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
   if (!foundItem) {
     throw new ApiError(httpStatus.NOT_FOUND, "Invoice not found");
   }
-  if (billingData.previousBillParticulars) {
-  //  await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
+  if (billingData.hasOwnProperty("previousBillParticulars")) {
+    console.log("-------- Adding books in DB --------");
+    await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
+    console.log("--------Done Adding books in DB --------");
   }
-  await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
-
-  await Billing.update(
-    {
-      name: billingData.name,
-      class: billingData.stdClass,
-      father_name: billingData.fatherName,
-      address: billingData.address,
-      mobile_num: billingData.mobileNum,
-      bill_data: billingData.billParticulars,
-      total_amount: billingData.totalAmount,
-    },
-    { where: { invoice_id: invoiceId } }
-  );
-
-  return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
+  try {
+    console.log("-------- Reducing books from DB -------");
+    await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
+    console.log("-------- Done Reducing books in DB -------");
+    await Billing.update(
+      {
+        name: billingData.name,
+        class: billingData.stdClass,
+        father_name: billingData.fatherName,
+        address: billingData.address,
+        mobile_num: billingData.mobileNum,
+        bill_data: billingData.billParticulars,
+        total_amount: billingData.totalAmount,
+      },
+      { where: { invoice_id: invoiceId } }
+    );
+    return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
+  } catch (err) {
+    console.log("-------- Error occurred in invoice -------");
+    console.log("--------Rolling back Data -------");
+    await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ROLL_BACK");
+    console.log("--------Done Rolling back Data -------");
+    throw new ApiError(httpStatus.BAD_REQUEST, "Not enough books quantity in stock to process the request");
+  }
 };
 
 module.exports = {

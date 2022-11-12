@@ -12,9 +12,9 @@
         <img src="assets/img/user.jpg">
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="javascript:void(0)">View Profile </a></li>
-        <li><a class="dropdown-item" href="javascript:void(0)">change password</a></li>
-        <li (click)="logout()"><a class="dropdown-item" href="javascript:void(0)">Logout</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0)" routerLink="/user/profile"><i class="pi pi-user"></i>View Profile </a></li>
+        <li><a class="dropdown-item" href="javascript:void(0)" (click)="changepassword()"><i class="pi pi-key"></i>Change Password</a></li>
+        <li (click)="logout()"><a class="dropdown-item" href="javascript:void(0)"><i class="pi pi-power-off"></i>Logout</a></li>
       </ul>
     </div>
   </div>

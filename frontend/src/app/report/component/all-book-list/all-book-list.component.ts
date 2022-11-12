@@ -41,7 +41,11 @@ export class AllBookListComponent implements OnInit {
     this.reportService.getBookReportList().subscribe({
       next: (res) => {
         this.loading = false;
+        this.allBookList = [];
         if (res && res.data) {
+          res.data.forEach((item: any) => {
+            item['class_no'] = this.getClassNo(this.classList, item.class);
+          })
           this.allBookList = res.data;
           res.data.forEach((item: any, index: number) => {
               const params: any = {};
@@ -70,7 +74,7 @@ export class AllBookListComponent implements OnInit {
         val = item.value;
       }
     });
-    return val;
+    return +val;
   }
 
   buildTableBody(data: any, headerColums: any, bodyColumns: any) {

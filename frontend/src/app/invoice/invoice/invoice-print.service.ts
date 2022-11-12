@@ -19,13 +19,11 @@ export class InvoicePrintService {
         // }
       });
       body.push(dataRow);
-      console.log('body', body);
     });
     return body;
   }
 
   leftTable(data: any, headerColums: any, bodyColumns: any): any {
-    console.log('buildTableBody', this.buildTableBody(data, headerColums, bodyColumns))
     return {
       style: "tableDataDetails",
       table: {
@@ -54,8 +52,7 @@ export class InvoicePrintService {
     });
     return val;
   }
-  generatePdf(printData: any, billDate: any, classList: any) {
-    console.log('generatePdf');
+  generatePdf(printData: any, billDate: any, classList: any, type: string) {
     let docDefinition: any = {
       pageOrientation: 'landscape',
       content: [
@@ -108,9 +105,9 @@ export class InvoicePrintService {
                   // api row find with key text
                   [
                     { text: 'name', bold: true },
-                    { text: 'rate', bold: true },
-                    { text: 'qty', bold: true },
-                    { text: 'price', bold: true },
+                    { text: 'mrp', bold: true },
+                    { text: 'quantity', bold: true },
+                    { text: 'amount', bold: true },
                   ],
                 ),
                 this.rightTable(
@@ -125,9 +122,9 @@ export class InvoicePrintService {
                   // api row find with key text
                   [
                     { text: 'name', bold: true },
-                    { text: 'rate', bold: true },
-                    { text: 'qty', bold: true },
-                    { text: 'price', bold: true },
+                    { text: 'mrp', bold: true },
+                    { text: 'quantity', bold: true },
+                    { text: 'amount', bold: true },
                   ],
                 ),
               ],
@@ -196,6 +193,11 @@ export class InvoicePrintService {
       },
     };
     const win = window.open('', '_blank');
-    pdfMake.createPdf(docDefinition).print({}, win);
+    if (type == 'print') {
+      pdfMake.createPdf(docDefinition).print({}, win);
+    } else {
+      const fileName = 'invoice ' + moment(billDate).format('DD-MMM-YYYY') + '.pdf';
+      pdfMake.createPdf(docDefinition).download(fileName);
+    }
   }
 }

@@ -107,7 +107,7 @@ export class ManageQuantityComponent implements OnInit {
         params.publicationId = item.publicationId;
         params.mrp = item.mrp;
         params.netPrice = item.netPrice;
-        params.quantity = item.quantity;
+        params.quantity = item.quantity ? Number(item.quantity) : '';
         updatedBookDetails.push(params);
       });
     }
@@ -115,6 +115,9 @@ export class ManageQuantityComponent implements OnInit {
       next: (res) => {
         if(res) {
           this.submitLoader = false;
+          const parms: any = {};
+          parms.value = this.classId;
+          this.onChangeClass(parms);
         }
       },
       error: (error)=> {
@@ -123,10 +126,13 @@ export class ManageQuantityComponent implements OnInit {
     });
   }
   cancel() {
-      this.selectedBook = [];
-      this.selectedBookIds = [];
-      this.classId = '';
-      this.bookList = [];
+    const parms: any = {};
+    parms.value = this.classId;
+    this.onChangeClass(parms);
+      // this.selectedBook = [];
+      // this.selectedBookIds = [];
+      // this.classId = '';
+      // this.bookList = [];
   }
 
   ngOnDestroy(): void {

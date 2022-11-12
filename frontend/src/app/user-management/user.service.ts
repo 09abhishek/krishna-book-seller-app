@@ -11,7 +11,13 @@ export class UserService {
   private URL: string = environment.baseUrl;
 
   register(params: any): Observable<any> {
-    return this.http.post(this.URL + '/auth/register', params);
+    const updateObj = JSON.parse(JSON.stringify(params));
+    if (params.id) {
+      delete updateObj['id'];
+      return this.http.put(this.URL + `/billing/invoice/${params.id}`, updateObj);
+    } else {
+      return this.http.post(this.URL + '/auth/register', params);
+    }
   }
   getUserList(): Observable<any> {
     return this.http.get(this.URL + '/users');

@@ -58,14 +58,14 @@
   <div class="intial-loader" *ngIf="intialPageLoader && classId">
     <app-loader></app-loader>
   </div>
-  <!-- <div class="intial-loader" *ngIf="intialPageLoader && classId">
-    <p style="margin-top: 20px;">No Data found</p>
-  </div> -->
+  <div class="error-msg flex">
+    <p class="error-data">{{errorMessage}}</p>
+  </div>
   <ng-container *ngIf="classId && bookList.length > 0">
   <div class="report-print flex" *ngIf="classId && showPrint">
   <!-- <div class="report-print flex"> -->
     <!-- <button class="btn-reset button" type="button" (click)="generatePdf()">Reset</button> -->
-    <button class="btn-search button" type="button" (click)="generatePdf()">Print</button>
+    <button class="btn-search button" type="button" (click)="generatePdf('print')">Print</button>
   </div>
   <div class="table-responsive inv-adm-tbl">
     <table class="table">
@@ -85,16 +85,18 @@
             </td>
         </tr>
           <ng-container *ngFor="let invoicelist of bookList">
+            <ng-container *ngIf="invoicelist.quantity !== 0">
             <tr>
                 <td>
                   <input id="{{invoicelist.id}}"  [checked]="selectedBookIds.indexOf(invoicelist.id) > -1"  class="checkbox-custom" type="checkbox" (change)="onSelectBook($event, invoicelist)">
                   <label for="{{invoicelist.id}}" class="checkbox-custom-label"></label>
                 </td>
                 <td>{{invoicelist.name}}</td>
-                <td class="text-center"><input type="text" disabled [(ngModel)]="invoicelist.price" appOnlyNumber numericType="decimal"></td>
-                <td class="text-center"><input type="text" appOnlyNumber numericType="number" [(ngModel)]="invoicelist.qty"></td>
-                <td class="text-center"><input type="text" disabled  [value]="calculatedAmount(invoicelist.price, invoicelist.qty, invoicelist)" [(ngModel)]="invoicelist.amount" appOnlyNumber numericType="decimal"></td>
+                <td class="text-center"><input type="text" disabled [(ngModel)]="invoicelist.mrp" appOnlyNumber numericType="decimal"></td>
+                <td class="text-center"><input type="text" appOnlyNumber numericType="number" [(ngModel)]="invoicelist.quantity"></td>
+                <td class="text-center"><input type="text" disabled  [value]="calculatedAmount(invoicelist.mrp, invoicelist.quantity, invoicelist)" [(ngModel)]="invoicelist.amount" appOnlyNumber numericType="decimal"></td>
             </tr>
+           </ng-container>
           </ng-container>
         </tbody>
     </table>

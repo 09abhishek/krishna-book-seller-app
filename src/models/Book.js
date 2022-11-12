@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.config");
 
-const Token = db.define("Book", {
+const Token = db.define("book", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,

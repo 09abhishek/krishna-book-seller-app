@@ -5,6 +5,7 @@ const { authService, tokenService } = require("../services");
 const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
 const logger = require("../config/logger");
+const { handleResponse } = require("../utils/responseHandler");
 
 const register = catchAsync(async (req, res) => {
   const { username } = req.body;
@@ -23,7 +24,7 @@ const register = catchAsync(async (req, res) => {
       mobile_num: req.body.mobileNum ? req.body.mobileNum : null,
       user_type: req.body.userType,
     });
-    res.status(httpStatus.CREATED).send({ msg: "User Registered Successfully" });
+    res.status(httpStatus.CREATED).send(handleResponse("success", [], "User Registered Successfully", "userRegistered"));
   }
   // const user = await userService.createUser(req.body);
   // const tokens = await tokenService.generateAuthTokens(user);
