@@ -41,7 +41,7 @@ const manageStockQuantity = async (billParticulars, stdClass, operation) => {
   console.log(`Books Original count in db  :  `, originalCountFromDB);
 
   for (let i = 0; i < modifyingBookQtyList.length; i++) {
-    if (operation === "REDUCE") {
+    if (operation === "REDUCE" || operation === "ROLL_BACK") {
       // minus
       finalCalculatedQty.push({
         id: modifyingBookQtyList[i].id,
@@ -227,25 +227,29 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ADD");
     console.log("--------Done Adding books in DB --------");
   }
-
-  console.log("-------- Removing books from DB -------");
-  await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
-  console.log("-------- Done Removing books from DB -------");
-
-  await Billing.update(
-    {
-      name: billingData.name,
-      class: billingData.stdClass,
-      father_name: billingData.fatherName,
-      address: billingData.address,
-      mobile_num: billingData.mobileNum,
-      bill_data: billingData.billParticulars,
-      total_amount: billingData.totalAmount,
-    },
-    { where: { invoice_id: invoiceId } }
-  );
-
-  return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
+  try {
+    console.log("-------- Reducing books from DB -------");
+    await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
+    await Billing.update(
+      {
+        name: billingData.name,
+        class: billingData.stdClass,
+        father_name: billingData.fatherName,
+        address: billingData.address,
+        mobile_num: billingData.mobileNum,
+        bill_data: billingData.billParticulars,
+        total_amount: billingData.totalAmount,
+      },
+      { where: { invoice_id: invoiceId } }
+    );
+    return handleResponse("success", [], "Invoice Updated Successfully", "invoiceUpdated");
+  } catch (err) {
+    console.log("-------- Error occurred in invoice -------");
+    console.log("--------Rolling back Data -------");
+    await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ROLL_BACK");
+    console.log("--------Done Rolling back Data -------");
+    throw new ApiError(httpStatus.NOT_FOUND, "Not enough books quantity in stock to process the request");
+  }
 };
 
 module.exports = {
