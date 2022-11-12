@@ -11,13 +11,13 @@
         <div class="search-details flex">
           <div class="search-bill-No flex">
             <label for="bill">Bill No</label>
-            <input id="bill" type="text" [disabled]="(fromDateValue !== '' || toDateValue !== '')" [(ngModel)]="billId">
+            <input id="bill" type="text" [(ngModel)]="billId">
           </div>
           <div class="content-btn flex">
-            <button class="btn-search button" type="button" [disabled]="(fromDateValue || toDateValue) || !billId" (click)="onSearchByBillid();billLoading = false;dateLoading = true">Search
-              <span [hidden]="!loading && !dateLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <button class="btn-search button" type="button" [disabled]="!billId" (click)="onSearchByBillid();billLoading = true;">Search
+              <span [hidden]="(!billLoading)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
-            <button class="btn-reset button" type="button" (click)="resetSearch()">Reset
+            <button class="btn-reset button" type="button" (click)="resetSearch('bill')">Reset
               <!-- <span [hidden]="!loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
             </button>
           </div>
@@ -29,16 +29,16 @@
           <div class="search-date-field flex">
             <div class="search-date">
               <label for="From">From</label>
-              <p-calendar inputId="From" [(ngModel)]="fromDateValue" [disabled]="billId !== '' "  [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+              <p-calendar inputId="From" [(ngModel)]="fromDateValue"  [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
             </div>
             <div class="search-date serch-left">
               <label for="To">To</label>
-              <p-calendar inputId="To" [(ngModel)]="toDateValue" [disabled]="billId !== '' " [minDate]="fromDateValue" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+              <p-calendar inputId="To" [(ngModel)]="toDateValue"  [minDate]="fromDateValue" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
             </div>
          </div>
           <div class="content-btn flex">
-            <button class="btn-search button" type="button" [disabled]="((fromDateValue == '' || toDateValue == '') || billId !== '')" (click)="onSearch();billLoading = true;dateLoading = false">Search
-              <span [hidden]="!loading && !billLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <button class="btn-search button" type="button" [disabled]="((fromDateValue == '' || toDateValue == ''))" (click)="onSearch();dateLoading = true;billId = ''">Search
+              <span [hidden]="(!dateLoading)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
             <button class="btn-reset button" type="button" (click)="resetSearch()">Reset
               <!-- <span [hidden]="!loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
@@ -66,7 +66,7 @@
                     <th pSortableColumn="father_name">Father Name <p-sortIcon field="father_name"></p-sortIcon></th>
                     <th pSortableColumn="class">Class<p-sortIcon field="class"></p-sortIcon></th>
                     <th pSortableColumn="total_amount">Total Amount (&#x20B9;)<p-sortIcon field="total_amount"></p-sortIcon></th>
-                    <th style="width: 8rem">Action</th>
+                    <th style="width: 10rem; text-align: center;">Action</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
@@ -91,8 +91,10 @@
                         <span class="p-column-title">total_amount</span>
                         {{customer.total_amount}}
                     </td>
-                    <td style="width: 8rem">
+                    <td style="width: 10rem">
                         <button pButton type="button" class="secondary" icon="pi pi-pencil" (click)="updateInvoice(customer.invoice_id)"></button>
+                        <button pButton type="button" class="secondary" icon="pi pi-download" (click)="generatePdf('download', customer)"></button>
+                        <button pButton type="button" class="secondary" icon="pi pi-print" (click)="generatePdf('print', customer)"></button>
                         <button pButton type="button" class="danger" icon="pi pi-trash" (click)="openConfirmationDialog(customer.invoice_id)"></button>
                     </td>
                 </tr>

@@ -47,21 +47,26 @@
                 <tr>
                     <th pSortableColumn="name">S.No <p-sortIcon field="S_no"></p-sortIcon></th>
                     <th pSortableColumn="date">Fee Date<p-sortIcon field="date"></p-sortIcon></th>
+                    <th pSortableColumn="no_of_bills">Total Invoice<p-sortIcon field="no_of_bills"></p-sortIcon></th>
                     <th pSortableColumn="amount">Total Collection (&#x20B9;) <p-sortIcon field="amount"></p-sortIcon></th>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
                 <tr class="p-selectable-row">
-                    <td style="width: 33%">
+                    <td style="width: 25%">
                         <span class="p-column-title">S_no</span>
                          {{rowIndex + 1}}
                     </td>
-                    <td style="width: 33%">
+                    <td style="width: 25%">
                         <span class="p-column-title">date</span>
                         <span class="image-text">{{getBillDate(customer.date)}}</span>
                     </td>
-                    <td style="width: 33%">
+                    <td style="width: 25%">
+                        <span class="p-column-title">Total Invoice</span>
+                        <span class="image-text">{{customer.no_of_bills}}</span>
+                    </td>
+                    <td style="width: 25%">
                         <span class="p-column-title">amount</span>
                         <span class="image-text">{{customer.total_amount}}</span>
                     </td>

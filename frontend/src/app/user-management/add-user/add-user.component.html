@@ -28,10 +28,10 @@
       </div>
       <div class="input-field">
         <label>Password</label>
-        <input type="password" formControlName="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+        <input type="password" formControlName="password" minlength="5">
           <div *ngIf="(userForm.controls['password'].hasError('required') && userForm.controls['password'].touched)" class="error-data position-error">Password is required</div>
-          <!-- <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('minlength')"> Password Should Contain Minimum 8 Characters </div> -->
-          <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('pattern')"> Password Should Contain Minimum 8 Characters at least 1 letter and 1 number</div>
+          <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('minlength')"> Password Should Contain Minimum 5 Characters </div>
+          <!-- <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('pattern')"> Password Should Contain Minimum 8 Characters at least 1 letter and 1 number</div> -->
       </div>
       <div class="input-field">
         <label>Confirm Password</label>
