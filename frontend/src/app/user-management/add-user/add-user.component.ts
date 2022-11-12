@@ -66,7 +66,7 @@ export class AddUserComponent implements OnInit {
       lastname: ['', [Validators.required]],
       mobno: [''],
       privalageType: ['', [Validators.required]],
-      password: ['', [Validators.pattern(passwordPattern)]],
+      password: ['', [Validators.maxLength(5)]],
       confirmPassword: ['']
     },
     {validator: this.mismatchingPasswords('password', 'confirmPassword')}

@@ -345,8 +345,8 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       }
     });
   }
-  generatePdf() {
-    this.invoicePrintService.generatePdf(this.printData, this.billingDate, this.classList);
+  generatePdf(type: string) {console.log('this.printData', this.printData);
+    this.invoicePrintService.generatePdf(this.printData, this.billingDate, this.classList, type);
   }
 
   ngOnDestroy(): void {

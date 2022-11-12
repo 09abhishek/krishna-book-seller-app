@@ -1,10 +1,12 @@
 import { ReportService } from './../../report.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
+import { Subscription } from 'rxjs';
+import {each, groupBy} from 'lodash';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -13,7 +15,7 @@ import * as XLSX from 'xlsx';
   templateUrl: './collection-report.component.html',
   styleUrls: ['./collection-report.component.scss']
 })
-export class CollectionReportComponent implements OnInit {
+export class CollectionReportComponent implements OnInit, OnDestroy {
   loading = false;
   collectionReport: any = [];
   todayDate: any = new Date();
@@ -22,6 +24,7 @@ export class CollectionReportComponent implements OnInit {
   totalAmount: any;
   intialPageLoaded = false;
   printExportData: any = [];
+  private subscriptions: any = {};
   classList: any = [
     {id: 1, name: 'infant', value: 'infant'},
     {id: 2, name: 'nursery', value: 'nursery'},
@@ -51,10 +54,11 @@ export class CollectionReportComponent implements OnInit {
     const params: any = {};
     params.from = moment(this.fromDateValue).format('YYYY-MM-DD');
     params.to = moment(this.toDateValue).format('YYYY-MM-DD');
-    this.reportService.getcollectionReport(params).subscribe({
+    this.subscriptions['getCollection'] = this.reportService.getcollectionReport(params).subscribe({
       next: (res) => {
         this.intialPageLoaded = true;
-        if (res && res.data) {
+        this.collectionReport = [];
+        if (res && res.data && res.data.invoice) {
           this.collectionReport = res.data.invoice;
           this.totalAmount = res.data.sum_of_totals;
           res.data.invoice.forEach((item: any) => {
@@ -198,4 +202,10 @@ export class CollectionReportComponent implements OnInit {
 
       XLSX.writeFile(wb, fileName);
     }
+  ngOnDestroy(): void {
+    // this.sub.unsubscribe();
+    each(this.subscriptions, (subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
+  }
 }
