@@ -230,6 +230,7 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
   try {
     console.log("-------- Reducing books from DB -------");
     await manageStockQuantity(billingData.billParticulars, billingData.stdClass, "REDUCE");
+    console.log("-------- Done Reducing books in DB -------");
     await Billing.update(
       {
         name: billingData.name,
@@ -248,7 +249,7 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     console.log("--------Rolling back Data -------");
     await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ROLL_BACK");
     console.log("--------Done Rolling back Data -------");
-    throw new ApiError(httpStatus.NOT_FOUND, "Not enough books quantity in stock to process the request");
+    throw new ApiError(httpStatus.BAD_REQUEST, "Not enough books quantity in stock to process the request");
   }
 };
 
