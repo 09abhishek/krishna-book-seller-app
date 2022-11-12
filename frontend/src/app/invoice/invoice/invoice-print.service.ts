@@ -52,7 +52,7 @@ export class InvoicePrintService {
     });
     return val;
   }
-  generatePdf(printData: any, billDate: any, classList: any) {
+  generatePdf(printData: any, billDate: any, classList: any, type: string) {
     let docDefinition: any = {
       pageOrientation: 'landscape',
       content: [
@@ -193,6 +193,11 @@ export class InvoicePrintService {
       },
     };
     const win = window.open('', '_blank');
-    pdfMake.createPdf(docDefinition).print({}, win);
+    if (type == 'print') {
+      pdfMake.createPdf(docDefinition).print({}, win);
+    } else {
+      const fileName = 'invoice ' + moment(billDate).format('DD-MMM-YYYY') + '.pdf';
+      pdfMake.createPdf(docDefinition).download(fileName);
+    }
   }
 }

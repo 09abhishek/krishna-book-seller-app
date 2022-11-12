@@ -65,8 +65,10 @@
   <div class="report-print flex" *ngIf="classId && showPrint">
   <!-- <div class="report-print flex"> -->
     <!-- <button class="btn-reset button" type="button" (click)="generatePdf()">Reset</button> -->
-    <p class="error-data">{{errorMessage}}</p>
-    <button class="btn-search button" type="button" (click)="generatePdf()">Print</button>
+    <div class="error-msg">
+      <p class="error-data">{{errorMessage}}</p>
+    </div>
+    <button class="btn-search button" type="button" (click)="generatePdf('print')">Print</button>
   </div>
   <div class="table-responsive inv-adm-tbl">
     <table class="table">

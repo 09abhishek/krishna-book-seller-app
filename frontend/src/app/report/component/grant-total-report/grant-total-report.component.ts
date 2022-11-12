@@ -1,9 +1,11 @@
 import { ReportService } from './../../report.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import {each, groupBy} from 'lodash';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -12,7 +14,7 @@ import * as moment from 'moment';
   templateUrl: './grant-total-report.component.html',
   styleUrls: ['./grant-total-report.component.scss']
 })
-export class GrantTotalReportComponent implements OnInit {
+export class GrantTotalReportComponent implements OnInit, OnDestroy {
   loading = false;
   intialPageLoaded = false;
   tableData: any = [];
@@ -23,6 +25,7 @@ export class GrantTotalReportComponent implements OnInit {
   grandCollectionReport: any = [];
   printExportData: any = [];
   totalAmount: any;
+  private subscriptions: any = {};
 
   constructor(public reportService: ReportService) { }
 
@@ -34,10 +37,11 @@ export class GrantTotalReportComponent implements OnInit {
     const params: any = {};
     params.from = moment(this.fromDateValue).format('YYYY-MM-DD');
     params.to = moment(this.toDateValue).format('YYYY-MM-DD');
-    this.reportService.getGrandcollectionReport(params).subscribe({
+    this.subscriptions['getgrandCollection'] = this.reportService.getGrandcollectionReport(params).subscribe({
       next: (res) => {
         this.intialPageLoaded = true;
-        if (res && res.data) {
+        this.grandCollectionReport = [];
+        if (res && res.data && res.data.invoice) {
           this.grandCollectionReport = res.data.invoice;
           this.totalAmount = res.data.sum_of_totals;
           res.data.invoice.forEach((item: any, index: number) => {
@@ -45,6 +49,7 @@ export class GrantTotalReportComponent implements OnInit {
               params.sno = (index + 1);
               params.feedate = item.date ? moment(item.date).format('DD-MMM-YYYY') : '';
               params.name = item.name;
+              params.noOfBills = item.no_of_bills;
               params.totalamount = item.total_amount;
               this.printExportData.push(params);
           });
@@ -83,7 +88,7 @@ export class GrantTotalReportComponent implements OnInit {
     return {
       table: {
         headerRows: 1,
-        widths: [ '*', '*', '*'],
+        widths: [ '*', '*', '*', '*'],
         body: this.buildTableBody(data, headerColums, bodyColumns),
       },
     };
@@ -112,12 +117,14 @@ export class GrantTotalReportComponent implements OnInit {
           [
             { text: 'S.No', bold: true },
             { text: 'Fee-Date', bold: true },
+            { text: 'Total Invoice', bold: true },
             { text: 'Total (₹)', bold: true },
           ],
           // api row find with key text
           [
             { text: 'sno', bold: true },
             { text: 'feedate', bold: true },
+            { text: 'noOfBills', bold: true },
             { text: 'totalamount', bold: true },
           ],
         ),
@@ -164,8 +171,8 @@ export class GrantTotalReportComponent implements OnInit {
 
   exportExcel() {
       const fileName = 'grandcollectionreport ' + moment(this.todayDate).format('DD-MMM-YYYY') + '.xlsx';
-      this.printExportData.push({sno: '', feedate: '', totalamount: 'Total Amout (₹): ' + this.totalAmount})
-      let Heading = [['S.No', 'Fee-Date','Total (₹)']];
+      this.printExportData.push({sno: '', feedate: '', noOfBills: '', totalamount: 'Total Amout (₹): ' + this.totalAmount})
+      let Heading = [['S.No', 'Fee-Date', 'Total Invoice' ,'Total (₹)']];
       //Had to create a new workbook and then add the header
       const wb = XLSX.utils.book_new();
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
@@ -177,6 +184,12 @@ export class GrantTotalReportComponent implements OnInit {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
       XLSX.writeFile(wb, fileName);
+    }
+    ngOnDestroy(): void {
+      // this.sub.unsubscribe();
+      each(this.subscriptions, (subscription: Subscription) => {
+        subscription.unsubscribe();
+      });
     }
 
 }
