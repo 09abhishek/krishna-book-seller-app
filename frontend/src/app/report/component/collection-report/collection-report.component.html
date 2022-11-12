@@ -37,9 +37,13 @@
         <!-- <button class="btn-pdf button" type="button" (click)="generatePdf('download')">Download Pdf</button> -->
         <!-- <button class="btn-print button" type="button" (click)="generatePdf('print')">Print</button> -->
         <ng-container *ngIf="collectionReport.length > 0">
-          <button class="btn-excel button" type="button" (click)="exportExcel()"><img src="assets/img/file-excel.svg"></button>
+          <!-- <button class="btn-excel button" type="button" (click)="exportExcel()"><img src="assets/img/file-excel.svg"></button>
           <button class="btn-pdf button" type="button" (click)="generatePdf('download')"><img src="assets/img/file-pdf.svg"></button>
-          <button class="btn-print button" type="button" (click)="generatePdf('print')"><img src="assets/img/file-print.svg"></button>
+          <button class="btn-print button" type="button" (click)="generatePdf('print')"><img src="assets/img/file-print.svg"></button> -->
+
+          <button class="btn-excel button" type="button" (click)="exportExcel()"><i class="pi pi-file-excel"></i></button>
+          <button class="btn-pdf button" type="button" (click)="generatePdf('download')"><i class="pi pi-file-pdf"></i></button>
+          <button class="btn-print button" type="button" (click)="generatePdf('print')"><i class="pi pi-print"></i></button>
         </ng-container>
       </div>
     </div>
