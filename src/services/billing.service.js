@@ -50,7 +50,7 @@ const manageStockQuantity = async (billParticulars, stdClass, operation) => {
       }
     });
   }
-  console.log("final DB count to be updated in to DB", dbCount);
+  console.log("final DB count to be updated in to DB : ", operation, dbCount);
 
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < Object.entries(dbCount).length; i++) {

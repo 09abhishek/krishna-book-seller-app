@@ -77,7 +77,6 @@ const deleteBookById = async (bookIds) => {
 };
 
 const updateBookDetails = async (body) => {
-  const result = [];
   const bookIds = body.map((book) => book.id);
   const response = await Book.findAll({
     where: {
@@ -89,26 +88,35 @@ const updateBookDetails = async (body) => {
     throw new ApiError(httpStatus.BAD_REQUEST, "Book Ids entries doesnt exists or invalid");
   }
 
-  const fields = ["id", "name", "stdClass", "publicationId", "mrp", "netPrice", "quantity"];
+  const fields = {
+    id: "id",
+    name: "name",
+    stdClass: "class",
+    publicationId: "publication_id",
+    mrp: "mrp",
+    netPrice: "net_price",
+    quantity: "quantity",
+  };
 
   const bookList = body.map((book) => {
     const obj = {};
-    fields.forEach((field) => {
-      if (book[field]) {
-        obj[field] = book[field];
-      }
-    });
+    for (const item in book) {
+      obj[fields[item]] = book[item];
+    }
     return obj;
   });
-  // eslint-disable-next-line no-restricted-syntax
-  for await (const book of bookList) {
-    const res = await Book.update(book, { where: { id: book.id } });
-    result.push(res[0]);
+
+  const promises = bookList.map((book) => {
+    console.log("update Payload : ", book);
+    return Book.update(book, { where: { id: book.id } });
+  });
+  // resolve all the db calls at once
+  await Promise.all(promises);
+
+  if (!promises || !promises.length) {
+    return handleResponse("error", null, "Something went wrong", "updateBook");
   }
-  if (!result || !result.length) {
-    return handleResponse("error", result, "Something went wrong", "updateBook");
-  }
-  return handleResponse("success", [result], "Data Updated successfully", "updateBookSuccess");
+  return handleResponse("success", [], "Data Updated successfully", "updateBookSuccess");
 };
 
 module.exports = {

@@ -88,6 +88,7 @@ const updatePublication = async (body) => {
   });
   // eslint-disable-next-line no-restricted-syntax
   for await (const pub of publicationList) {
+    console.log("pub  ---> ",pub);
     const res = await Publication.update(pub, { where: { id: pub.id } });
     result.push(res[0]);
   }

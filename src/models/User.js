@@ -26,6 +26,10 @@ const User = db.define("User", {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  mobile_num: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
   user_type: {
     type: Sequelize.STRING,
     allowNull: false,
