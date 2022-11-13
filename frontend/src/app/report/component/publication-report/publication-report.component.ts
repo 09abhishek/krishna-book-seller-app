@@ -23,6 +23,7 @@ export class PublicationReportComponent implements OnInit {
     this.reportService.getPublicationReportList().subscribe({
       next: (res) => {
         this.loading = false;
+        this.printExportData = [];
         if (res && res.data) {
           this.publicationList = res.data;
           res.data.forEach((item: any, index: number) => {

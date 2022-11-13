@@ -10,13 +10,13 @@
     box-sizing: border-box;
     display: block;
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     margin: 6px;
     border: 10px solid #a4a3e9;
-    border-radius: 50%;
+    border-radius: 50% !important;
     animation: lds-ring 1.2s cubic-bezier(0.5, 1, 0.5, 1) infinite;
-    border-color: #a4a3e9 transparent transparent transparent;
+    border-color: #007bff transparent transparent transparent;
 }
 
 .lds-ring div {
@@ -28,7 +28,7 @@
     margin: 6px;
     //border: 3px solid rgba(223, 71, 57, .93);
     border: 3px solid white;
-    border-radius: 50%;
+    border-radius: 50% !important;
     animation: lds-ring 1.2s cubic-bezier(0.5, 1, 0.5, 1) infinite;
     //border-color: rgba(223, 71, 57, .93) transparent transparent transparent;
     border-color: white transparent transparent transparent;

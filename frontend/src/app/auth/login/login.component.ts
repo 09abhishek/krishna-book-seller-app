@@ -1,8 +1,10 @@
+import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AppService } from './../../app.serveice';
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { MessageService } from 'primeng/api';
+import {each} from 'lodash';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   public loginForm: any;
   submitLoader = false;
+  private subscriptions: any = {};
   constructor(
     private appService: AppService,
     private fb: FormBuilder,
@@ -34,7 +37,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.submitLoader = true;
-    this.appService.doLogin(this.loginForm.value).subscribe({
+    this.subscriptions['saveLogin'] = this.appService.doLogin(this.loginForm.value).subscribe({
       next: (res) => {
           if (res && res.user && res.user.id) {
             this.messageService.add({severity:'success', summary: 'Success', detail: "Login SuccessFully"});
@@ -63,6 +66,11 @@ export class LoginComponent implements OnInit {
       }
     });
 
+  }
+  ngOnDestroy(): void {
+    each(this.subscriptions, (subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
 }

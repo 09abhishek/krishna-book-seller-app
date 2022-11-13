@@ -26,9 +26,9 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
   printExportData: any = [];
   private subscriptions: any = {};
   classList: any = [
-    {id: 1, name: 'infant', value: 'infant'},
-    {id: 2, name: 'nursery', value: 'nursery'},
-    {id: 3, name: 'prep', value: 'prep'},
+    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 2, name: 'nursery', value: 'Nursery'},
+    {id: 3, name: 'prep', value: 'Prep'},
     {id: 4, name: 'one', value: '1'},
     {id: 5, name: 'two', value: '2'},
     {id: 6, name: 'three', value: '3'},
@@ -58,6 +58,7 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.intialPageLoaded = true;
         this.collectionReport = [];
+        this.printExportData = [];
         if (res && res.data && res.data.invoice) {
           res.data.invoice.forEach((item: any) => {
             item['class_no'] = this.getClassNo(this.classList, item.class)
