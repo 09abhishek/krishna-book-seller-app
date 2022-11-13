@@ -80,7 +80,9 @@ export class RequestInterceptor implements HttpInterceptor {
    * @ param responseBody
    */
   private handleUnauthorized(responseBody: any): void {
-    this.showNotificationError('', 'unauthorized');
+    console.log(responseBody)
+    const msg = responseBody?.error?.message ? responseBody?.error?.message : 'Session Expired';
+    this.showNotificationError('', msg);
     this.router.navigate(['/login']);
     localStorage.clear();
   }

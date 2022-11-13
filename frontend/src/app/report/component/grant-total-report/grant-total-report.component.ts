@@ -41,13 +41,15 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.intialPageLoaded = true;
         this.grandCollectionReport = [];
+        this.printExportData = [];
         if (res && res.data && res.data.invoice) {
           this.grandCollectionReport = res.data.invoice;
           this.totalAmount = res.data.sum_of_totals;
           res.data.invoice.forEach((item: any, index: number) => {
+              const dateValue = item.date.split('-');
               const params: any = {};
               params.sno = (index + 1);
-              params.feedate = item.date ? moment(item.date).format('DD-MMM-YYYY') : '';
+              params.feedate = item.date ? `${dateValue[0]}-${this.getMonthName(dateValue[1])}-${dateValue[2]} ` : '';
               params.name = item.name;
               params.noOfBills = item.no_of_bills;
               params.totalamount = item.total_amount;
@@ -64,6 +66,11 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
         this.intialPageLoaded = true;
       }
     });
+  }
+  getMonthName(monthNumber: any) {
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+    return date.toLocaleString('en-US', { month: 'short' });
   }
   getBillDate(date: any) {
     return moment(date).format('DD-MM-YYYY');

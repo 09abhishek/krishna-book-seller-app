@@ -25,9 +25,9 @@ export class SearchInvoiceComponent implements OnInit {
   billingDate: any = new Date();
   invoiceDetails: any;
   classList: any = [
-    {id: 1, name: 'infant', value: 'infant'},
-    {id: 2, name: 'nursery', value: 'nursery'},
-    {id: 3, name: 'prep', value: 'prep'},
+    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 2, name: 'nursery', value: 'Nursery'},
+    {id: 3, name: 'prep', value: 'Prep'},
     {id: 4, name: 'one', value: '1'},
     {id: 5, name: 'two', value: '2'},
     {id: 6, name: 'three', value: '3'},
