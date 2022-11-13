@@ -18,9 +18,9 @@ export class AllBookListComponent implements OnInit {
   todayDate: any = new Date();
   loading = true;
   classList: any = [
-    {id: 1, name: 'infant', value: 'infant'},
-    {id: 2, name: 'nursery', value: 'nursery'},
-    {id: 3, name: 'prep', value: 'prep'},
+    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 2, name: 'nursery', value: 'Nursery'},
+    {id: 3, name: 'prep', value: 'Prep'},
     {id: 4, name: 'one', value: '1'},
     {id: 5, name: 'two', value: '2'},
     {id: 6, name: 'three', value: '3'},
@@ -50,7 +50,7 @@ export class AllBookListComponent implements OnInit {
           res.data.forEach((item: any, index: number) => {
               const params: any = {};
               params.name = item.name;
-              params.Publication = item.Publication.name;
+              params.Publication = item.publication.name;
               params.quantity = item.quantity;
               params.net_price = item.net_price;
               params.mrp = item.mrp;
