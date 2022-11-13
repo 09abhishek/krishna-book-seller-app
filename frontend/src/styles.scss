@@ -219,6 +219,10 @@ img {
   height: 100px;
   background-color: #ccc;
   border-radius: 3px;
+  &.modal-sm {
+    max-width: 27%;
+    width: 27%;
+  }
 
   button.close:focus, button.close {
     border: none;
@@ -229,6 +233,7 @@ img {
     background-color: #007bff;
     border-color: #007bff;
   }
+
 }
 .app-menu {
   padding: 1rem 0 !important;

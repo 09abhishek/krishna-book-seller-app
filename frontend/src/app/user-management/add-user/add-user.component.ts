@@ -72,7 +72,7 @@ export class AddUserComponent implements OnInit {
     {validator: this.mismatchingPasswords('password', 'confirmPassword')}
     );
   }
-  onSaveConfirmation() { console.log(this.userForm)
+  onSaveConfirmation() {
     if (!this.userForm.valid) {
       this.validateAllFormFields(this.userForm);
       return;
