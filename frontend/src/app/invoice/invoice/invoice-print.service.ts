@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {each, groupBy} from 'lodash';
+import {each, groupBy, upperCase} from 'lodash';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -63,7 +63,7 @@ export class InvoicePrintService {
             widths: [ '*', '*'],
             body: [
               [{ text: 'Krishna Book Seller', style: 'topheader', alignment: 'center'}, { text: 'Krishna Book Seller', style: 'topheader', alignment: 'center'}],
-              [{ text: 'Mithanpura, Muzaffarpur-842002', style: 'address',alignment: 'center'},  { text: 'Mithanpura, Muzaffarpur-842002', style: 'address', alignment: 'center'}],
+              [{ text: 'Ramana, Muzaffarpur-842002', style: 'address',alignment: 'center'},  { text: 'Ramana, Muzaffarpur-842002', style: 'address', alignment: 'center'}],
               [{ text: 'Receipt', bold: true, style: 'invoice',alignment: 'center' }, { text: 'Receipt', bold: true, style: 'invoice', alignment: 'center' }],
               [{
                 style: "basicdetails",
@@ -189,6 +189,9 @@ export class InvoicePrintService {
         spnoteDetailsright: {
           fontSize: 7,
           margin: [15, 0, 0, 0],
+        },
+        upperCase: {
+          TextDecoder: upperCase,
         }
       },
     };

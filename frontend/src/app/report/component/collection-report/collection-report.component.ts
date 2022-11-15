@@ -129,10 +129,19 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
     let docDefinition: any = {
       content: [
         { text: 'Krishna Book Seller', style: 'topheader' },
-        { text: 'Mithanpura, Muzaffarpur-842002', style: 'address' },
+        { text: 'Ramana, Muzaffarpur-842002', style: 'address' },
         { text: 'Daily Collection Report', bold: true, style: 'invoice' },
-        { text: 'Date:  ' + (this.fromDateValue ? moment(this.fromDateValue).format('DD-MMM-YYYY') : '') + ' To  '+ (this.toDateValue ? moment(this.toDateValue).format('DD-MMM-YYYY') : '') , bold: true, style: 'peroidDate', alignment: 'left'},
-
+        // { text: 'Date:  ' + (this.fromDateValue ? moment(this.fromDateValue).format('DD-MMM-YYYY') : '') + ' To  '+ (this.toDateValue ? moment(this.toDateValue).format('DD-MMM-YYYY') : '') , bold: true, style: 'peroidDate', alignment: 'left'},
+        {
+          style: "dateTable",
+          layout: 'noBorders',
+          table: {
+            widths: [ '*', '*'],
+            body: [
+              [{ text: `Date ${(this.fromDateValue ? moment(this.fromDateValue).format('DD-MMM-YYYY') : '')} To ${(this.toDateValue ? moment(this.toDateValue).format('DD-MMM-YYYY') : '')}`}, {text: `Print Date ${(moment(this.todayDate).format('DD-MMM-YYYY'))}`, alignment: 'right' }],
+            ]
+          },
+        },
         this.table(
           this.printExportData,
           //first row
@@ -176,6 +185,9 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
           bold: true,
         },
         peroidDate: {
+          margin: [0, 5, 0, 8],
+        },
+        dateTable: {
           margin: [0, 5, 0, 8],
         }
       },

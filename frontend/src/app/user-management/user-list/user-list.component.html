@@ -14,11 +14,13 @@
                 <tr>
                     <th pSortableColumn="sno">S No <p-sortIcon field="sno"></p-sortIcon></th>
                     <th pSortableColumn="username">User Name <p-sortIcon field="username"></p-sortIcon></th>
-                    <th pSortableColumn="firstname">First Name<p-sortIcon field="firstname"></p-sortIcon></th>
-                    <th pSortableColumn="lastname">Last Name <p-sortIcon field="lastname"></p-sortIcon></th>
+                    <th pSortableColumn="first_name">First Name<p-sortIcon field="first_name"></p-sortIcon></th>
+                    <th pSortableColumn="last_name">Last Name <p-sortIcon field="last_name"></p-sortIcon></th>
                     <th pSortableColumn="mobileno">Mobile No. <p-sortIcon field="mobileno"></p-sortIcon></th>
-                    <th pSortableColumn="privilegetype">Privilege Type<p-sortIcon field="privilegetype"></p-sortIcon></th>
-                    <th style="width: 8rem">Action</th>
+                    <th pSortableColumn="user_type">Privilege Type<p-sortIcon field="user_type"></p-sortIcon></th>
+                    <ng-container *ngIf="userDetails && userDetails.user_type && userDetails.user_type == 'super_admin'">
+                      <th style="width: 8rem">Action</th>
+                    </ng-container>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
@@ -47,15 +49,17 @@
                         <span class="p-column-title">Privilege Type</span>
                         {{getuserType(customer.user_type)}}
                     </td>
-                    <td style="width: 8rem">
-                      <button pButton type="button" class="secondary" icon="pi pi-user-edit" (click)="updateUser(customer.id)"></button>
-                      <button pButton type="button" class="danger" icon="pi pi-trash" (click)="openConfirmationDialog(customer.id)"></button>
-                  </td>
+                    <ng-container *ngIf="userDetails && userDetails.user_type && userDetails.user_type == 'super_admin'">
+                      <td style="width: 8rem">
+                        <button pButton type="button" class="secondary" icon="pi pi-user-edit" (click)="updateUser(customer.id)"></button>
+                        <button pButton type="button" class="danger" icon="pi pi-trash" (click)="openConfirmationDialog(customer.id)"></button>
+                    </td>
+                  </ng-container>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">No customers found.</td>
+                    <td colspan="8">No Data found.</td>
                 </tr>
             </ng-template>
         </p-table>
