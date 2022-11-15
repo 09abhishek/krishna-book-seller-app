@@ -22,11 +22,11 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="name">Book Name<p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="Publication.name">Publication<p-sortIcon field="Publication.name"></p-sortIcon></th>
+                    <th pSortableColumn="publication.name">Publication<p-sortIcon field="publication.name"></p-sortIcon></th>
                     <th pSortableColumn="quantity">Quantity<p-sortIcon field="quantity"></p-sortIcon></th>
                     <th pSortableColumn="net_price">Net Price<p-sortIcon field="net_price"></p-sortIcon></th>
                     <th pSortableColumn="mrp">MRP<p-sortIcon field="mrp"></p-sortIcon></th>
-                    <th pSortableColumn="class">Class<p-sortIcon field="class"></p-sortIcon></th>
+                    <th pSortableColumn="class_no">Class<p-sortIcon field="class_no"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
@@ -60,7 +60,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8" style="text-align:center;">No List found.</td>
+                    <td colspan="8" style="text-align:center;">No Data found.</td>
                 </tr>
             </ng-template>
         </p-table>

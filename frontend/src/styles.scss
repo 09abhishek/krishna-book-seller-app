@@ -75,7 +75,8 @@ img {
         width: 50px;
         border-radius: 50%;
         height: 50px;
-        margin-top: -2px
+        margin-top: -2px;
+        cursor: pointer;
       }
       p {
         font-weight: bold;
@@ -83,6 +84,7 @@ img {
         color: #5b6064;
         // font-family: serif;
         margin-left: 15px;
+        cursor: pointer;
       }
     }
 

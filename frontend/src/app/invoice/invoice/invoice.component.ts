@@ -38,7 +38,8 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   selectedBookListByid: any = {};
   previousClassId: any;
   previousSelectedBook: any = [];
-  errorMessage: any = ''
+  errorMessage: any = '';
+  saveInvoiceId: any;
   classList: any = [
     {id: 1, name: 'infant', value: 'Infant'},
     {id: 2, name: 'nursery', value: 'Nursery'},
@@ -155,7 +156,10 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     this.printData = {};
     this.subscriptions['saveInvoice'] = this.invoiceService.saveInvoice(params).subscribe({
       next: (res) => {
-        if(res) {
+        if(res && res.message) {
+          if(!this.invoiceId && res.data && res.data[0]) {
+            this.saveInvoiceId = res.data[0];
+          }
           // this.messageService.add({severity:'success', summary: 'Success', detail: "SuccessFully Created"});
           this.submitLoader = false;
           this.showPrint = true;
@@ -349,10 +353,46 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       }
     });
   }
-  generatePdf(type: string) {console.log('this.printData', this.printData);
-    this.invoicePrintService.generatePdf(this.printData, this.billingDate, this.classList, type);
+  printInvoice(type: string) {
+    // this.invoicePrintService.generatePdf(this.printData, this.billingDate, this.classList, type);
+    const id = this.invoiceId ? this.invoiceId : this.saveInvoiceId;
+    this.generatePdf(type, id);
   }
-
+  generatePdf(type: string, id: any) {
+    this.invoiceDetails = [];
+    let printData: any = {};
+    this.invoiceService.getInvoiceDetails(id)
+    .subscribe((item: any) => {
+      if(item && item.data && item.data.length > 0) {
+        this.invoiceDetails = item.data[0];
+        const params: any = {};
+        const billParticulars: any = [];
+        params.name = (this.invoiceDetails && this.invoiceDetails.name) ? this.invoiceDetails.name.toUpperCase() : '';
+        params.stdClass = this.invoiceDetails.class;
+        params.fatherName = (this.invoiceDetails && this.invoiceDetails.father_name) ? this.invoiceDetails.father_name.toUpperCase() : '';
+        params.totalAmount = this.invoiceDetails.total_amount;
+        params.address = (this.invoiceDetails && this.invoiceDetails.address) ? this.invoiceDetails.address.toUpperCase() : '';
+        params.bill_no = this.invoiceDetails.id;
+        params.mobileNum = this.invoiceDetails.mobile_num ? this.invoiceDetails.mobile_num : '';
+        this.invoiceDetails?.bill_data.forEach((item: any) => {
+          const param: any = {};
+          param.id = item.id;
+          param.name = item.name;
+          param.amount = item.amount;
+          param.class = item.class;
+          param.year = item.year;
+          param.publication_id = item.publication_id;
+          param.mrp = item.mrp;
+          param.net_price = item.net_price;
+          param.quantity = item.quantity ? Number(item.quantity) : '';
+          billParticulars.push(param);
+        });
+        params.billParticulars = billParticulars;
+        printData = params;
+        this.invoicePrintService.generatePdf(printData, this.billingDate, this.classList, type);
+      }
+    });
+}
   ngOnDestroy(): void {
     // this.sub.unsubscribe();
     each(this.subscriptions, (subscription: Subscription) => {

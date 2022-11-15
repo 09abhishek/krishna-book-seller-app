@@ -24,7 +24,7 @@
       </div>
       <div class="input-field">
         <label>Mobile No.</label>
-        <input type="text" formControlName="mobno" appOnlyNumber numericType="number">
+        <input type="text"  maxlength="10" formControlName="mobno" appOnlyNumber numericType="number">
       </div>
       <div class="input-field">
         <label>Password</label>
@@ -39,7 +39,7 @@
           <div *ngIf="(userForm.controls['confirmPassword'].hasError('required') && userForm.controls['confirmPassword'].touched)" class="error-data position-error">Confirm Password is required</div>
           <div class="error-data position-error" *ngIf="userForm.controls['confirmPassword'].touched && userForm.hasError('mismatchedPasswords')"> Password Does Not Match </div>
       </div>
-      <ng-container *ngIf="(!showPrivilage || userDetails.user_type == 'super_admin')">
+      <ng-container *ngIf="(!showPrivilage || (userDetails && userDetails.user_type == 'super_admin'))">
         <div class="input-field">
           <label>privilege Type</label>
           <select class="search select-drop" id="mysel" formControlName="privalageType">

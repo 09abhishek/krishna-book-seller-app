@@ -3,15 +3,21 @@
     <div class="content-details flex">
       <!-- <h4>Krishna Book Seller</h4> -->
       <!-- <p>Mithanpura, Muzaffarpur-842002</p> -->
-      <h5>SEARCH INVOICE</h5>
+      <h5>Search Invoice</h5>
     </div>
     <div class="search-content flex">
       <div class="search-Bill">
-        <p class="search-by">Search By Bill No.</p>
+        <div class="search-bill-type flex">
+          <p class="search-by">Search By Bill No.</p>
+          <select class="search select-drop" id="mysel" [(ngModel)]="searchBy" (change)="billId = ''">
+            <option value= "billid">Search By Bill No</option>
+            <option value= "seachBy">Search By Name</option>
+        </select>
+        </div>
         <div class="search-details flex">
           <div class="search-bill-No flex">
-            <label for="bill">Bill No</label>
-            <input id="bill" type="text" [(ngModel)]="billId">
+            <label for="bill">{{(searchBy == 'billid') ? 'Bill No' : 'Name'}}</label>
+            <input id="bill" type= "{{(searchBy == 'billid') ? 'number' : 'text'}}" [(ngModel)]="billId">
           </div>
           <div class="content-btn flex">
             <button class="btn-search button" type="button" [disabled]="!billId" (click)="onSearchByBillid();billLoading = true;">Search
@@ -64,7 +70,7 @@
                     <th pSortableColumn="id">Bill No <p-sortIcon field="id"></p-sortIcon></th>
                     <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
                     <th pSortableColumn="father_name">Father Name <p-sortIcon field="father_name"></p-sortIcon></th>
-                    <th pSortableColumn="class">Class<p-sortIcon field="class"></p-sortIcon></th>
+                    <th pSortableColumn="class_no">Class<p-sortIcon field="class_no"></p-sortIcon></th>
                     <th pSortableColumn="total_amount">Total Amount (&#x20B9;)<p-sortIcon field="total_amount"></p-sortIcon></th>
                     <th style="width: 10rem; text-align: center;">Action</th>
                 </tr>
@@ -101,7 +107,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8" style="text-align:center;">No List found.</td>
+                    <td colspan="8" style="text-align:center;">No Data found.</td>
                 </tr>
             </ng-template>
         </p-table>

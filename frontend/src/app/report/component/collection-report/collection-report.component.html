@@ -55,8 +55,8 @@
                     <th pSortableColumn="id">Bill No <p-sortIcon field="id"></p-sortIcon></th>
                     <th pSortableColumn="date">Bill-Date<p-sortIcon field="date"></p-sortIcon></th>
                     <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="class">Class <p-sortIcon field="class"></p-sortIcon></th>
-                    <th pSortableColumn="amount">Amount (&#x20B9;) <p-sortIcon field="amount"></p-sortIcon></th>
+                    <th pSortableColumn="class_no">Class <p-sortIcon field="class_no"></p-sortIcon></th>
+                    <th pSortableColumn="total_amount">Amount (&#x20B9;) <p-sortIcon field="total_amount"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
@@ -85,7 +85,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8" style="text-align:center;">No List found.</td>
+                    <td colspan="8" style="text-align:center;">No Data found.</td>
                 </tr>
             </ng-template>
         </p-table>

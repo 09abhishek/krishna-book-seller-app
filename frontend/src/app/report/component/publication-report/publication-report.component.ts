@@ -72,7 +72,7 @@ export class PublicationReportComponent implements OnInit {
     let docDefinition: any = {
       content: [
         { text: 'Krishna Book Seller', style: 'topheader' },
-        { text: 'Mithanpura, Muzaffarpur-842002', style: 'address' },
+        { text: 'Ramana, Muzaffarpur-842002', style: 'address' },
         { text: 'Book Stock Report', bold: true, style: 'invoice' },
         { text: 'Print Date:  ' + (this.todayDate ? moment(this.todayDate).format('DD-MM-YYYY') : '') , bold: true, style: 'peroidDate', alignment: 'left'},
         this.table(

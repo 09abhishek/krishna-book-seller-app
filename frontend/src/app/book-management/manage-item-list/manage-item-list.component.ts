@@ -61,6 +61,9 @@ onChangeClass(event: any) {
         this.intialPageLoaded = true;
         this.loading = false;
         if (res && res.data) {
+          res.data.forEach((item: any) => {
+            item['class_no'] = this.getClassNo(this.classList, item.class);
+          })
           this.bookStoreList = res.data;
         }
       },
