@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "root",
-    "password": "rootpassword",
+    "password": "root@Mysql1234",
     "database": "krishna_book_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "rootpassword",
+    "password": "root@Mysql1234",
     "database": "krishna_book_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "rootpassword",
+    "password": "root@Mysql1234",
     "database": "krishna_book_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
