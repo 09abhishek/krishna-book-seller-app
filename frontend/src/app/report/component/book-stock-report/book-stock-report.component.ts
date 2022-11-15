@@ -54,6 +54,9 @@ onChangeClass(event: any) {
         this.printExportData = [];
         this.bookStoreList = [];
         if (res && res.data) {
+          res.data.forEach((item: any) => {
+            item['class_no'] = this.getClassNo(this.classList, item.class);
+          })
           this.bookStoreList = res.data;
           res.data.forEach((item: any) => {
               const params: any = {};
@@ -115,9 +118,9 @@ generatePdf(type: string) {
   let docDefinition: any = {
     content: [
       { text: 'Krishna Book Seller', style: 'topheader' },
-      { text: 'Mithanpura, Muzaffarpur-842002', style: 'address' },
+      { text: 'Ramana, Muzaffarpur-842002', style: 'address' },
       { text: 'Book Stock Report', bold: true, style: 'invoice' },
-
+      { text: 'Print Date:  ' + (this.todayDate ? moment(this.todayDate).format('DD-MM-YYYY') : '') , bold: true, style: 'peroidDate', alignment: 'left'},
 
       this.table(
         this.printExportData,

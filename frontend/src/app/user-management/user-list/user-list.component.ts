@@ -12,6 +12,7 @@ export class UserListComponent implements OnInit {
 
   userList: any = [];
   loading = false;
+  userDetails = localStorage.getItem('userDetails')  ? JSON.parse(localStorage.getItem('userDetails')!) : '';
   userType = [
     {name: 'Admin', type: 'admin'},
     {name: 'Super Admin', type: 'super_admin'},

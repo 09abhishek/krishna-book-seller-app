@@ -45,7 +45,7 @@ export class AllBookListComponent implements OnInit {
         if (res && res.data) {
           res.data.forEach((item: any) => {
             item['class_no'] = this.getClassNo(this.classList, item.class);
-          })
+          });
           this.allBookList = res.data;
           res.data.forEach((item: any, index: number) => {
               const params: any = {};
@@ -106,9 +106,9 @@ export class AllBookListComponent implements OnInit {
     let docDefinition: any = {
       content: [
         { text: 'Krishna Book Seller', style: 'topheader' },
-        { text: 'Mithanpura, Muzaffarpur-842002', style: 'address' },
+        { text: 'Ramana, Muzaffarpur-842002', style: 'address' },
         { text: 'Book Report', bold: true, style: 'invoice' },
-
+        { text: 'Print Date:  ' + (this.todayDate ? moment(this.todayDate).format('DD-MM-YYYY') : '') , bold: true, style: 'peroidDate', alignment: 'left'},
 
         this.table(
           this.printExportData,

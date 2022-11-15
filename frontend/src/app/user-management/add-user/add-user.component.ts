@@ -160,6 +160,7 @@ setPasswordValidatiors() {
       next: (res) => {
         if(res) {
           this.submitLoader = false;
+          this.userForm.reset();
         }
       },
       error: (error)=> {

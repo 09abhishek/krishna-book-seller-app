@@ -24,6 +24,7 @@ export class SearchInvoiceComponent implements OnInit {
   billId: any = '';
   billingDate: any = new Date();
   invoiceDetails: any;
+  searchBy: any = 'billid';
   classList: any = [
     {id: 1, name: 'infant', value: 'Infant'},
     {id: 2, name: 'nursery', value: 'Nursery'},
@@ -175,11 +176,12 @@ export class SearchInvoiceComponent implements OnInit {
           this.invoiceDetails = item.data[0];
           const params: any = {};
           const billParticulars: any = [];
-          params.name = this.invoiceDetails.name;
+          params.name = (this.invoiceDetails && this.invoiceDetails.name) ? this.invoiceDetails.name.toUpperCase() : '';
           params.stdClass = this.invoiceDetails.class;
-          params.fatherName = this.invoiceDetails.father_name;
+          params.fatherName = (this.invoiceDetails && this.invoiceDetails.father_name) ? this.invoiceDetails.father_name.toUpperCase() : '';
           params.totalAmount = this.invoiceDetails.total_amount;
-          params.address = this.invoiceDetails.address;
+          params.address = (this.invoiceDetails && this.invoiceDetails.address) ? this.invoiceDetails.address.toUpperCase() : '';
+          params.bill_no = this.invoiceDetails.id;
           params.mobileNum = this.invoiceDetails.mobile_num ? this.invoiceDetails.mobile_num : '';
           this.invoiceDetails?.bill_data.forEach((item: any) => {
             const param: any = {};

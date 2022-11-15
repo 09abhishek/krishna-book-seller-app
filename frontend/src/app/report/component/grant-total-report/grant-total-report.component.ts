@@ -106,7 +106,7 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
     let docDefinition: any = {
       content: [
         { text: 'Krishna Book Seller', style: 'topheader' },
-        { text: 'Mithanpura, Muzaffarpur-842002', style: 'address' },
+        { text: 'Ramana, Muzaffarpur-842002', style: 'address' },
         { text: 'Grand Total Report', bold: true, style: 'invoice' },
         {
           style: "dateTable",

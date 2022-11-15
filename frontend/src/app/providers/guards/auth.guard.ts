@@ -19,12 +19,20 @@ export class AuthGuard implements CanActivate {
   // CheckLogin
   checkLogin(url: string): Promise<boolean> | boolean {
     let currentUser: any;
+    let userDetails: any;
       currentUser = localStorage.getItem('token');
+      userDetails = localStorage.getItem('userDetails')  ? JSON.parse(localStorage.getItem('userDetails')!) : '';
     if (currentUser) {
       if (url === '/login') {
         // Navigate to the login page with extras
         this.router.navigate(['/dashboard']);
         return false;
+      }
+      if (userDetails && userDetails.user_type !== 'super_admin') {
+        if (url === '/user/add' || url.includes('/user/update')) {
+          this.router.navigate(['/user/list']);
+          return false;
+        }
       }
       return true;
     } else {

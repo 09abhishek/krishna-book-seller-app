@@ -84,10 +84,22 @@
       }
       .search-Bill {
         width: 40%;
-        .search-by {
-          // padding: 12px 0;
-          color: black;
-          font-weight: 600;
+        .search-bill-type {
+          .search-by {
+            // padding: 12px 0;
+            color: black;
+            font-weight: 600;
+          }
+          select {
+            outline: 0;
+            width: 245px;
+            height: 40px;
+            line-height: 15px;
+            background: #fff;
+            border: solid 1px #dfdfdf;
+            border-radius: 2px;
+            margin-left: 6%
+          }
         }
         .search-details {
           flex-direction: column;
@@ -185,4 +197,15 @@
       }
   }
   }
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

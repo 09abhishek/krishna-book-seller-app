@@ -9,6 +9,7 @@ import {MenuItem} from 'primeng/api';
 export class SideBarComponent implements OnInit {
 
   items: MenuItem[] = [];
+  userDetails = localStorage.getItem('userDetails')  ? JSON.parse(localStorage.getItem('userDetails')!) : '';
 
   constructor() { }
 
