@@ -186,12 +186,21 @@ const grandTotalReport = async (fromDate, toDate) => {
   return handleResponse("error", response, "No Data found", "errorGrandTotal");
 };
 
-const findInvoiceByNumber = async (billNum) => {
+const findInvoice = async (searchParam, searchBy) => {
+  let condition = {
+    id: { [Op.like]: `%${searchParam}%` },
+    year: moment().year(),
+  };
+
+  if (searchBy === "name") {
+    condition = {
+      name: sequelize.where(sequelize.fn("LOWER", sequelize.col("name")), "LIKE", `%${searchParam}%`),
+      year: moment().year(),
+    };
+  }
   const data = await Billing.findAll(
     {
-      where: {
-        id: { [Op.like]: `%${billNum}%` },
-      },
+      where: condition,
     },
     { raw: true }
   );
@@ -215,6 +224,32 @@ const fetchBillNumber = async () => {
     data = String(1).padStart(6, "0");
   }
   return handleResponse("success", [data], "Result Fetched Successfully");
+};
+
+const getCountByClass = async () => {
+  let totalInvoice = 0;
+  const list = await Billing.findAll(
+    {
+      attributes: [[sequelize.fn("count", sequelize.col("id")), "no_of_bills"], "class"],
+      where: {
+        year: moment().year(),
+      },
+      group: ["class"],
+    },
+    { raw: true }
+  );
+
+  if (list.length) {
+    list.forEach((data) => {
+      totalInvoice += data.dataValues.no_of_bills;
+    });
+    const response = {
+      invoice: list,
+      sum_of_totals: totalInvoice,
+    };
+    return handleResponse("success", response, "Data Fetched Successfully", "fetchedInvoice");
+  }
+  return handleResponse("error", [], "No Data found", "fetchedInvoice");
 };
 
 const updateInvoiceDetails = async (invoiceId, billingData) => {
@@ -259,7 +294,8 @@ module.exports = {
   grandTotalReport,
   deleteInvoice,
   findInvoiceByDate,
-  findInvoiceByNumber,
+  findInvoice,
+  getCountByClass,
   updateInvoiceDetails,
   fetchBillNumber,
 };

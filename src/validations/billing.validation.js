@@ -52,6 +52,11 @@ const searchInvoiceByNum = {
     billNum: Joi.string().required(),
   }),
 };
+const searchInvoiceByName = {
+  params: Joi.object().keys({
+    name: Joi.string().required().min(3),
+  }),
+};
 
 const getBillNum = {};
 
@@ -95,6 +100,7 @@ module.exports = {
   deleteInvoice,
   searchInvoice,
   searchInvoiceByNum,
+  searchInvoiceByName,
   updateInvoice,
   getBillNum,
 };
