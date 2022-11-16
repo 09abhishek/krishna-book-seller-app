@@ -71,6 +71,11 @@ const getLastBillNumber = catchAsync(async (req, res) => {
   return res.status(httpStatus.OK).send(response);
 });
 
+const getLatestInvoice = catchAsync(async (req, res) => {
+  const response = await billingService.fetchLatestInvoices();
+  return res.status(httpStatus.OK).send(response);
+});
+
 module.exports = {
   submitInvoice,
   getInvoiceById,
@@ -79,6 +84,7 @@ module.exports = {
   getGrandTotalReport,
   searchInvoiceByNum,
   searchInvoiceByName,
+  getLatestInvoice,
   billCounts,
   updateInvoice,
   getLastBillNumber,

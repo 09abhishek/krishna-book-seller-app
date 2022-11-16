@@ -226,6 +226,25 @@ const fetchBillNumber = async () => {
   return handleResponse("success", [data], "Result Fetched Successfully");
 };
 
+const fetchLatestInvoices = async () => {
+  console.log('here');
+  const data = await Billing.findAll({
+    attributes: ["id", "name", "total_amount"],
+    order: [["id", "DESC"]],
+    limit: 10,
+  });
+
+  if (data.length) {
+    const invoiceList = data.map((invoice) => {
+      const invoiceNum = String(invoice.id).padStart(6, "0");
+      return { ...invoice.dataValues, id: invoiceNum };
+    });
+    return handleResponse("success", invoiceList, "Result Fetched Successfully");
+  } else {
+    return handleResponse("error", [], "No Data found", "fetchedInvoice");
+  }
+};
+
 const getCountByClass = async () => {
   let totalInvoice = 0;
   const list = await Billing.findAll(
@@ -294,6 +313,7 @@ module.exports = {
   grandTotalReport,
   deleteInvoice,
   findInvoiceByDate,
+  fetchLatestInvoices,
   findInvoice,
   getCountByClass,
   updateInvoiceDetails,

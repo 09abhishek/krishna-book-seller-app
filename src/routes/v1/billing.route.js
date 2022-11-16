@@ -35,6 +35,7 @@ router.get(
 );
 
 router.get("/count", billingController.billCounts);
+router.get("/latest-invoices", billingController.getLatestInvoice);
 
 router.put(
   "/invoice/:invoiceId",
