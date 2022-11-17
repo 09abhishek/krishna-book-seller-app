@@ -48,7 +48,10 @@ const manageStockQuantity = async (billParticulars, stdClass, operation) => {
         quantity: originalCountFromDB[i].quantity - modifyingBookQtyList[i].quantity,
       });
       if (originalCountFromDB[i].quantity - modifyingBookQtyList[i].quantity < 0) {
-        throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough books quantity in stock to process the request");
+        throw new ApiError(
+          httpStatus.UNPROCESSABLE_ENTITY,
+          "Not enough books quantity in stock. Please check/update the books qty for the given class."
+        );
       }
     } else {
       // plus
@@ -81,6 +84,7 @@ const saveInvoice = async (body) => {
     mobile_num: body.mobileNum ? body.mobileNum : null,
     bill_data: body.billParticulars,
     total_amount: body.totalAmount,
+    total_net_amount: body.totalNetAmount,
     year: moment().year(),
     date: moment().toISOString(),
   });
@@ -123,7 +127,8 @@ const deleteInvoice = async (invoiceIds) => {
 };
 
 const findInvoiceByDate = async (fromDate, toDate) => {
-  let sumOfTotal = 0.0;
+  let sumOfTotalMrp = 0.0;
+  let sumOfNetAmt = 0.0;
   const list = await Billing.findAll(
     {
       where: {
@@ -138,13 +143,15 @@ const findInvoiceByDate = async (fromDate, toDate) => {
 
   const invoiceList = list.map((invoice) => {
     const invoiceNum = String(invoice.id).padStart(6, "0");
-    sumOfTotal += parseFloat(invoice.total_amount);
+    sumOfTotalMrp += parseFloat(invoice.total_amount);
+    sumOfNetAmt += parseFloat(invoice.total_net_amount);
     return { ...invoice.dataValues, id: invoiceNum };
   });
 
   const response = {
     invoice: invoiceList,
-    sum_of_totals: sumOfTotal.toFixed(2),
+    sum_of_totals: sumOfTotalMrp.toFixed(2),
+    sum_of_net_amount: sumOfNetAmt.toFixed(2),
   };
   if (invoiceList.length) {
     return handleResponse("success", response, "Data Fetched Successfully", "fetchedInvoice");
@@ -294,6 +301,7 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
         mobile_num: billingData.mobileNum,
         bill_data: billingData.billParticulars,
         total_amount: billingData.totalAmount,
+        total_net_amount: billingData.totalNetAmount,
       },
       { where: { invoice_id: invoiceId } }
     );
@@ -303,7 +311,10 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     console.log("--------Rolling back Data -------");
     await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ROLL_BACK");
     console.log("--------Done Rolling back Data -------");
-    throw new ApiError(httpStatus.BAD_REQUEST, "Not enough books quantity in stock to process the request");
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Not enough books quantity in stock. Please check/update the books qty for the given class."
+    );
   }
 };
 

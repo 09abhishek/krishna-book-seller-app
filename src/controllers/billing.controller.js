@@ -10,6 +10,7 @@ const submitInvoice = catchAsync(async (req, res) => {
     "fatherName",
     "billParticulars",
     "totalAmount",
+    "totalNetAmount",
     "address",
     "mobileNum",
     "year",

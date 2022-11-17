@@ -57,6 +57,10 @@ const Billing = db.define("billing", {
     type: Sequelize.DECIMAL(8, 2),
     allowNull: false,
   },
+  total_net_amount: {
+    type: Sequelize.DECIMAL(8, 2),
+    allowNull: false,
+  },
   year: {
     type: Sequelize.STRING,
     allowNull: false,
