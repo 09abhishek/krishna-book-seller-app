@@ -275,7 +275,7 @@ const getCountByClass = async () => {
     };
     return handleResponse("success", response, "Data Fetched Successfully", "fetchedInvoice");
   }
-  return handleResponse("error", [], "No Data found", "fetchedInvoice");
+  return handleResponse("error", null, "No Data found", "fetchedInvoice");
 };
 
 const updateInvoiceDetails = async (invoiceId, billingData) => {
