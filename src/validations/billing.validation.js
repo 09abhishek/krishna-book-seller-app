@@ -28,7 +28,8 @@ const addInvoice = {
     ),
     fatherName: Joi.string(),
     billParticulars: Joi.array().required(),
-    totalAmount: Joi.number(),
+    totalAmount: Joi.number().required(),
+    totalNetAmount: Joi.number().required(),
     address: Joi.string().optional(),
     mobileNum: Joi.number().optional(),
   }),
@@ -50,6 +51,11 @@ const searchInvoice = {
 const searchInvoiceByNum = {
   params: Joi.object().keys({
     billNum: Joi.string().required(),
+  }),
+};
+const searchInvoiceByName = {
+  params: Joi.object().keys({
+    name: Joi.string().required().min(3),
   }),
 };
 
@@ -83,7 +89,8 @@ const updateInvoice = {
     fatherName: Joi.string(),
     billParticulars: Joi.array().required(),
     previousBillParticulars: Joi.array().optional(),
-    totalAmount: Joi.number(),
+    totalAmount: Joi.number().required(),
+    totalNetAmount: Joi.number().required(),
     address: Joi.string().optional(),
     mobileNum: Joi.number().optional(),
   }),
@@ -95,6 +102,7 @@ module.exports = {
   deleteInvoice,
   searchInvoice,
   searchInvoiceByNum,
+  searchInvoiceByName,
   updateInvoice,
   getBillNum,
 };

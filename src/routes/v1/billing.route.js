@@ -22,11 +22,20 @@ router.get(
   billingController.getGrandTotalReport
 );
 router.get(
-  "/search/:billNum",
+  "/search/bill-num/:billNum",
   auth("searchInvoiceByNum"),
   validate(billingValidation.searchInvoiceByNum),
   billingController.searchInvoiceByNum
 );
+router.get(
+  "/search/name/:name",
+  auth("searchInvoiceByName"),
+  validate(billingValidation.searchInvoiceByName),
+  billingController.searchInvoiceByName
+);
+
+router.get("/count", billingController.billCounts);
+router.get("/latest-invoices", billingController.getLatestInvoice);
 
 router.put(
   "/invoice/:invoiceId",

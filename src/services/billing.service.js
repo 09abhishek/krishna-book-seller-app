@@ -48,7 +48,10 @@ const manageStockQuantity = async (billParticulars, stdClass, operation) => {
         quantity: originalCountFromDB[i].quantity - modifyingBookQtyList[i].quantity,
       });
       if (originalCountFromDB[i].quantity - modifyingBookQtyList[i].quantity < 0) {
-        throw new ApiError(httpStatus.UNPROCESSABLE_ENTITY, "Not enough books quantity in stock to process the request");
+        throw new ApiError(
+          httpStatus.UNPROCESSABLE_ENTITY,
+          "Not enough books quantity in stock. Please check/update the books qty for the given class."
+        );
       }
     } else {
       // plus
@@ -81,6 +84,7 @@ const saveInvoice = async (body) => {
     mobile_num: body.mobileNum ? body.mobileNum : null,
     bill_data: body.billParticulars,
     total_amount: body.totalAmount,
+    total_net_amount: body.totalNetAmount,
     year: moment().year(),
     date: moment().toISOString(),
   });
@@ -123,7 +127,8 @@ const deleteInvoice = async (invoiceIds) => {
 };
 
 const findInvoiceByDate = async (fromDate, toDate) => {
-  let sumOfTotal = 0.0;
+  let sumOfTotalMrp = 0.0;
+  let sumOfNetAmt = 0.0;
   const list = await Billing.findAll(
     {
       where: {
@@ -138,13 +143,15 @@ const findInvoiceByDate = async (fromDate, toDate) => {
 
   const invoiceList = list.map((invoice) => {
     const invoiceNum = String(invoice.id).padStart(6, "0");
-    sumOfTotal += parseFloat(invoice.total_amount);
+    sumOfTotalMrp += parseFloat(invoice.total_amount);
+    sumOfNetAmt += parseFloat(invoice.total_net_amount);
     return { ...invoice.dataValues, id: invoiceNum };
   });
 
   const response = {
     invoice: invoiceList,
-    sum_of_totals: sumOfTotal.toFixed(2),
+    sum_of_totals: sumOfTotalMrp.toFixed(2),
+    sum_of_net_amount: sumOfNetAmt.toFixed(2),
   };
   if (invoiceList.length) {
     return handleResponse("success", response, "Data Fetched Successfully", "fetchedInvoice");
@@ -186,12 +193,21 @@ const grandTotalReport = async (fromDate, toDate) => {
   return handleResponse("error", response, "No Data found", "errorGrandTotal");
 };
 
-const findInvoiceByNumber = async (billNum) => {
+const findInvoice = async (searchParam, searchBy) => {
+  let condition = {
+    id: { [Op.like]: `%${searchParam}%` },
+    year: moment().year(),
+  };
+
+  if (searchBy === "name") {
+    condition = {
+      name: sequelize.where(sequelize.fn("LOWER", sequelize.col("name")), "LIKE", `%${searchParam}%`),
+      year: moment().year(),
+    };
+  }
   const data = await Billing.findAll(
     {
-      where: {
-        id: { [Op.like]: `%${billNum}%` },
-      },
+      where: condition,
     },
     { raw: true }
   );
@@ -217,6 +233,51 @@ const fetchBillNumber = async () => {
   return handleResponse("success", [data], "Result Fetched Successfully");
 };
 
+const fetchLatestInvoices = async () => {
+  console.log('here');
+  const data = await Billing.findAll({
+    attributes: ["id", "name", "total_amount"],
+    order: [["id", "DESC"]],
+    limit: 10,
+  });
+
+  if (data.length) {
+    const invoiceList = data.map((invoice) => {
+      const invoiceNum = String(invoice.id).padStart(6, "0");
+      return { ...invoice.dataValues, id: invoiceNum };
+    });
+    return handleResponse("success", invoiceList, "Result Fetched Successfully");
+  } else {
+    return handleResponse("error", [], "No Data found", "fetchedInvoice");
+  }
+};
+
+const getCountByClass = async () => {
+  let totalInvoice = 0;
+  const list = await Billing.findAll(
+    {
+      attributes: [[sequelize.fn("count", sequelize.col("id")), "no_of_bills"], "class"],
+      where: {
+        year: moment().year(),
+      },
+      group: ["class"],
+    },
+    { raw: true }
+  );
+
+  if (list.length) {
+    list.forEach((data) => {
+      totalInvoice += data.dataValues.no_of_bills;
+    });
+    const response = {
+      invoice: list,
+      sum_of_totals: totalInvoice,
+    };
+    return handleResponse("success", response, "Data Fetched Successfully", "fetchedInvoice");
+  }
+  return handleResponse("error", [], "No Data found", "fetchedInvoice");
+};
+
 const updateInvoiceDetails = async (invoiceId, billingData) => {
   const foundItem = await Billing.findOne({ where: { invoice_id: invoiceId } });
   if (!foundItem) {
@@ -240,6 +301,7 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
         mobile_num: billingData.mobileNum,
         bill_data: billingData.billParticulars,
         total_amount: billingData.totalAmount,
+        total_net_amount: billingData.totalNetAmount,
       },
       { where: { invoice_id: invoiceId } }
     );
@@ -249,7 +311,10 @@ const updateInvoiceDetails = async (invoiceId, billingData) => {
     console.log("--------Rolling back Data -------");
     await manageStockQuantity(billingData.previousBillParticulars, billingData.stdClass, "ROLL_BACK");
     console.log("--------Done Rolling back Data -------");
-    throw new ApiError(httpStatus.BAD_REQUEST, "Not enough books quantity in stock to process the request");
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Not enough books quantity in stock. Please check/update the books qty for the given class."
+    );
   }
 };
 
@@ -259,7 +324,9 @@ module.exports = {
   grandTotalReport,
   deleteInvoice,
   findInvoiceByDate,
-  findInvoiceByNumber,
+  fetchLatestInvoices,
+  findInvoice,
+  getCountByClass,
   updateInvoiceDetails,
   fetchBillNumber,
 };
