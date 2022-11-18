@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1440" height="768" viewBox="0 0 1440 768">
+    <defs>
+        <linearGradient id="prefix__b" x1="87.868%" x2="26.364%" y1="32.986%" y2="63.024%">
+            <stop offset="0%" stop-color="#0CF"/>
+            <stop offset="100%" stop-color="#0A5DF1"/>
+        </linearGradient>
+        <rect id="prefix__d" width="889" height="587" x=".829" y=".295" rx="130"/>
+        <path id="prefix__a" d="M0 0H1440V768H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="matrix(-1 0 0 1 1440 0)">
+            <mask id="prefix__c" fill="#fff">
+                <use xlink:href="#prefix__a"/>
+            </mask>
+            <use fill="url(#prefix__b)" xlink:href="#prefix__a"/>
+            <rect width="809" height="507" x="375" y="784" stroke="#FFF" stroke-width="80" mask="url(#prefix__c)" opacity=".078" rx="130" transform="rotate(-45 779.5 1037.5)"/>
+            <rect width="507" height="402" x="659" y="-231" stroke="#FFF" stroke-width="80" mask="url(#prefix__c)" opacity=".078" rx="130" transform="rotate(-45 912.5 -30)"/>
+            <g mask="url(#prefix__c)">
+                <g transform="rotate(-45 969.506 -873.258)">
+                    <mask id="prefix__e" fill="#fff">
+                        <use xlink:href="#prefix__d"/>
+                    </mask>
+                    <use fill="#FFF" opacity=".102" xlink:href="#prefix__d"/>
+                    <path stroke="#FFF" stroke-width="2.4" d="M500.593-74.793C905.324-207.667 910.13-27.049 771.79 4.53 633.45 36.11 446.084 43.76 373.357 265.075 300.63 486.389 480.99 729.05 565.687 722.829c84.698-6.221-33.11 57.859-78.214-202.482-32.98-190.36-82.081-292.545-43.165-335.926 14.307-15.947 39.686 9.832 83.309-6.119 29.565-10.81 383.706-47.514 390.577-48.873 30.84-6.1-498.3 99.203-458.915 110.238 48.158 13.492 421.216 121.935 351.777 145.483-69.438 23.547-261.136-97.229-300.384 29.714-17.76 57.44 147.635 218.855 155.694 300.57 9.752 98.877-139.842 106.655-203.864 3.585-116.93-188.25-324.466-434.513-287.552-587.13C211.864-20.728 202.07 271 260.406 313.85c58.334 42.851 88.219-115.72 92.135-182.601 3.916-66.88-453.028-100.633-278.43 108.124 174.6 208.757 268.508 400.535 273.45 466.254 3.295 43.813-61.354 88.559-193.95 134.238 97.804-129.86 107.318-247.589 28.542-353.188-78.776-105.6-116.04-124.69-111.794-57.27 96.35 118.131 91.794 217.326-13.664 297.585" mask="url(#prefix__e)" opacity=".202" transform="rotate(75 476.912 358.436)"/>
+                </g>
+            </g>
+        </g>
+        <circle cx="933" cy="385" r="57" stroke="#FFF" stroke-width="80" opacity=".078"/>
+        <g stroke="#C4DCF7" stroke-dasharray="1 20" stroke-linecap="round" stroke-linejoin="round" opacity=".6">
+            <path stroke-width="5" d="M0.5 0L0.5 217" transform="translate(836 276)"/>
+            <path fill="#C4DCF7" stroke-width="5" d="M20.5 0L20.5 217" transform="translate(836 276)"/>
+            <path fill="#C4DCF7" stroke-width="6" d="M40.5 0L40.5 217M60.5 0L60.5 217" transform="translate(836 276)"/>
+        </g>
+        <g stroke="#C4DCF7" stroke-dasharray="1 20" stroke-linecap="round" stroke-linejoin="round" opacity=".6">
+            <path stroke-width="5" d="M0.5 0L0.5 73" transform="translate(525 693)"/>
+            <path fill="#C4DCF7" stroke-width="5" d="M20.5 0L20.5 73" transform="translate(525 693)"/>
+            <path fill="#C4DCF7" stroke-width="6" d="M40.5 0L40.5 73M60.5 0L60.5 73" transform="translate(525 693)"/>
+        </g>
+        <g stroke="#C4DCF7" stroke-dasharray="1 20" stroke-linecap="round" stroke-linejoin="round" opacity=".6">
+            <path stroke-width="5" d="M0.5 0L0.5 121" transform="translate(525 5)"/>
+            <path fill="#C4DCF7" stroke-width="5" d="M20.5 0L20.5 121" transform="translate(525 5)"/>
+            <path fill="#C4DCF7" stroke-width="6" d="M40.5 0L40.5 121M60.5 0L60.5 121" transform="translate(525 5)"/>
+        </g>
+    </g>
+</svg>

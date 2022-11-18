@@ -8,16 +8,16 @@
     <div class="search-content flex">
       <div class="search-Bill">
         <div class="search-bill-type flex">
-          <p class="search-by">Search By Bill No.</p>
-          <select class="search select-drop" id="mysel" [(ngModel)]="searchBy" (change)="billId = ''">
-            <option value= "billid">Search By Bill No</option>
-            <option value= "seachBy">Search By Name</option>
-        </select>
+          <p class="search-by">Search By</p>
         </div>
         <div class="search-details flex">
           <div class="search-bill-No flex">
-            <label for="bill">{{(searchBy == 'billid') ? 'Bill No' : 'Name'}}</label>
-            <input id="bill" type= "{{(searchBy == 'billid') ? 'number' : 'text'}}" [(ngModel)]="billId">
+            <!-- <label for="bill">{{(searchBy == 'bill-num') ? 'Bill No' : 'Name'}}</label> -->
+            <select class="search select-drop" id="mysel" [(ngModel)]="searchBy" (change)="billId = ''">
+              <option value= "bill-num">Bill No</option>
+              <option value= "name">Name</option>
+            </select>
+            <input id="bill" type= "{{(searchBy == 'bill-num') ? 'number' : 'text'}}" [(ngModel)]="billId">
           </div>
           <div class="content-btn flex">
             <button class="btn-search button" type="button" [disabled]="!billId" (click)="onSearchByBillid();billLoading = true;">Search

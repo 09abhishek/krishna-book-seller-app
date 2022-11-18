@@ -217,6 +217,10 @@
     .msg-type {
       font-weight: 500;
       padding-top: 10px;
+      &.msg-found {
+        font-weight: bold;
+        font-size: 18px;
+      }
     }
   }
 }

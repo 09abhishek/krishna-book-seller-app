@@ -24,7 +24,7 @@ export class SearchInvoiceComponent implements OnInit {
   billId: any = '';
   billingDate: any = new Date();
   invoiceDetails: any;
-  searchBy: any = 'billid';
+  searchBy: any = 'bill-num';
   classList: any = [
     {id: 1, name: 'infant', value: 'Infant'},
     {id: 2, name: 'nursery', value: 'Nursery'},
@@ -93,6 +93,7 @@ export class SearchInvoiceComponent implements OnInit {
     this.loading = true;
     const params: any = {};
     params.billId = this.billId;
+    params.searchBy = this.searchBy;
     this.invoiceList = [];
     this.invoiceService.serachInvoiceByBillNo(params).subscribe({
       next: (res) => {

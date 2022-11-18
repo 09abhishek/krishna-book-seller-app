@@ -3,7 +3,7 @@
   .school-info-news {
     justify-content: space-between;
     align-items: center;
-    padding: 25px 15px;
+    padding: 25px 0px;
     .school-info {
       width: 100%;
       h4 {
@@ -16,50 +16,55 @@
         justify-content: space-between;
         align-items: center;
         li {
-          width: 30%;
-          border-radius: 18px;
+          width: 23%;
+          border-radius: 25px;
+          // padding: 10px !important;
           box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
           justify-content: center;
           align-items: center;
-          min-height: 130px;
+          min-height: 150px;
           flex-direction: column;
           margin-right: 10px;
-          background: rgb(255,255,255); /* Old browsers */
-          background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(234,111,103,1) 100%); /* FF3.6-15 */
-          background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* Chrome10-25,Safari5.1-6 */
-          background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ea6f67',GradientType=0 ); /* IE6-9 */
+          background: white;
+          flex-direction: column;
+          // background: rgb(255,255,255); /* Old browsers */
+          // background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(234,111,103,1) 100%); /* FF3.6-15 */
+          // background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* Chrome10-25,Safari5.1-6 */
+          // background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+          // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ea6f67',GradientType=0 ); /* IE6-9 */
+          img {
+            margin-right: 8px;
+            width: 36px
+          }
           h2 {
             justify-content: center;
             align-items: center;
             font-size: 25px;
             font-weight: bold;
-            color: #f05418;
+            color: black;
             margin: 10px 0;
-            img {
-              margin-right: 8px;
-            }
+
           }
           h3 {
             font-size: 14px;
             font-weight: 600;
             color: #161414;
-            margin: 0px;
+            margin: 10px 0;
           }
-          &.invoice-child {
-            background: rgb(255,255,255); /* Old browsers */
-            background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(159,221,244,1) 100%); /* FF3.6-15 */
-            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* Chrome10-25,Safari5.1-6 */
-            background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
-          }
-          &.sell-child {
-            background: rgb(255,255,255); /* Old browsers */
-            background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(229, 12, 166, 0.22) 100%); /* FF3.6-15 */
-            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* Chrome10-25,Safari5.1-6 */
-            background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
-          }
+          // &.invoice-child {
+            // background: rgb(255,255,255); /* Old browsers */
+            // background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(159,221,244,1) 100%); /* FF3.6-15 */
+            // background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            // background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
+          // }
+          // &.sell-child {
+            // background: rgb(255,255,255); /* Old browsers */
+            // background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(229, 12, 166, 0.22) 100%); /* FF3.6-15 */
+            // background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* Chrome10-25,Safari5.1-6 */
+            // background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
+          // }
         }
       }
     }
@@ -67,39 +72,109 @@
   .main-graph {
     width: 100%;
     justify-content: space-between;
+    margin-bottom: 10px;
     h5 {
       font-size: 15px;
         font-weight: 600;
         color: #1d1a1a;
         margin: 0 0 6px;
     }
-    .pie-graph {
-      width: 48% !important;
-      padding: 10px;
-      border-radius: 10px;
-      align-items: center;
-      flex-direction: column;
-      .label {
-        justify-content: flex-start;
-        width: 100%;
+    .my-custom-scrollbar {
+      position: relative;
+      height: 75vh;
+      overflow: auto;
+      }
+      .table-wrapper-scroll-y {
+      display: block;
+      }
+    .table-responsive {
+      width: 49%;
+      h5 {
+          font-size: 15px;
+          font-weight: 600;
+          color: #1d1a1a;
+          padding: 9px 10px;
+      }
+      .table {
+        table, th, td {
+          font-size: 12px;
+          text-align: center;
+        }
       }
     }
-    .line-graph {
-      width: 48% !important;
+    .pie-graph {
+      width: 49% !important;
       padding: 10px;
       border-radius: 10px;
+      h5 {
+        font-size: 15px;
+          font-weight: 600;
+          color: #1d1a1a;
+          margin: 0 0 6px;
+      }
+      p {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 10%;
+        // font-weight: 600;
+      }
     }
   }
-  .sells-bar-graph {
+  .daily-collection-graph {
     padding: 10px;
-    // background-color: #fff;
-    margin-top: 25px;
     border-radius: 10px;
+    margin-bottom: 10px;
     h5 {
       font-size: 15px;
         font-weight: 600;
         color: #1d1a1a;
         margin: 0 0 6px;
+    }
+  }
+  .charts-graph {
+    width: 100%;
+    justify-content: space-between;
+    margin: 10px 0;
+    .line-graph {
+      width: 49% !important;
+      padding: 10px;
+      border-radius: 10px;
+    }
+      .sells-bar-graph {
+        width: 49% !important;
+        padding: 10px;
+        border-radius: 10px;
+      .class-card {
+        justify-content: space-between;
+        h5 {
+          font-size: 15px;
+            font-weight: 600;
+            color: #1d1a1a;
+            margin: 0 0 6px;
+        }
+        select {
+          outline: 0;
+          width: 250px;
+          height: 40px;
+          line-height: 15px;
+          background: #fff;
+          border: solid 1px #dfdfdf;
+          border-radius: 2px;
+        }
+      }
+      .bar-chart {
+        padding: 0px 10px!important;
+        min-height: 55vh;
+        ::ng-deep svg.ngx-charts {
+          width: 75%;
+          height: 100%;
+          .bar {
+            cursor: default !important;
+          }
+        }
+
+      }
     }
   }
 }
