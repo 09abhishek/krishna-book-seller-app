@@ -33,7 +33,7 @@ import { ConfirmationDialogService } from './shared/components/confirmation-dial
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    ToastModule
+    ToastModule,
   ],
   providers: [
     AppService,

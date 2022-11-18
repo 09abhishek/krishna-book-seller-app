@@ -29,7 +29,7 @@ export class InvoiceService {
     return this.http.get(this.URL + `/billing/invoice/${params}`);
   }
   serachInvoiceByBillNo(params: any): Observable<any> {
-    return this.http.get(this.URL + `/billing/search/${params.billId}`);
+    return this.http.get(this.URL + `/billing/search/${params.searchBy +'/' +params.billId}`);
   }
   deleteInvoice(params: any): Observable<any> {
     const options = {
