@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const pick = require("../utils/pick");
 const catchAsync = require("../utils/catchAsync");
-const { billingService, bookService } = require("../services");
+const { billingService, bookService, publicationService } = require("../services");
 
 const submitInvoice = catchAsync(async (req, res) => {
   const body = pick(req.body, [
@@ -34,13 +34,13 @@ const deleteInvoice = catchAsync(async (req, res) => {
 
 const searchInvoice = catchAsync(async (req, res) => {
   const date = pick(req.query, ["from", "to"]);
-  const response = await billingService.findInvoiceByDate(date.from, date.to);
+  const response = await billingService.findInvoiceByDate(date.from, date.to, "date");
   return res.status(httpStatus.OK).send(response);
 });
 
 const getGrandTotalReport = catchAsync(async (req, res) => {
   const date = pick(req.query, ["from", "to"]);
-  const response = await billingService.grandTotalReport(date.from, date.to);
+  const response = await billingService.grandTotalReport(date.from, date.to, "date");
   return res.status(httpStatus.OK).send(response);
 });
 
@@ -77,6 +77,29 @@ const getLatestInvoice = catchAsync(async (req, res) => {
   return res.status(httpStatus.OK).send(response);
 });
 
+const exportData = catchAsync(async (req, res) => {
+  const query = pick(req.query, ["type"]);
+  let response = [];
+  switch (query.type) {
+    case "daily-collection":
+      response = await billingService.findInvoiceByDate("", "", "all");
+      break;
+    case "grand-collection":
+      response = await billingService.grandTotalReport("", "", "all");
+      break;
+    case "book":
+      response = await bookService.getAllBooks();
+      break;
+    case "publication":
+      response = await publicationService.getAllPublications();
+      break;
+    default:
+      response = [];
+      break;
+  }
+  return res.status(httpStatus.OK).send(response);
+});
+
 module.exports = {
   submitInvoice,
   getInvoiceById,
@@ -89,4 +112,5 @@ module.exports = {
   billCounts,
   updateInvoice,
   getLastBillNumber,
+  exportData,
 };

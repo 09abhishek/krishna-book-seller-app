@@ -6,6 +6,7 @@ const Book = require("../models/Book");
 const ApiError = require("../utils/ApiError");
 
 const savePublication = async (body) => {
+  console.log("publication payload to db :", body);
   if (!body.length) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Body must contain minimum one structured object");
   }
@@ -88,7 +89,7 @@ const updatePublication = async (body) => {
   });
   // eslint-disable-next-line no-restricted-syntax
   for await (const pub of publicationList) {
-    console.log("pub  ---> ",pub);
+    console.log("pub  ---> ", pub);
     const res = await Publication.update(pub, { where: { id: pub.id } });
     result.push(res[0]);
   }

@@ -45,4 +45,5 @@ router.put(
 );
 
 router.get("/bill-num", auth("getBillNum"), validate(billingValidation.getBillNum), billingController.getLastBillNumber);
+router.get("/export", auth("exportData"), validate(billingValidation.exportData), billingController.exportData);
 module.exports = router;

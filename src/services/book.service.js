@@ -1,9 +1,15 @@
 const moment = require("moment");
 const httpStatus = require("http-status");
+const fs = require("fs-extra");
+const xlsx = require("xlsx");
+const path = require("path");
 const Book = require("../models/Book");
 const Publication = require("../models/Publication");
 const { handleResponse } = require("../utils/responseHandler");
 const ApiError = require("../utils/ApiError");
+
+// eslint-disable-next-line import/no-dynamic-require,security/detect-non-literal-require
+const publicationService = require(path.resolve(__dirname, "publication.service.js"));
 
 const saveBook = async (body) => {
   if (!body.length) {
@@ -16,15 +22,80 @@ const saveBook = async (body) => {
       publication_id: book.publicationId,
       mrp: book.mrp,
       year: moment().year(),
-      net_price: book.net_price,
+      net_price: book.netPrice,
       quantity: book.quantity,
     };
   });
+  console.log("book list for DB", bookList);
   const response = await Book.bulkCreate(bookList);
   if (response && response.length) {
     return handleResponse("success", [response.length], "Books Added Successfully", "addBook");
   }
   return handleResponse("error", null, "Something went wrong", "addBookError");
+};
+
+const uploadFromFile = async (req) => {
+
+  let response = [];
+
+  if (!req.file && req.file === "undefined") {
+    throw new ApiError(httpStatus.BAD_REQUEST, "No file provided");
+  } else {
+    console.log(req.file);
+    const filePath = `uploads/${req.file.filename}`;
+
+    const wb = xlsx.readFile(filePath);
+
+    const sheetName = wb.SheetNames[0];
+    const sheetValue = wb.Sheets[sheetName];
+    const jsonData = xlsx.utils.sheet_to_json(sheetValue);
+
+    //  const excelData = excelToJson({
+    //   sourceFile: filePath,
+    //   header: {
+    //     row: 2
+    //   },
+    //   columnToKey : {
+    //     "*" : "{{columnHeader}}",
+    //   },
+    //   sheets: ['Sheet1']
+    // });
+    // console.log(excelData);
+
+    const publicationHashmap = {};
+    let bookList = [];
+    let publicationListFromDB = [];
+
+    let publicationList = jsonData.map((data) => {
+      return data.publicationId;
+    });
+
+    console.log("Before duplicates removal", publicationList);
+    console.log("----------After Removing duplicates--------------");
+    publicationList = [...new Set(publicationList)];
+    console.log(publicationList);
+    console.log("-------------------------------------------------");
+    const publicationListForDb = publicationList.map((data) => {
+      return { name: data, year: moment().year() };
+    });
+
+    const publicationResponse = await publicationService.savePublication(publicationListForDb);
+    console.log(publicationResponse);
+    if (publicationResponse.status === "success") {
+      publicationListFromDB = await Publication.findAll({ raw: true });
+      publicationListFromDB.forEach((pub) => {
+        publicationHashmap[pub.name] = pub.id;
+      });
+      // console.log(publicationHashmap);
+      bookList = jsonData.map((data) => {
+        return { ...data, publicationId: publicationHashmap[data.publicationId] };
+      });
+
+      response = await saveBook(bookList);
+      fs.remove(filePath);
+    }
+  }
+  return handleResponse("success", response, "File Uploaded Successfully");
 };
 
 const getAllBooks = async () => {
@@ -94,7 +165,7 @@ const updateBookDetails = async (body) => {
     stdClass: "class",
     publicationId: "publication_id",
     mrp: "mrp",
-    netPrice: "net_price",
+    netPrice: "netPrice",
     quantity: "quantity",
   };
 
@@ -125,4 +196,5 @@ module.exports = {
   getBooksByClass,
   deleteBookById,
   updateBookDetails,
+  uploadFromFile,
 };
