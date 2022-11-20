@@ -31,9 +31,10 @@ const addBook = {
         "twelve"
       ),
       publicationId: Joi.number().required(),
-      net_price: Joi.number().required(),
+      netPrice: Joi.number().required(),
       mrp: Joi.number().required(),
       quantity: Joi.number().required(),
+      year: Joi.number().optional(),
     }),
 };
 
@@ -64,6 +65,7 @@ const updateBooks = {
       netPrice: Joi.number().optional(),
       mrp: Joi.number().optional(),
       quantity: Joi.number().optional(),
+      year: Joi.number().optional(),
     })
     .min(1),
 };
