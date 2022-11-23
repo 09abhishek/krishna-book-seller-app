@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.config");
 
-const Token = db.define("book", {
+const Book = db.define("book", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -45,6 +45,8 @@ const Token = db.define("book", {
       model: "Publication",
       key: "id",
     },
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   },
   mrp: {
     type: Sequelize.DECIMAL(6, 2),
@@ -71,4 +73,4 @@ const Token = db.define("book", {
   },
 });
 
-module.exports = Token;
+module.exports = Book;

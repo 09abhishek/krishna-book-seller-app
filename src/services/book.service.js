@@ -18,10 +18,10 @@ const saveBook = async (body) => {
   const bookList = body.map((book) => {
     return {
       name: book.name,
-      class: book.stdClass,
+      class: book.class,
       publication_id: book.publicationId,
       mrp: book.mrp,
-      year: moment().year(),
+      year: book.year ? book.year : moment().year(),
       net_price: book.netPrice,
       quantity: book.quantity,
     };
@@ -35,39 +35,37 @@ const saveBook = async (body) => {
 };
 
 const uploadFromFile = async (req) => {
-
-  let response = [];
-
-  if (!req.file && req.file === "undefined") {
+  const response = [];
+  const publicationHashmap = {};
+  let bookList = [];
+  let publicationListFromDB = [];
+  const requiredKeys = ["class", "name", "publication", "quantity", "netPrice", "mrp", "year"];
+  if (!req.file) {
     throw new ApiError(httpStatus.BAD_REQUEST, "No file provided");
   } else {
-    console.log(req.file);
     const filePath = `uploads/${req.file.filename}`;
 
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     const wb = xlsx.readFile(filePath);
 
     const sheetName = wb.SheetNames[0];
     const sheetValue = wb.Sheets[sheetName];
     const jsonData = xlsx.utils.sheet_to_json(sheetValue);
 
-    //  const excelData = excelToJson({
-    //   sourceFile: filePath,
-    //   header: {
-    //     row: 2
-    //   },
-    //   columnToKey : {
-    //     "*" : "{{columnHeader}}",
-    //   },
-    //   sheets: ['Sheet1']
-    // });
-    // console.log(excelData);
+    console.log("data extracted from xls file", jsonData);
 
-    const publicationHashmap = {};
-    let bookList = [];
-    let publicationListFromDB = [];
+    console.log("checking the first record if the file is valid : ", jsonData[0]);
+    if (!jsonData[0]) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "The file is empty or does not have valid data. Please check sample file and try again");
+    } else {
+      const checkAllKeys = requiredKeys.every((i) => jsonData[0].hasOwnProperty(i));
+      if (!checkAllKeys) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "The file does not have all the required column fields. Please check sample file and try again");
+      }
+    }
 
     let publicationList = jsonData.map((data) => {
-      return data.publicationId;
+      return data.publication;
     });
 
     console.log("Before duplicates removal", publicationList);
@@ -86,21 +84,31 @@ const uploadFromFile = async (req) => {
       publicationListFromDB.forEach((pub) => {
         publicationHashmap[pub.name] = pub.id;
       });
-      // console.log(publicationHashmap);
+
       bookList = jsonData.map((data) => {
-        return { ...data, publicationId: publicationHashmap[data.publicationId] };
+        return { ...data, publicationId: publicationHashmap[data.publication] };
       });
 
-      response = await saveBook(bookList);
+      const bookResponse = await saveBook(bookList);
+
+      if (bookResponse.status === "error") {
+        await Publication.truncate({ cascade: true, restartIdentity: true });
+      } else {
+        response.push({ publicationUploaded: publicationResponse.data, booksUploaded: bookResponse.data });
+      }
       fs.remove(filePath);
+    } else {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      await Publication.truncate({ cascade: true, restartIdentity: true });
+      return handleResponse("error", null, "Failed to upload Data - Invalid file");
     }
+    return handleResponse("success", response, "File Uploaded Successfully", "fileUploadSuccess");
   }
-  return handleResponse("success", response, "File Uploaded Successfully");
 };
 
 const getAllBooks = async () => {
-  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
   Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
+  Publication.hasMany(Book, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
 
   const bookList = await Book.findAll({ attributes: { exclude: ["created_at", "updated_at"] }, include: Publication });
   if (!bookList || !bookList.length) {
@@ -114,8 +122,8 @@ const getBooksByClass = async (className) => {
     year: moment().year(),
     class: className.id,
   };
-  Publication.hasMany(Book, { foreignKey: "publication_id" });
   Book.belongsTo(Publication, { foreignKey: "publication_id" });
+  Publication.hasMany(Book, { foreignKey: "publication_id" });
 
   const bookList = await Book.findAll({
     attributes: { exclude: ["created_at", "updated_at"] },
@@ -162,15 +170,16 @@ const updateBookDetails = async (body) => {
   const fields = {
     id: "id",
     name: "name",
-    stdClass: "class",
+    class: "class",
     publicationId: "publication_id",
     mrp: "mrp",
-    netPrice: "netPrice",
+    netPrice: "net_price",
     quantity: "quantity",
   };
 
   const bookList = body.map((book) => {
     const obj = {};
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const item in book) {
       obj[fields[item]] = book[item];
     }

@@ -13,7 +13,7 @@ const addBook = {
     .required()
     .items({
       name: Joi.string().required(),
-      stdClass: Joi.string().valid(
+      class: Joi.string().valid(
         "infant",
         "nursery",
         "prep",
@@ -44,7 +44,7 @@ const updateBooks = {
     .items({
       id: Joi.number().required(),
       name: Joi.string().optional(),
-      stdClass: Joi.string().valid(
+      class: Joi.string().valid(
         "infant",
         "nursery",
         "prep",

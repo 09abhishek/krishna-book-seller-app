@@ -1,3 +1,4 @@
+const Sequelize = require("sequelize");
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("book", {
@@ -41,9 +42,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: "publication",
+          model: "Publication",
           key: "id",
         },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       mrp: {
         type: Sequelize.DECIMAL(6, 2),
