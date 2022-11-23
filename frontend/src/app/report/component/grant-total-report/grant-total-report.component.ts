@@ -50,7 +50,7 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
               const params: any = {};
               params.sno = (index + 1);
               params.feedate = item.date ? `${dateValue[0]}-${this.getMonthName(dateValue[1])}-${dateValue[2]} ` : '';
-              params.name = item.name;
+              // params.name = item.name;
               params.noOfBills = item.no_of_bills;
               params.totalamount = item.total_amount;
               this.printExportData.push(params);
@@ -177,8 +177,10 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
   }
 
   exportExcel() {
+      let exportData = [];
+      exportData = JSON.parse(JSON.stringify(this.printExportData));
       const fileName = 'grandcollectionreport ' + moment(this.todayDate).format('DD-MMM-YYYY') + '.xlsx';
-      this.printExportData.push({sno: '', feedate: '', noOfBills: '', totalamount: 'Total Amout (₹): ' + this.totalAmount})
+      exportData.push({sno: '', feedate: '', noOfBills: '', totalamount: 'Total Amout (₹): ' + this.totalAmount})
       let Heading = [['S.No', 'Fee-Date', 'Total Invoice' ,'Total (₹)']];
       //Had to create a new workbook and then add the header
       const wb = XLSX.utils.book_new();
@@ -186,7 +188,7 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
       XLSX.utils.sheet_add_aoa(ws, Heading);
 
       //Starting in the second row to avoid overriding and skipping headers
-      XLSX.utils.sheet_add_json(ws, this.printExportData, { origin: 'A2', skipHeader: true });
+      XLSX.utils.sheet_add_json(ws, exportData, { origin: 'A2', skipHeader: true });
 
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 

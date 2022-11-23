@@ -19,4 +19,13 @@ export class AppService {
   getUserDetails(params: any): Observable<any> {
     return this.http.get(this.URL + '/users/' + params);
   }
+  getAllExportTypeData(params: any): Observable<any> {
+    return this.http.get(this.URL + '/billing/export', {params});
+  }
+  uploadBookList(params: any) {console.log('params', params);
+    const formData = new FormData();
+    formData.append('file', params.file);
+    console.log('formData', formData);
+    return this.http.post(this.URL + '/book/upload-file', formData);
+  }
 }
