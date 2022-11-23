@@ -1,0 +1,80 @@
+.content-wrapper {
+  padding: 8px 19px;
+  .content-heading {
+    .content-details {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h5 {
+        padding: 10px;
+      }
+    }
+    .content-field  {
+      .export-content {
+        margin: 15px 0px;
+        align-items: center;
+        .title {
+          font-weight: bold;
+          width: 25%;
+          // &.title-book {
+          //   width: 23% !important;
+          // }
+        }
+        .export {
+          width: 100px;
+          height: 41px;
+          color: white;
+          background-color: #6c757d;
+          border: none;
+          &.submit {
+            background-color: #2563eb !important;
+            margin: 0 15px;
+            &:disabled {
+              opacity: 0.6;
+            }
+          }
+        }
+        .upload-Sextion {
+          border: solid 2px #6c757d;
+          padding: 3px 10px;
+          width: 25%;
+          margin-left: 3px;
+          .submit {
+            width: 100px;
+            height: 41px;
+            color: white;
+            background-color: green;
+            border: none;
+          }
+          // .custom-file-input::-webkit-file-upload-button {
+          //   visibility: hidden;
+          // }
+          // .custom-file-input::before {
+          //   content: 'Choose File';
+            // display: inline-block;
+            // background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+            // border: 1px solid #999 !important;
+            // border-radius: 3px;
+            // padding: 5px 8px;
+            // outline: none;
+            // white-space: nowrap;
+            // -webkit-user-select: none;
+            // cursor: pointer;
+            // text-shadow: 1px 1px #fff;
+            // font-weight: 700;
+            // font-size: 10pt;
+          // }
+          // .custom-file-input:hover::before {
+          //   border-color: black;
+          // }
+          // .custom-file-input:active::before {
+          //   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+          // }
+        }
+      }
+    }
+  }
+}
+.error-file {
+  color: red;
+}

@@ -19,14 +19,15 @@
           width: 23%;
           border-radius: 25px;
           // padding: 10px !important;
-          box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+          box-shadow: 6px 2px 7px 0 rgba(0, 0, 0, 0.08);
           justify-content: center;
           align-items: center;
           min-height: 150px;
           flex-direction: column;
           margin-right: 10px;
-          background: white;
+          // background: white;
           flex-direction: column;
+          background: linear-gradient( to right, #c0c3c9, #f7f3f3);
           // background: rgb(255,255,255); /* Old browsers */
           // background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(234,111,103,1) 100%); /* FF3.6-15 */
           // background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* Chrome10-25,Safari5.1-6 */
