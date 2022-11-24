@@ -19,8 +19,9 @@
       </div>
       <div class="input-field">
         <label>User Name</label>
-        <input type="text" formControlName="username">
+        <input type="text" minlength=3 formControlName="username">
         <div *ngIf="(userForm.controls['username'].hasError('required') && userForm.controls['username'].touched)" class="error-data position-error">User Name is required</div>
+        <div class="error-data position-error" *ngIf="userForm.controls['username'].touched && userForm.get('username').hasError('minlength')">Minimum 3 Characters </div>
       </div>
       <div class="input-field">
         <label>Mobile No.</label>

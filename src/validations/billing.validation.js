@@ -10,6 +10,7 @@ const addInvoice = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     stdClass: Joi.string().valid(
+      "pre-nursery",
       "infant",
       "nursery",
       "prep",
@@ -70,6 +71,7 @@ const updateInvoice = {
     stdClass: Joi.string()
       .required()
       .valid(
+        "pre-nursery",
         "infant",
         "nursery",
         "prep",
@@ -96,6 +98,12 @@ const updateInvoice = {
   }),
 };
 
+const exportData = {
+  query: {
+    type: Joi.string().valid("daily-collection", "grand-collection", "book", "publication").required(),
+  },
+};
+
 module.exports = {
   getInvoice,
   addInvoice,
@@ -105,4 +113,5 @@ module.exports = {
   searchInvoiceByName,
   updateInvoice,
   getBillNum,
+  exportData,
 };

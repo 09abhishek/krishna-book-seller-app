@@ -20,6 +20,11 @@ const addBook = catchAsync(async (req, res) => {
   return res.status(httpStatus.OK).send(response);
 });
 
+const fileUpload = catchAsync(async (req, res) => {
+  const response = await bookService.uploadFromFile(req);
+  return res.status(httpStatus.OK).send(response);
+});
+
 const deleteBook = catchAsync(async (req, res) => {
   const response = await bookService.deleteBookById(req.body.bookId);
   return res.status(httpStatus.OK).send(response);
@@ -35,4 +40,5 @@ module.exports = {
   addBook,
   deleteBook,
   updateBook,
+  fileUpload,
 };

@@ -1,3 +1,4 @@
+import { ImportExportComponent } from './import-export/import-export.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
@@ -33,6 +34,11 @@ const routes: Routes = [
           path: 'book-management',
           canActivate: [AuthGuard],
           loadChildren: () => import('./book-management/book-management.module').then(m => m.BookManagementModule)
+        },
+        {
+          path: 'import-export',
+          component: ImportExportComponent,
+          canActivate: [AuthGuard],
         },
         {
           path: '',

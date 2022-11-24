@@ -126,17 +126,23 @@ const deleteInvoice = async (invoiceIds) => {
   return handleResponse(status, [], message, "delete");
 };
 
-const findInvoiceByDate = async (fromDate, toDate) => {
+const findInvoiceByDate = async (fromDate, toDate, param) => {
   let sumOfTotalMrp = 0.0;
   let sumOfNetAmt = 0.0;
+  let condition = {};
+  if (param === "all") {
+    condition = null;
+  } else {
+    condition = {
+      [Op.and]: [
+        sequelize.where(sequelize.fn("date", sequelize.col("date")), ">=", fromDate),
+        sequelize.where(sequelize.fn("date", sequelize.col("date")), "<=", toDate),
+      ],
+    };
+  }
   const list = await Billing.findAll(
     {
-      where: {
-        [Op.and]: [
-          sequelize.where(sequelize.fn("date", sequelize.col("date")), ">=", fromDate),
-          sequelize.where(sequelize.fn("date", sequelize.col("date")), "<=", toDate),
-        ],
-      },
+      where: condition,
     },
     { raw: true }
   );
@@ -159,8 +165,19 @@ const findInvoiceByDate = async (fromDate, toDate) => {
   return handleResponse("error", response, "No Data found", "fetchedInvoice");
 };
 
-const grandTotalReport = async (fromDate, toDate) => {
+const grandTotalReport = async (fromDate, toDate, param) => {
   let sumOfTotal = 0.0;
+  let condition = {};
+  if (param === "all") {
+    condition = null;
+  } else {
+    condition = {
+      [Op.and]: [
+        sequelize.where(sequelize.fn("date", sequelize.col("date")), ">=", fromDate),
+        sequelize.where(sequelize.fn("date", sequelize.col("date")), "<=", toDate),
+      ],
+    };
+  }
   const list = await Billing.findAll(
     {
       attributes: [
@@ -168,12 +185,7 @@ const grandTotalReport = async (fromDate, toDate) => {
         [sequelize.fn("date_format", sequelize.col("date"), "%d-%m-%Y"), "date"],
         [sequelize.fn("count", sequelize.col("date")), "no_of_bills"],
       ],
-      where: {
-        [Op.and]: [
-          sequelize.where(sequelize.fn("date", sequelize.col("date")), ">=", fromDate),
-          sequelize.where(sequelize.fn("date", sequelize.col("date")), "<=", toDate),
-        ],
-      },
+      where: condition,
       group: ["date"],
     },
     { raw: true }
@@ -275,7 +287,7 @@ const getCountByClass = async () => {
     };
     return handleResponse("success", response, "Data Fetched Successfully", "fetchedInvoice");
   }
-  return handleResponse("error", [], "No Data found", "fetchedInvoice");
+  return handleResponse("error", null, "No Data found", "fetchedInvoice");
 };
 
 const updateInvoiceDetails = async (invoiceId, billingData) => {

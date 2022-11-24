@@ -21,6 +21,7 @@ module.exports = {
       class: {
         type: Sequelize.ENUM,
         values: [
+          "pre-nursery",
           "infant",
           "nursery",
           "prep",

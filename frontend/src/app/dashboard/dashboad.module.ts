@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DashboardService } from './dashboard.service';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 // components
 
@@ -24,11 +26,14 @@ export const routes = [
       ReactiveFormsModule,
       // HttpClientModule,
       SharedModule,
+      NgxChartsModule
     ],
     declarations: [
       DashboardComponent
     ],
-    providers: []
+    providers: [
+      DashboardService
+    ]
 
 })
 export class DashboardModule {

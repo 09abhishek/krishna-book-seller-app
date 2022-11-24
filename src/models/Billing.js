@@ -20,6 +20,7 @@ const Billing = db.define("billing", {
   class: {
     type: Sequelize.ENUM,
     values: [
+      "pre-nursery",
       "infant",
       "nursery",
       "prep",

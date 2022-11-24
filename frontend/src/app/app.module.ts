@@ -17,6 +17,7 @@ import { MessageService } from 'primeng/api';
 import { AuthGuard } from './providers/guards/auth.guard';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationDialogService } from './shared/components/confirmation-dialog/confirmation-dialog.service';
+import { ImportExportComponent } from './import-export/import-export.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ConfirmationDialogService } from './shared/components/confirmation-dial
     ForgotPasswordComponent,
     FullLayoutComponent,
     LoginComponent,
+    ImportExportComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,7 @@ import { ConfirmationDialogService } from './shared/components/confirmation-dial
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    ToastModule
+    ToastModule,
   ],
   providers: [
     AppService,

@@ -26,6 +26,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   selectedBook: any = [];
   selectedBookIds: any = [];
   totalInvoiceAmount: any = '';
+  netInvoiceAmount: any = '';
   submitLoader = false;
   intialPageLoader = false;
   showPrint = false;
@@ -41,9 +42,10 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   errorMessage: any = '';
   saveInvoiceId: any;
   classList: any = [
-    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
-    {id: 3, name: 'prep', value: 'Prep'},
+    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 3, name: 'prep', value: 'Preparatory'},
     {id: 4, name: 'one', value: '1'},
     {id: 5, name: 'two', value: '2'},
     {id: 6, name: 'three', value: '3'},
@@ -142,6 +144,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     params.stdClass = formValue.classno;
     params.fatherName = formValue.fathername;
     params.totalAmount = this.totalInvoiceAmount;
+    params.totalNetAmount = this.netInvoiceAmount;
     if(formValue.mobno) {
       params.mobileNum = formValue.mobno;
     }
@@ -180,6 +183,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       this.selectedBook = [];
       this.selectedBookIds = [];
       this.totalInvoiceAmount = '';
+      this.netInvoiceAmount = '';
       this.showPrint = false;
     if(this.invoiceId) {
       this.getInvoiceDetails(this.invoiceId);
@@ -227,6 +231,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       this.selectedBook = [];
       this.selectedBookIds = [];
       this.totalInvoiceAmount = '';
+      this.netInvoiceAmount = '';
       this.showPrint = false;
     }, 10);
   }
@@ -266,17 +271,23 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   totalAmount(): any {
     let total: any = '';
     let intialSum: any = 0;
+    let intialNetQtySum: any = 0;
     if(this.selectedBook.length > 0) {
       this.selectedBook.forEach((item: any) => {
         if (item.mrp && item.quantity && item.amount) {
           const amt = parseFloat(item.amount);
-          intialSum = intialSum + amt
+          intialSum = intialSum + amt;
+
+          const netPriceAmt = (parseFloat(item.net_price) * Number(item.quantity));
+          intialNetQtySum = intialNetQtySum + netPriceAmt;
         }
       });
       this.totalInvoiceAmount = parseFloat(intialSum).toFixed(2);
+      this.netInvoiceAmount = parseFloat(intialNetQtySum).toFixed(2);
       // this.cdr.detectChanges();
     } else {
       this.totalInvoiceAmount = '';
+      this.netInvoiceAmount = '';
     }
   }
   validateAllFormFields(formGroup: FormGroup) {
@@ -324,6 +335,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         // this.invoiceForm.controls['date'].setValue(this.invoiceDetails.date);
         this.invoiceForm.controls['address'].setValue(this.invoiceDetails.address);
         // this.totalInvoiceAmount = this.invoiceDetails.total_amount;
+        // this.netInvoiceAmount = this.invoiceDetails.totalNetAmount;
         this.billingDate = new Date(this.invoiceDetails.date);
         if (this.invoiceDetails && this.invoiceDetails.bill_data) {
           this.invoiceDetails.bill_data.forEach((data: any) => {

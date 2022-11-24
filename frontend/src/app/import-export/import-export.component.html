@@ -1,0 +1,38 @@
+<div class="content-wrapper">
+  <div class="content-heading">
+    <div class="content-details flex">
+      <h5>Import - Export</h5>
+    </div>
+    <div class="content-field">
+      <div class="export-content flex">
+        <p class="title">All Collection Report</p>
+        <button class="export" type="button" (click)="exportAllTypeExcel('daily-collection')">Export
+          <ng-container *ngIf="(collectionreportLoader && (exportType === 'daily-collection'))">
+            <span  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </ng-container>
+        </button>
+      </div>
+      <div class="export-content flex">
+        <p class="title">All Grand Collection Report</p>
+        <button class="export" type="button" (click)="exportAllTypeExcel('grand-collection')">Export
+          <ng-container *ngIf="(collectionreportLoader && exportType === 'grand-collection')">
+            <span  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </ng-container>
+        </button>
+      </div>
+      <ng-container *ngIf="userDetails && userDetails.user_type && userDetails.user_type === 'super_admin'">
+      <div class="export-content flex">
+        <p class="title title-book">Upload Book</p>
+        <div class="upload-Sextion flex">
+          <input type="file" class="custom-file-input" accept=".xls, .xlsx" (change)="uploadStudentFile($event)">
+        </div>
+        <button class="export submit" [disabled]="!file" type="button" (click)="submitUploadFile()">Upload</button>
+      </div>
+      <div class="error-file">
+        {{fileError}}
+      </div>
+    </ng-container>
+    </div>
+  </div>
+</div>
+<!-- <input type="file"> -->

@@ -52,15 +52,17 @@
     "prettier"
   ],
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
+    "convert-excel-to-json": "^1.7.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.0",
     "express-rate-limit": "^5.0.0",
+    "fs-extra": "^10.1.0",
     "helmet": "^4.1.0",
     "http-status": "^1.4.0",
     "joi": "^17.3.0",
@@ -68,6 +70,7 @@
     "moment": "^2.29.4",
     "mongoose": "^5.7.7",
     "morgan": "^1.9.1",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.3.1",
     "passport": "^0.4.0",
@@ -81,6 +84,7 @@
     "uuid": "^9.0.0",
     "validator": "^13.0.0",
     "winston": "^3.2.1",
+    "xlsx": "^0.18.5",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

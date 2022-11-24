@@ -89,17 +89,9 @@
             // padding: 12px 0;
             color: black;
             font-weight: 600;
+            // width: 90px;
           }
-          select {
-            outline: 0;
-            width: 245px;
-            height: 40px;
-            line-height: 15px;
-            background: #fff;
-            border: solid 1px #dfdfdf;
-            border-radius: 2px;
-            margin-left: 6%
-          }
+
         }
         .search-details {
           flex-direction: column;
@@ -109,6 +101,16 @@
               padding-right: 30px;
               color: gray;
               width: 90px;
+            }
+            select {
+              outline: 0;
+              width: 100px;
+              margin-right: 10px;
+              height: 40px;
+              line-height: 15px;
+              background: #fff;
+              border: solid 1px #dfdfdf;
+              border-radius: 2px;
             }
             input {
               width: 250px;

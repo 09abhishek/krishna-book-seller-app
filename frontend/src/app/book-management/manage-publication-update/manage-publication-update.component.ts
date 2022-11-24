@@ -20,9 +20,10 @@ export class ManagePublicationUpdateComponent implements OnInit {
   publicationList: any = [];
   loading = false;
   classList: any = [
-    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
-    {id: 3, name: 'prep', value: 'Prep'},
+    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 3, name: 'prep', value: 'Preparatory'},
     {id: 4, name: 'one', value: '1'},
     {id: 5, name: 'two', value: '2'},
     {id: 6, name: 'three', value: '3'},
@@ -45,6 +46,7 @@ export class ManagePublicationUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.publicationDetails = localStorage.getItem('publicationDetails')  ? JSON.parse(localStorage.getItem('publicationDetails')!) : '';
+    console.log(this.publicationDetails);
     this.fillPublicationForm(this.publicationDetails);
     // this.route.queryParams.subscribe( (params: any) => {
     //   if (params && params['publicationDetails']) {

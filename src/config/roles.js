@@ -1,7 +1,21 @@
 const allRoles = {
-  accountant: ["submitInvoice"],
-  admin: [
+  accountant: [
     "submitInvoice",
+    "getInvoiceById",
+    "searchInvoice",
+    "searchInvoiceByNum",
+    "searchInvoiceByName",
+    "updateInvoice",
+    "getBillNum",
+    "getAllBooks",
+    "getBooks",
+    "getPublication",
+    "getPublications",
+    "getUsers",
+    "getUser",
+    "exportData",
+  ],
+  admin: [
     "submitInvoice",
     "getInvoiceById",
     "deleteInvoice",
@@ -24,10 +38,11 @@ const allRoles = {
     "getUser",
     "updateUsers",
     "deleteUser",
+    "upload",
+    "exportData",
   ],
   super_admin: [
     "submitInvoice",
-    "submitInvoice",
     "getInvoiceById",
     "deleteInvoice",
     "searchInvoice",
@@ -49,6 +64,8 @@ const allRoles = {
     "getUser",
     "updateUsers",
     "deleteUser",
+    "upload",
+    "exportData",
   ],
 };
 

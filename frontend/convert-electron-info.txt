@@ -1,0 +1,25 @@
+1. first install capacitor command
+    npm i @capacitor/core@1.5.3
+    npm i @capacitor/cli@1.5.3
+2. convert angular app to electon app using following command
+    npx cap init
+    after install command
+    i). they will ask you app name and enter app name.
+    ii). then it will generate "capacitor.config.json" file.
+    iii).go to angular.json file replace "outputPath" value to "wwww"
+3. put angular build
+    ng build
+4. add the electron to your application using flowing command
+    npx cap add electron
+    automatically electron folder will generate
+5. indide electron > app > index.html
+  add . flowing "<base href="./">"
+6. open electon app sing flowwing command
+  npx cap open electron
+  desktop application will open
+7. convert to .exe file install flowing command(first go to electon folder)
+    i). npm install -g electron-packager --save-dev
+    ii). electron-packager . --platform=win32 --arch=x64 krishna-book-seller-app
+
+8. resolve all issue run this command
+  npm audit fix

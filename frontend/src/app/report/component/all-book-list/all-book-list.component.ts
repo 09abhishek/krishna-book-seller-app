@@ -18,9 +18,10 @@ export class AllBookListComponent implements OnInit {
   todayDate: any = new Date();
   loading = true;
   classList: any = [
-    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
-    {id: 3, name: 'prep', value: 'Prep'},
+    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 3, name: 'prep', value: 'Preparatory'},
     {id: 4, name: 'one', value: '1'},
     {id: 5, name: 'two', value: '2'},
     {id: 6, name: 'three', value: '3'},

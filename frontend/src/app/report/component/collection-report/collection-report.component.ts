@@ -26,9 +26,10 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
   printExportData: any = [];
   private subscriptions: any = {};
   classList: any = [
-    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
-    {id: 3, name: 'prep', value: 'Prep'},
+    {id: 1, name: 'infant', value: 'Infant'},
+    {id: 3, name: 'prep', value: 'Preparatory'},
     {id: 4, name: 'one', value: '1'},
     {id: 5, name: 'two', value: '2'},
     {id: 6, name: 'three', value: '3'},
@@ -129,7 +130,7 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
     let docDefinition: any = {
       content: [
         { text: 'Krishna Book Seller', style: 'topheader' },
-        { text: 'Ramana, Muzaffarpur-842002', style: 'address' },
+        { text: 'Ramna, Muzaffarpur-842002', style: 'address' },
         { text: 'Daily Collection Report', bold: true, style: 'invoice' },
         // { text: 'Date:  ' + (this.fromDateValue ? moment(this.fromDateValue).format('DD-MMM-YYYY') : '') + ' To  '+ (this.toDateValue ? moment(this.toDateValue).format('DD-MMM-YYYY') : '') , bold: true, style: 'peroidDate', alignment: 'left'},
         {
@@ -203,8 +204,10 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
   }
 
   exportExcel() {
+      let exportData = [];
+      exportData = JSON.parse(JSON.stringify(this.printExportData));
       const fileName = 'dailycollectionreport ' + moment(this.todayDate).format('DD-MMM-YYYY') + '.xlsx';
-      this.printExportData.push({billno: '', billdate: '', name: '', 'class': '', totalamount: 'Total Amout (₹): ' + this.totalAmount},)
+      exportData.push({billno: '', billdate: '', name: '', 'class': '', totalamount: 'Total Amout (₹): ' + this.totalAmount},)
       let Heading = [['Bill-No', 'Bill-Date', 'Name', 'Class', 'Total (₹)']];
       //Had to create a new workbook and then add the header
       const wb = XLSX.utils.book_new();
@@ -212,7 +215,7 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
       XLSX.utils.sheet_add_aoa(ws, Heading);
 
       //Starting in the second row to avoid overriding and skipping headers
-      XLSX.utils.sheet_add_json(ws, this.printExportData, { origin: 'A2', skipHeader: true });
+      XLSX.utils.sheet_add_json(ws, exportData, { origin: 'A2', skipHeader: true });
 
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 

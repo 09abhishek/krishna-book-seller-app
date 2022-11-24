@@ -1,5 +1,3 @@
-const httpStatus = require("http-status");
-
 const handleResponse = (status, data, message, operation = "") => {
   if (operation !== "") {
     return {
