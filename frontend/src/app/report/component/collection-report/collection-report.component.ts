@@ -26,7 +26,7 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
   printExportData: any = [];
   private subscriptions: any = {};
   classList: any = [
-    {id: 1, name: 'prenursery', value: 'Pre Nursery'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
     {id: 1, name: 'infant', value: 'Infant'},
     {id: 3, name: 'prep', value: 'Preparatory'},
@@ -130,7 +130,7 @@ export class CollectionReportComponent implements OnInit, OnDestroy {
     let docDefinition: any = {
       content: [
         { text: 'Krishna Book Seller', style: 'topheader' },
-        { text: 'Ramana, Muzaffarpur-842002', style: 'address' },
+        { text: 'Ramna, Muzaffarpur-842002', style: 'address' },
         { text: 'Daily Collection Report', bold: true, style: 'invoice' },
         // { text: 'Date:  ' + (this.fromDateValue ? moment(this.fromDateValue).format('DD-MMM-YYYY') : '') + ' To  '+ (this.toDateValue ? moment(this.toDateValue).format('DD-MMM-YYYY') : '') , bold: true, style: 'peroidDate', alignment: 'left'},
         {

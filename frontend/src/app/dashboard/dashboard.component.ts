@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   classId: any = 'two';
   bookListData: any = [];
   classList: any = [
-    {id: 1, name: 'prenursery', value: 'Pre Nursery', className: 'Pre Nursery'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery', className: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery', className: 'Nursery'},
     {id: 1, name: 'infant', value: 'Infant', className: 'Infant'},
     {id: 3, name: 'prep', value: 'Preparatory', className: 'Preparatory'},

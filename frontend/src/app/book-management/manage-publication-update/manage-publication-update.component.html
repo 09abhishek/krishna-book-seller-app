@@ -13,14 +13,14 @@
         <div *ngIf="(publicationUpdateForm.controls['publicationName'].hasError('required') && publicationUpdateForm.controls['publicationName'].touched)" class="error-data position-error">Publication Name is required</div>
       </div>
       <div class="content-btn flex">
-        <button class="btn-save button" type="button" (click)="onSaveConfirmation()">update
+        <button class="btn-save button" type="button" (click)="onSaveConfirmation()">Update
           <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
         <button class="btn-cancel button" type="button" (click)="cancel()">Cancel</button>
     </div>
     </div>
     <div class="table-responsive">
-      <p-table [value]="publicationDetails.Books" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+      <p-table [value]="publicationDetails.books" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-customers">
 
               <ng-template pTemplate="header">

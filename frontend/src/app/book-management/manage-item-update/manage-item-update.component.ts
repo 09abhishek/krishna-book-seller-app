@@ -19,7 +19,7 @@ export class ManageItemUpdateComponent implements OnInit {
   submitLoader = false;
   publicationList: any = [];
   classList: any = [
-    {id: 1, name: 'prenursery', value: 'Pre Nursery'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
     {id: 1, name: 'infant', value: 'Infant'},
     {id: 3, name: 'prep', value: 'Preparatory'},
@@ -122,7 +122,7 @@ fillbookForm(bookDetails : any) {
     const params: any = {};
     params.id = this.bookDetails.id;
     params.name = formValue.bookname;
-    params.stdClass = formValue.class;
+    params.class = formValue.class;
     params.publicationId = formValue.publication;
     params.quantity = formValue.Quantity;
     params.mrp = formValue.mrp;

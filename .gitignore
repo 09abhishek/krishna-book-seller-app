@@ -2,6 +2,7 @@
 /node_modules
 ../.idea/
 .vscode/*
+/uploads
 # yarn error logs
 yarn-error.log
 

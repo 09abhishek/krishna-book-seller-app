@@ -35,19 +35,19 @@ export class ManagePublicationListComponent implements OnInit {
     });
   }
   public openConfirmationDialog(id: any) {
-    this.confirmationDialogService.confirm('Confirmation', "Are you sure you want delete?",
+    this.confirmationDialogService.confirm('Confirmation', "If publication is deleted all related books will be deleted, Please confirm!",
         "Okay", "Cancel","danger", "secondary")
         .then((confirmed) => {
             console.log('User confirmed:', confirmed);
             if (confirmed) {
-              this.deletepublication(id);
+              this.deletePublication(id);
             }
       })
        .catch(() => {
        console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)');
     });
   }
-  deletepublication(id: any) {
+  deletePublication(id: any) {
     const publicationId = [];
     publicationId.push(id);
     const params: any = {};

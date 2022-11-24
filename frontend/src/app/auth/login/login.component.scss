@@ -29,7 +29,7 @@
           font-size: 45px;
           font-weight: 600;
           color: #ced4da;
-          font-family: 'Kanit', sans-serif;
+          font-family: Nunito, sans-serif;
           padding-left: 1%
       }
   }
@@ -88,10 +88,8 @@
           }
       }
       .log-btn {
-          width: 347px;
           height: 58px;
           border-radius: 4px;
-          background-color: white;
           line-height: 58px;
           font-size: 20px;
           font-weight: normal;
@@ -100,6 +98,7 @@
           display: block;
           width: 100%;
           text-align: center;
+          background: linear-gradient( to right, #c0c3c9, #f7f3f3);
       }
       .fgt-btn {
           justify-content: flex-end;
