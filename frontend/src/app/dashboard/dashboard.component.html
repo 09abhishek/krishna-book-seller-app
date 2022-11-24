@@ -4,23 +4,23 @@
         <h4>Basic Information (30 days)</h4>
         <ul class="flex">
             <li class="flex">
-                <img src="assets/img/netsell.png">
+                <img src="assets/img/total-sale.png">
                 <h3>Net Sell</h3>
-                <h2 class="flex">{{netSellCount}}</h2>
+                <h2 class="flex">₹ {{netSellCount}}</h2>
             </li>
             <li class="flex invoice-child">
-               <img src="assets/img/totalsell.png">
+               <img src="assets/img/total-sales.png">
                <!-- <h3>Total Invoice Generated</h3> -->
                <h3>Total Sell</h3>
-                <h2 class="flex">{{totalSellCount}}</h2>
+                <h2 class="flex">₹ {{totalSellCount}}</h2>
             </li>
             <li class="flex sell-child">
-                <img src="assets/img/hand.jpeg">
+                <img src="assets/img/revenue.png">
                 <h3>Revenue</h3>
-                <h2 class="flex">{{revenue}}</h2>
+                <h2 class="flex">₹ {{revenue}}</h2>
             </li>
             <li class="flex sell-child">
-                <img src="assets/img/invoice.jpeg">
+                <img src="assets/img/invoice.png">
                 <h3>Total Invoice Generated</h3>
                 <h2 class="flex">{{invoiceCount}}</h2>
             </li>
@@ -36,7 +36,7 @@
         <tr>
           <th>Bill No</th>
           <th>Name</th>
-          <th>Amount</th>
+          <th>Amount (₹)</th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +72,7 @@
 
 <div class="charts-graph flex">
   <div class="card line-graph">
-    <h5>Grand Collection (30 days)</h5>
+    <h6>Grand Collection (30 days)</h6>
     <p-chart type="line" [data]="basicGrandCollectionData" [options]="basiGrandCollectionLine" height="55vh"></p-chart>
   </div>
   <div class="card sells-bar-graph">

@@ -22,11 +22,11 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="name">Book Name<p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="class_no">Class<p-sortIcon field="class_no"></p-sortIcon></th>
                     <th pSortableColumn="publication.name">Publication<p-sortIcon field="publication.name"></p-sortIcon></th>
                     <th pSortableColumn="quantity">Quantity<p-sortIcon field="quantity"></p-sortIcon></th>
                     <th pSortableColumn="net_price">Net Price<p-sortIcon field="net_price"></p-sortIcon></th>
                     <th pSortableColumn="mrp">MRP<p-sortIcon field="mrp"></p-sortIcon></th>
-                    <th pSortableColumn="class_no">Class<p-sortIcon field="class_no"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
@@ -34,6 +34,10 @@
                     <td>
                         <span class="p-column-title">Book_Name</span>
                          {{customer.name}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">class</span>
+                      <span class="image-text">{{customer.class}}</span>
                     </td>
                     <td>
                         <span class="p-column-title">Publication</span>
@@ -50,10 +54,6 @@
                     <td>
                         <span class="p-column-title">mrp</span>
                         <span class="image-text">{{customer.mrp}}</span>
-                    </td>
-                    <td>
-                        <span class="p-column-title">class</span>
-                        <span class="image-text">{{customer.class_no}}</span>
                     </td>
 
                 </tr>

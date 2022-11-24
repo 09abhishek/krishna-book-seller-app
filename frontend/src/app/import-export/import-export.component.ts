@@ -24,7 +24,7 @@ export class ImportExportComponent implements OnInit {
   file: any;
   userDetails: any;
   classList: any = [
-    {id: 1, name: 'prenursery', value: 'Pre Nursery'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
     {id: 1, name: 'infant', value: 'Infant'},
     {id: 3, name: 'prep', value: 'Preparatory'},
@@ -82,14 +82,6 @@ export class ImportExportComponent implements OnInit {
               params.totalamount = item.total_amount;
               this.printExportData.push(params);
           });
-          for(let i = 0; i < 3000; i++) {
-            const params: any = {};
-              params.sno = 1;
-              params.feedate = '22/04/2022';
-              params.noOfBills = '4';
-              params.totalamount = '4000';
-              this.printExportData.push(params);
-          }
           this.collectionreportLoader = false;
           setTimeout(() => {
             this.exportExcel();
@@ -101,7 +93,7 @@ export class ImportExportComponent implements OnInit {
         this.collectionreportLoader = false;
       },
       complete: () => {
-        // this.collectionreportLoader = false;
+         this.collectionreportLoader = false;
         // this.exportType = '';
       }
     });
@@ -171,10 +163,14 @@ submitUploadFile() {
   this.subscriptions['file'] = this.appService.uploadBookList(params).subscribe({
     next: (res) => {
       // console.log('res', res);
+      this.file = "";
     },
-    error: (error) => {},
+    error: (error) => {
+      this.fileError = error?.error?.message;
+    },
     complete: () => {}
     });
+  this.file = "";
 }
 
 ngOnDestroy(): void {

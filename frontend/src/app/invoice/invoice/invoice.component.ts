@@ -42,7 +42,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   errorMessage: any = '';
   saveInvoiceId: any;
   classList: any = [
-    {id: 1, name: 'prenursery', value: 'Pre Nursery'},
+    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
     {id: 2, name: 'nursery', value: 'Nursery'},
     {id: 1, name: 'infant', value: 'Infant'},
     {id: 3, name: 'prep', value: 'Preparatory'},

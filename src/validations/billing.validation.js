@@ -10,6 +10,7 @@ const addInvoice = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     stdClass: Joi.string().valid(
+      "pre-nursery",
       "infant",
       "nursery",
       "prep",
@@ -70,6 +71,7 @@ const updateInvoice = {
     stdClass: Joi.string()
       .required()
       .valid(
+        "pre-nursery",
         "infant",
         "nursery",
         "prep",
