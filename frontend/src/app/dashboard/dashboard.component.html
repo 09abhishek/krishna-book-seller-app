@@ -77,7 +77,7 @@
   </div>
   <div class="card sells-bar-graph">
     <div class="class-card flex">
-      <h5>Book Quantity by Class</h5>
+      <h5>Book Quantity</h5>
       <select class="search select-drop" id="mysel" (change)="onChangeClass()" [(ngModel)]="classId">
         <ng-container *ngFor="let item of classList">
           <option value= "{{item.name}}">{{item.value}}</option>
