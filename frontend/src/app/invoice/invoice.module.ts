@@ -14,7 +14,6 @@ import { InvoicePrintService } from './invoice/invoice-print.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    // HttpClientModule,
     SharedModule,
     routing
   ],

@@ -17,7 +17,6 @@ import { ReportService } from './report.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    // HttpClientModule,
     routing,
     SharedModule
   ],

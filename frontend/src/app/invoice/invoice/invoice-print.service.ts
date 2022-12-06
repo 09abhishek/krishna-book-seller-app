@@ -14,9 +14,7 @@ export class InvoicePrintService {
     data.forEach((row : any) => {
       let dataRow: any = [];
       bodyColumns.forEach((column: any) => {
-        // if (column.text == 'Particulars' || column.text == 'Rate'|| column.text == 'Quantity'|| column.text == 'Amount') {
           dataRow.push(row[column.text]);
-        // }
       });
       body.push(dataRow);
     });
@@ -27,7 +25,6 @@ export class InvoicePrintService {
     return {
       style: "tableDataDetails",
       table: {
-        // headerRows: 4,
         widths: [ 'auto', '*', '*', '*'],
         body: this.buildTableBody(data, headerColums, bodyColumns),
       },
@@ -37,7 +34,6 @@ export class InvoicePrintService {
     return {
       style: "tableDataDetailsright",
       table: {
-        // headerRows: 4,
         widths: [ 'auto', '*', '*', '*'],
         body: this.buildTableBody(data, headerColums, bodyColumns),
       },

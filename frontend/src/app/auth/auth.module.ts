@@ -12,17 +12,14 @@ import { routing } from './auth.routing';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    // HttpClientModule,
     SharedModule,
     routing
   ],
 
   providers: [
-    // InputMeetingService
   ],
 
   declarations: [
-    // LoginComponent
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
