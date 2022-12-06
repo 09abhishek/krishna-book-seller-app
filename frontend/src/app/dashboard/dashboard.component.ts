@@ -3,6 +3,7 @@ import { DashboardService } from './dashboard.service';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import {each, groupBy} from 'lodash';
+import { dashBorardClassList } from '../shared/class-list';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,24 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   totalNumberBillByClass: any = {};
   classId: any = 'two';
   bookListData: any = [];
-  classList: any = [
-    {id: 1, name: 'pre-nursery', value: 'Pre Nursery', className: 'Pre Nursery'},
-    {id: 2, name: 'nursery', value: 'Nursery', className: 'Nursery'},
-    {id: 1, name: 'infant', value: 'Infant', className: 'Infant'},
-    {id: 3, name: 'prep', value: 'Preparatory', className: 'Preparatory'},
-    {id: 4, name: 'one', value: '1', className: 'One'},
-    {id: 5, name: 'two', value: '2', className: 'Two'},
-    {id: 6, name: 'three', value: '3', className: 'Three'},
-    {id: 7, name: 'four', value: '4', className: 'Four'},
-    {id: 8, name: 'five', value: '5', className: 'Five'},
-    {id: 9, name: 'six', value: '6', className: 'Six'},
-    {id: 10, name: 'seven', value: '7', className: 'Seven'},
-    {id: 11, name: 'eight', value: '8', className: 'Eight'},
-    {id: 12, name: 'nine', value: '9', className: 'Nine'},
-    {id: 13, name: 'ten', value: '10', className: 'Ten'},
-    {id: 14, name: 'eleven', value: '11', className: 'Eleven'},
-    {id: 14, name: 'twelve', value: '12', className: 'Twelve'},
-  ];
+  classList: any = dashBorardClassList;
   colorScheme: any = {
     domain: ['#42A5F5', "#66BB6A","#FFA726",'#ff4000', '#00ffbf']
   };
@@ -87,14 +71,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 fontSize: 12
               }
         },
-        // y: {
-        //     ticks: {
-        //         color: '#495057'
-        //     },
-        //     grid: {
-        //         color: '#ebedef'
-        //     }
-        // }
         yAxes: [
           {
             ticks: {
@@ -107,8 +83,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 };
 this.totalBillbyClassConfig = {
-  // responsive: true,
-  // maintainAspectRatio: true,
   plugins: {
     legend: {
         labels: {
@@ -304,7 +278,6 @@ this.basiGrandCollectionLine = {
             });
             params.datasets.push(datasetparams);
             this.totalBillbyClassData = params;
-            // console.log('this.totalBillbyClassData', this.totalBillbyClassData);
           }
           this.invoiceCount = res.data.sum_of_totals;
         }
@@ -320,9 +293,6 @@ this.basiGrandCollectionLine = {
     this.subscriptions['getTotaSellCount'] = this.dashboardService.dailyCollectionInvoice(params).subscribe({
       next: (res) => {
         if(res && res.data) {
-          // this.netSellCount = 0;
-          // this.totalSellCount = 0;
-          // this.revenue = 0;
         }
       },
     });

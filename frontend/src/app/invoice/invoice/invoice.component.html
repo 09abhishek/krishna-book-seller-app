@@ -1,13 +1,10 @@
 <div class="content-wrapper">
   <div class="content-heading">
     <div class="content-details flex">
-      <!-- <h4>Krishna Book Seller</h4> -->
-      <!-- <p>House ofhemlata verma,pitamber babu lane, behind lic building Ramna,Muzaffarpur-842002</p> -->
       <h5>{{invoiceId ? 'Update' : 'Generate'}}  Invoice</h5>
     </div>
     <form [formGroup]="invoiceForm">
     <div class="content-field flex">
-      <!-- <form [formGroup]="invoiceForm"> -->
       <div class="input-field">
         <label>Name</label>
         <input type="text" formControlName="name" style="text-transform: uppercase">
@@ -25,7 +22,6 @@
       <div class="input-field">
         <label>Mob. No</label>
         <input type="text" appOnlyNumber numericType="number" maxlength=10 formControlName="mobno">
-        <!-- <div *ngIf="(invoiceForm.controls['mobno'].hasError('required') && invoiceForm.controls['mobno'].touched)" class="error-data position-error">Mobile No is required</div> -->
       </div>
       <div class="input-field">
         <label>Class</label>
@@ -39,15 +35,11 @@
       <div class="input-field">
         <label for="To">Date</label>
           <p-calendar inputId="To" [(ngModel)]="billingDate" [showIcon]="false" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" formControlName="date"></p-calendar>
-          <!-- <div *ngIf="(invoiceForm.controls['date'].hasError('required') && invoiceForm.controls['date'].touched)" class="error-data position-error">Date is required</div> -->
       </div>
       <div class="input-field flex">
         <label>Address</label>
         <input type="text" formControlName="address" style="text-transform: uppercase">
-        <!-- <textarea formControlName="address" style="overflow:auto;resize:none;height: 50px;"></textarea> -->
-        <!-- <div *ngIf="(invoiceForm.controls['address'].hasError('required') && invoiceForm.controls['address'].touched)" class="error-data position-error">Addess is required</div> -->
       </div>
-    <!-- </form> -->
     </div>
   </form>
   </div>
@@ -69,8 +61,6 @@
 
   <ng-container *ngIf="classId && bookList.length > 0">
   <div class="report-print flex" *ngIf="classId && showPrint">
-  <!-- <div class="report-print flex"> -->
-    <!-- <button class="btn-reset button" type="button" (click)="generatePdf()">Reset</button> -->
     <button class="btn-search button" type="button" (click)="printInvoice('print')">Print</button>
   </div>
   <div class="table-responsive inv-adm-tbl">

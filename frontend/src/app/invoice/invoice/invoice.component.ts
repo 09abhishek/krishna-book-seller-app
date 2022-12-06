@@ -10,6 +10,7 @@ import {each, groupBy} from 'lodash';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { InvoicePrintService } from './invoice-print.service';
+import { classList } from './../../shared/class-list';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -41,24 +42,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
   previousSelectedBook: any = [];
   errorMessage: any = '';
   saveInvoiceId: any;
-  classList: any = [
-    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
-    {id: 2, name: 'nursery', value: 'Nursery'},
-    {id: 1, name: 'infant', value: 'Infant'},
-    {id: 3, name: 'prep', value: 'Preparatory'},
-    {id: 4, name: 'one', value: '1'},
-    {id: 5, name: 'two', value: '2'},
-    {id: 6, name: 'three', value: '3'},
-    {id: 7, name: 'four', value: '4'},
-    {id: 8, name: 'five', value: '5'},
-    {id: 9, name: 'six', value: '6'},
-    {id: 10, name: 'seven', value: '7'},
-    {id: 11, name: 'eight', value: '8'},
-    {id: 12, name: 'nine', value: '9'},
-    {id: 13, name: 'ten', value: '10'},
-    {id: 14, name: 'eleven', value: '11'},
-    {id: 14, name: 'twelve', value: '12'},
-  ];
+  classList: any = classList;
   constructor(
      private fb: FormBuilder,
      private cdr: ChangeDetectorRef,
@@ -163,12 +147,10 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
           if(!this.invoiceId && res.data && res.data[0]) {
             this.saveInvoiceId = res.data[0];
           }
-          // this.messageService.add({severity:'success', summary: 'Success', detail: "SuccessFully Created"});
           this.submitLoader = false;
           this.showPrint = true;
           this.printData = params;
           this.printData['bill_no'] =  formValue.billno ? formValue.billno : '';
-          // this.cancel();
         }
       },
       error: (error)=> {
@@ -284,7 +266,6 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       });
       this.totalInvoiceAmount = parseFloat(intialSum).toFixed(2);
       this.netInvoiceAmount = parseFloat(intialNetQtySum).toFixed(2);
-      // this.cdr.detectChanges();
     } else {
       this.totalInvoiceAmount = '';
       this.netInvoiceAmount = '';
@@ -332,10 +313,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         this.invoiceForm.controls['fathername'].setValue(this.invoiceDetails.father_name);
         this.invoiceForm.controls['mobno'].setValue(this.invoiceDetails.mobile_num);
         this.invoiceForm.controls['classno'].setValue(this.invoiceDetails.class);
-        // this.invoiceForm.controls['date'].setValue(this.invoiceDetails.date);
         this.invoiceForm.controls['address'].setValue(this.invoiceDetails.address);
-        // this.totalInvoiceAmount = this.invoiceDetails.total_amount;
-        // this.netInvoiceAmount = this.invoiceDetails.totalNetAmount;
         this.billingDate = new Date(this.invoiceDetails.date);
         if (this.invoiceDetails && this.invoiceDetails.bill_data) {
           this.invoiceDetails.bill_data.forEach((data: any) => {
@@ -344,7 +322,6 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
             this.previousSelectedBook.push({id: data.id, quantity: data.quantity});
           })
         }
-        // console.log('this.selectedBookListByid', this.selectedBookListByid)
       }
     });
   }
@@ -366,7 +343,6 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     });
   }
   printInvoice(type: string) {
-    // this.invoicePrintService.generatePdf(this.printData, this.billingDate, this.classList, type);
     const id = this.invoiceId ? this.invoiceId : this.saveInvoiceId;
     this.generatePdf(type, id);
   }
@@ -406,7 +382,6 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     });
 }
   ngOnDestroy(): void {
-    // this.sub.unsubscribe();
     each(this.subscriptions, (subscription: Subscription) => {
       subscription.unsubscribe();
     });

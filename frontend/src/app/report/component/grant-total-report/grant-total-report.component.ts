@@ -50,7 +50,6 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
               const params: any = {};
               params.sno = (index + 1);
               params.feedate = item.date ? `${dateValue[0]}-${this.getMonthName(dateValue[1])}-${dateValue[2]} ` : '';
-              // params.name = item.name;
               params.noOfBills = item.no_of_bills;
               params.totalamount = item.total_amount;
               this.printExportData.push(params);
@@ -82,9 +81,7 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
     data.forEach((row : any) => {
       let dataRow: any = [];
       bodyColumns.forEach((column: any) => {
-        // if (column.text == 'Particulars' || column.text == 'Rate'|| column.text == 'Quantity'|| column.text == 'Amount') {
           dataRow.push(row[column.text]);
-        // }
       });
       body.push(dataRow);
     });
@@ -195,7 +192,6 @@ export class GrantTotalReportComponent implements OnInit, OnDestroy {
       XLSX.writeFile(wb, fileName);
     }
     ngOnDestroy(): void {
-      // this.sub.unsubscribe();
       each(this.subscriptions, (subscription: Subscription) => {
         subscription.unsubscribe();
       });

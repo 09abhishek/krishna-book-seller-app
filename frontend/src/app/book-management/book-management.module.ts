@@ -16,7 +16,6 @@ import { BookManagementService } from './book-management.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    // HttpClientModule,
     SharedModule,
     routing
   ],

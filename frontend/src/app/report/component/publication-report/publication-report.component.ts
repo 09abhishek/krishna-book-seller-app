@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {each, groupBy} from 'lodash';
 import * as pdfMake from "pdfmake/build/pdfmake";
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
 import { ReportService } from '../../report.service';
@@ -49,9 +47,7 @@ export class PublicationReportComponent implements OnInit {
     data.forEach((row : any) => {
       let dataRow: any = [];
       bodyColumns.forEach((column: any) => {
-        // if (column.text == 'Particulars' || column.text == 'Rate'|| column.text == 'Quantity'|| column.text == 'Amount') {
           dataRow.push(row[column.text]);
-        // }
       });
       body.push(dataRow);
     });

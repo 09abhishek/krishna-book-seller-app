@@ -1,3 +1,4 @@
+import { classList } from './../shared/class-list';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
@@ -23,24 +24,7 @@ export class ImportExportComponent implements OnInit {
   fileName = '';
   file: any;
   userDetails: any;
-  classList: any = [
-    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
-    {id: 2, name: 'nursery', value: 'Nursery'},
-    {id: 1, name: 'infant', value: 'Infant'},
-    {id: 3, name: 'prep', value: 'Preparatory'},
-    {id: 4, name: 'one', value: '1'},
-    {id: 5, name: 'two', value: '2'},
-    {id: 6, name: 'three', value: '3'},
-    {id: 7, name: 'four', value: '4'},
-    {id: 8, name: 'five', value: '5'},
-    {id: 9, name: 'six', value: '6'},
-    {id: 10, name: 'seven', value: '7'},
-    {id: 11, name: 'eight', value: '8'},
-    {id: 12, name: 'nine', value: '9'},
-    {id: 13, name: 'ten', value: '10'},
-    {id: 14, name: 'eleven', value: '11'},
-    {id: 14, name: 'twelve', value: '12'},
-  ];
+  classList: any = classList;
   constructor(public appService: AppService) {
     this.userDetails = localStorage.getItem('userDetails')  ? JSON.parse(localStorage.getItem('userDetails')!) : '';
    }
@@ -94,7 +78,6 @@ export class ImportExportComponent implements OnInit {
       },
       complete: () => {
          this.collectionreportLoader = false;
-        // this.exportType = '';
       }
     });
   }
@@ -143,7 +126,6 @@ uploadStudentFile(event: any) {
   this.fileError = '';
   this.file = event.target.files[0];
   this.fileName = this.file.name;
-  // console.log('this.file', this.file);
   if (this.fileValidationArray.indexOf(this.file.type) === -1) {
     this.fileError = 'Upload only .xls .xlsx Files';
     return;
@@ -162,7 +144,6 @@ submitUploadFile() {
   params.file = this.file;
   this.subscriptions['file'] = this.appService.uploadBookList(params).subscribe({
     next: (res) => {
-      // console.log('res', res);
       this.file = "";
     },
     error: (error) => {
@@ -174,7 +155,6 @@ submitUploadFile() {
 }
 
 ngOnDestroy(): void {
-  // this.sub.unsubscribe();
   each(this.subscriptions, (subscription: Subscription) => {
     subscription.unsubscribe();
   });
