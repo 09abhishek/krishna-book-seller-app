@@ -105,7 +105,6 @@ filluserForm(details: any) {
   this.userForm.get('username').setValue(details.username);
   this.userForm.get('firstname').setValue(details.first_name);
   this.userForm.get('lastname').setValue(details.last_name);
-  // this.userForm.get('mobno').setValue(details.);
   this.userForm.get('privalageType').setValue(details.user_type);
 
   this.userForm.get('username').disable();

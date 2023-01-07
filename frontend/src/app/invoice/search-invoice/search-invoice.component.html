@@ -1,8 +1,6 @@
 <div class="content-wrapper">
   <div class="content-heading">
     <div class="content-details flex">
-      <!-- <h4>Krishna Book Seller</h4> -->
-      <!-- <p>Mithanpura, Muzaffarpur-842002</p> -->
       <h5>Search Invoice</h5>
     </div>
     <div class="search-content flex">
@@ -12,7 +10,6 @@
         </div>
         <div class="search-details flex">
           <div class="search-bill-No flex">
-            <!-- <label for="bill">{{(searchBy == 'bill-num') ? 'Bill No' : 'Name'}}</label> -->
             <select class="search select-drop" id="mysel" [(ngModel)]="searchBy" (change)="billId = ''">
               <option value= "bill-num">Bill No</option>
               <option value= "name">Name</option>
@@ -24,7 +21,6 @@
               <span [hidden]="(!billLoading)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
             <button class="btn-reset button" type="button" (click)="resetSearch('bill')">Reset
-              <!-- <span [hidden]="!loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
             </button>
           </div>
         </div>
@@ -47,7 +43,6 @@
               <span [hidden]="(!dateLoading)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
             <button class="btn-reset button" type="button" (click)="resetSearch()">Reset
-              <!-- <span [hidden]="!loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
             </button>
           </div>
         </div>

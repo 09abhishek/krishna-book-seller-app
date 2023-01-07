@@ -1,9 +1,9 @@
+import { classList } from './../../../shared/class-list';
 import { ReportService } from './../../report.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {each, groupBy} from 'lodash';
 import * as pdfMake from "pdfmake/build/pdfmake";
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
 
@@ -21,24 +21,7 @@ export class BookStockReportComponent implements OnInit, OnDestroy {
   todayDate: any = new Date();
   private subscriptions: any = {};
   printExportData: any = [];
-  classList: any = [
-    {id: 1, name: 'pre-nursery', value: 'Pre Nursery'},
-    {id: 2, name: 'nursery', value: 'Nursery'},
-    {id: 1, name: 'infant', value: 'Infant'},
-    {id: 3, name: 'prep', value: 'Preparatory'},
-    {id: 4, name: 'one', value: '1'},
-    {id: 5, name: 'two', value: '2'},
-    {id: 6, name: 'three', value: '3'},
-    {id: 7, name: 'four', value: '4'},
-    {id: 8, name: 'five', value: '5'},
-    {id: 9, name: 'six', value: '6'},
-    {id: 10, name: 'seven', value: '7'},
-    {id: 11, name: 'eight', value: '8'},
-    {id: 12, name: 'nine', value: '9'},
-    {id: 13, name: 'ten', value: '10'},
-    {id: 14, name: 'eleven', value: '11'},
-    {id: 14, name: 'twelve', value: '12'},
-  ];
+  classList: any = classList;
 
   constructor(public reportService: ReportService) { }
 
@@ -95,9 +78,7 @@ buildTableBody(data: any, headerColums: any, bodyColumns: any) {
   data.forEach((row : any) => {
     let dataRow: any = [];
     bodyColumns.forEach((column: any) => {
-      // if (column.text == 'Particulars' || column.text == 'Rate'|| column.text == 'Quantity'|| column.text == 'Amount') {
         dataRow.push(row[column.text]);
-      // }
     });
     body.push(dataRow);
   });
@@ -195,7 +176,6 @@ exportExcel() {
     XLSX.writeFile(wb, fileName);
   }
   ngOnDestroy(): void {
-    // this.sub.unsubscribe();
     each(this.subscriptions, (subscription: Subscription) => {
       subscription.unsubscribe();
     });
