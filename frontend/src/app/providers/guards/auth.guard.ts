@@ -17,18 +17,18 @@ export class AuthGuard implements CanActivate {
         this.router.navigate(['/dashboard']);
         return false;
       }
-      if (userDetails && userDetails.user_type && userDetails.user_type !== 'super_admin') {
+      if (userDetails && userDetails.user_type && userDetails.user_type !== 'accountant') {
         if (url === '/user/add' || url.includes('/user/update')) {
           this.router.navigate(['/user/list']);
           return false;
         }
       }
-      if (userDetails && userDetails.user_type && userDetails.user_type === 'accountant') {
-        if (url === '/import-export') {
-          this.router.navigate(['/dashboard']);
-          return false;
-        }
-      }
+      // if (userDetails && userDetails.user_type && userDetails.user_type === 'accountant') {
+      //   if (url === '/import-export') {
+      //     this.router.navigate(['/dashboard']);
+      //     return false;
+      //   }
+      // }
       return true;
     } else {
       if (url === '/login') {

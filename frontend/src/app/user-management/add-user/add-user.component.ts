@@ -20,7 +20,7 @@ export class AddUserComponent implements OnInit {
   userDetails: any;
   showPrivilage = false;
   userType = [
-    {name: 'Super Admin', type: 'super_admin'},
+    // {name: 'Super Admin', type: 'super_admin'},
     {name: 'Admin', type: 'admin'},
     {name: 'Accountant', type: 'accountant'},
   ]
