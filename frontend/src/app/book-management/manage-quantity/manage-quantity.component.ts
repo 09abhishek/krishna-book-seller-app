@@ -43,7 +43,7 @@ export class ManageQuantityComponent implements OnInit {
           const params: any = {};
           params.id = data.id;
           params.name = data.name;
-          params.stdClass = data.class;
+          params.class = data.class;
           params.publicationId = data.publication_id;
           params.mrp = data.mrp;
           params.netPrice = data.net_price;
@@ -88,7 +88,7 @@ export class ManageQuantityComponent implements OnInit {
         const params: any = {};
         params.id = item.id;
         params.name = item.name;
-        params.stdClass = item.stdClass;
+        params.class = item.stdClass;
         params.publicationId = item.publicationId;
         params.mrp = item.mrp;
         params.netPrice = item.netPrice;

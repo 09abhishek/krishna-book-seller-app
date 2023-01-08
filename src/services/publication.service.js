@@ -13,7 +13,7 @@ const savePublication = async (body) => {
   const bookList = body.map((publication) => {
     return {
       name: publication.name,
-      year: moment().year(),
+      // year: moment().year(),
     };
   });
   const response = await Publication.bulkCreate(bookList);
@@ -39,7 +39,7 @@ const getPublication = async (publication) => {
   Book.belongsTo(Publication, { foreignKey: "publication_id", onDelete: "NO ACTION", onUpdate: "NO ACTION" });
 
   const where = {
-    year: moment().year(),
+    // year: moment().year(),
     id: publication.id,
   };
   const publicationRes = await Publication.findAll({
@@ -84,7 +84,7 @@ const updatePublication = async (body) => {
     return {
       id: book.id,
       name: book.name,
-      year: moment().year(),
+      // year: moment().year(),
     };
   });
   // eslint-disable-next-line no-restricted-syntax

@@ -119,7 +119,7 @@ const getAllBooks = async () => {
 
 const getBooksByClass = async (className) => {
   const where = {
-    year: moment().year(),
+    // year: moment().year(),
     class: className.id,
   };
   Book.belongsTo(Publication, { foreignKey: "publication_id" });

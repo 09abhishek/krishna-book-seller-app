@@ -208,13 +208,13 @@ const grandTotalReport = async (fromDate, toDate, param) => {
 const findInvoice = async (searchParam, searchBy) => {
   let condition = {
     id: { [Op.like]: `%${searchParam}%` },
-    year: moment().year(),
+    // year: moment().year(),
   };
 
   if (searchBy === "name") {
     condition = {
       name: sequelize.where(sequelize.fn("LOWER", sequelize.col("name")), "LIKE", `%${searchParam}%`),
-      year: moment().year(),
+      // year: moment().year(),
     };
   }
   const data = await Billing.findAll(
@@ -270,7 +270,7 @@ const getCountByClass = async () => {
     {
       attributes: [[sequelize.fn("count", sequelize.col("id")), "no_of_bills"], "class"],
       where: {
-        year: moment().year(),
+        // year: moment().year(),
       },
       group: ["class"],
     },
