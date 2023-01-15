@@ -82,13 +82,13 @@ export class ManagePublicationUpdateComponent implements OnInit {
     params.name = formValue.publicationName;
     publicationData.push(params);
     this.subscriptions['updateBook'] = this.bookManagementService.updatePublicationDetails(publicationData).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res) {
           this.submitLoader = false;
           this.router.navigate(['/book-management/manage-publication']);
         }
       },
-      error: (error)=> {
+      error: (error: any)=> {
         this.submitLoader = false;
       }
     });

@@ -106,13 +106,13 @@ fillbookForm(bookDetails : any) {
     params.netPrice = formValue.netprice;
     bookData.push(params);
     this.subscriptions['updateBook'] = this.bookManagementService.updateBookDetails(bookData).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res) {
           this.submitLoader = false;
           this.router.navigate(['/book-management/manage-item'], { queryParams: { classId: this.bookUpdateForm.value.class}});
         }
       },
-      error: (error)=> {
+      error: (error: any)=> {
         this.submitLoader = false;
       }
     });

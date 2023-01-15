@@ -114,7 +114,7 @@
                 <span  class="nav-text">User List</span>
               </a>
              </li>
-            <li *ngIf="userDetails && userDetails.user_type && userDetails.user_type == 'super_admin'">
+            <li *ngIf="userDetails && userDetails.user_type && userDetails.user_type !== 'accountant'">
               <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/user/add">
                 <span class="nav-image"><img src="assets/img/menu/add-user.svg"></span>
                 <span  class="nav-text">Create User</span>

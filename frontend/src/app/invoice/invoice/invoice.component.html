@@ -7,7 +7,7 @@
     <div class="content-field flex">
       <div class="input-field">
         <label>Name</label>
-        <input type="text" formControlName="name" style="text-transform: uppercase">
+        <input type="text" formControlName="name" style="text-transform: uppercase" autocomplete="off">
         <div *ngIf="(invoiceForm.controls['name'].hasError('required') && invoiceForm.controls['name'].touched)" class="error-data position-error">Name is required</div>
       </div>
       <div class="input-field">
@@ -16,12 +16,12 @@
       </div>
       <div class="input-field">
         <label>Father's Name</label>
-        <input type="text" formControlName="fathername" style="text-transform: uppercase">
+        <input type="text" formControlName="fathername" style="text-transform: uppercase" autocomplete="off">
         <div *ngIf="(invoiceForm.controls['fathername'].hasError('required') && invoiceForm.controls['fathername'].touched)" class="error-data position-error">Father Name is required</div>
       </div>
       <div class="input-field">
         <label>Mob. No</label>
-        <input type="text" appOnlyNumber numericType="number" maxlength=10 formControlName="mobno">
+        <input type="text" appOnlyNumber numericType="number" maxlength=10 formControlName="mobno" autocomplete="off">
       </div>
       <div class="input-field">
         <label>Class</label>

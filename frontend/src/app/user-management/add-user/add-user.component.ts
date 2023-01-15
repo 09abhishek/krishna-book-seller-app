@@ -20,7 +20,7 @@ export class AddUserComponent implements OnInit {
   userDetails: any;
   showPrivilage = false;
   userType = [
-    {name: 'Super Admin', type: 'super_admin'},
+    // {name: 'Super Admin', type: 'super_admin'},
     {name: 'Admin', type: 'admin'},
     {name: 'Accountant', type: 'accountant'},
   ]
@@ -48,13 +48,13 @@ export class AddUserComponent implements OnInit {
 }
   getUserDetails(id: any) {
     this.subscriptions['getUserDetails'] = this.userService.getUserDetails(id).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.data) {
           this.userDetails = res.data[0];
           this.filluserForm(this.userDetails);
         }
       },
-      error: (error)=> {
+      error: (error: any)=> {
       }
     });
   }
@@ -156,13 +156,13 @@ setPasswordValidatiors() {
       params.password = formValue.password;
     }
     this.subscriptions['saveUser'] = this.userService.register(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res) {
           this.submitLoader = false;
           this.userForm.reset();
         }
       },
-      error: (error)=> {
+      error: (error: any)=> {
         this.submitLoader = false;
       }
     });

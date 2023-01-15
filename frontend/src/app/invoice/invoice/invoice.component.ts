@@ -57,7 +57,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     this.getRouteParams();
   }
   getRouteParams() {
-    this.sub = this.route.params.subscribe(params => {
+    this.sub = this.route.params.subscribe((params: any) => {
         console.log('params', params);
         this.invoiceId = '';
         if (params && params['id']) {
@@ -142,7 +142,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     }
     this.printData = {};
     this.subscriptions['saveInvoice'] = this.invoiceService.saveInvoice(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.message) {
           if(!this.invoiceId && res.data && res.data[0]) {
             this.saveInvoiceId = res.data[0];
@@ -153,7 +153,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
           this.printData['bill_no'] =  formValue.billno ? formValue.billno : '';
         }
       },
-      error: (error)=> {
+      error: (error: any)=> {
         console.log('error', error.error);
         this.errorMessage = error?.error?.message;
         this.submitLoader = false;

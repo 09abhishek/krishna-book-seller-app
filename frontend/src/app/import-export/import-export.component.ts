@@ -37,7 +37,7 @@ export class ImportExportComponent implements OnInit {
     const params: any = {};
     params.type = type;
     this.subscriptions['getExportType'] = this.appService.getAllExportTypeData(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.printExportData = [];
         if(res && res.data) {
         if (res && res.data && res.data.invoice && type == 'daily-collection') {
@@ -73,7 +73,7 @@ export class ImportExportComponent implements OnInit {
         }
        }
       },
-      error: (error) => {
+      error: (error: any) => {
         this.collectionreportLoader = false;
       },
       complete: () => {
@@ -143,10 +143,10 @@ submitUploadFile() {
   const params: any = {};
   params.file = this.file;
   this.subscriptions['file'] = this.appService.uploadBookList(params).subscribe({
-    next: (res) => {
+    next: (res: any) => {
       this.file = "";
     },
-    error: (error) => {
+    error: (error: any) => {
       this.fileError = error?.error?.message;
     },
     complete: () => {}

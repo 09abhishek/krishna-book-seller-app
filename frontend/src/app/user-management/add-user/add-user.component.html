@@ -7,17 +7,17 @@
     <div class="content-field flex">
       <div class="input-field">
         <label>First Name</label>
-        <input type="text" formControlName="firstname">
+        <input type="text" formControlName="firstname" autocomplete="off">
         <div *ngIf="(userForm.controls['firstname'].hasError('required') && userForm.controls['firstname'].touched)" class="error-data position-error">First Name is required</div>
       </div>
       <div class="input-field">
         <label>Last Name</label>
-        <input type="text" formControlName="lastname">
+        <input type="text" formControlName="lastname" autocomplete="off">
         <div *ngIf="(userForm.controls['lastname'].hasError('required') && userForm.controls['lastname'].touched)" class="error-data position-error">Last Name is required</div>
       </div>
       <div class="input-field">
         <label>User Name</label>
-        <input type="text" minlength=3 formControlName="username">
+        <input type="text" minlength=3 formControlName="username" autocomplete="off">
         <div *ngIf="(userForm.controls['username'].hasError('required') && userForm.controls['username'].touched)" class="error-data position-error">User Name is required</div>
         <div class="error-data position-error" *ngIf="userForm.controls['username'].touched && userForm.get('username').hasError('minlength')">Minimum 3 Characters </div>
       </div>
@@ -27,13 +27,13 @@
       </div>
       <div class="input-field">
         <label>Password</label>
-        <input type="password" formControlName="password" minlength="5">
+        <input type="password" formControlName="password" minlength="5" autocomplete="off">
           <div *ngIf="(userForm.controls['password'].hasError('required') && userForm.controls['password'].touched)" class="error-data position-error">Password is required</div>
           <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('minlength')"> Password Should Contain Minimum 5 Characters </div>
       </div>
       <div class="input-field">
         <label>Confirm Password</label>
-        <input type="password" formControlName="confirmPassword">
+        <input type="password" formControlName="confirmPassword" autocomplete="off">
           <div *ngIf="(userForm.controls['confirmPassword'].hasError('required') && userForm.controls['confirmPassword'].touched)" class="error-data position-error">Confirm Password is required</div>
           <div class="error-data position-error" *ngIf="userForm.controls['confirmPassword'].touched && userForm.hasError('mismatchedPasswords')"> Password Does Not Match </div>
       </div>

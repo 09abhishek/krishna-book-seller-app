@@ -25,7 +25,7 @@ export class ViewProfileComponent implements OnInit {
 
   getUserDetails() {
     this.userService.getUserDetails(this.userDetails.id).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.data) {
           this.userInfo = res.data[0];
         }

@@ -12,7 +12,7 @@ import { AppService } from './app.serveice';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './providers/interceptor/request.interceptor';
-import { APP_BASE_HREF } from '@angular/common';
+import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { AuthGuard } from './providers/guards/auth.guard';
 import { ToastModule } from 'primeng/toast';
@@ -44,6 +44,10 @@ import { ImportExportComponent } from './import-export/import-export.component';
     {
       provide: APP_BASE_HREF,
       useValue: ''
+  },
+  {
+    provide: LocationStrategy,
+    useClass: PathLocationStrategy
   },
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true},
     MessageService
