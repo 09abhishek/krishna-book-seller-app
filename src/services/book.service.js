@@ -74,7 +74,7 @@ const uploadFromFile = async (req) => {
     console.log(publicationList);
     console.log("-------------------------------------------------");
     const publicationListForDb = publicationList.map((data) => {
-      return { name: data, year: moment().year() };
+      return { name: data, year: jsonData[0].year };
     });
 
     const publicationResponse = await publicationService.savePublication(publicationListForDb);
