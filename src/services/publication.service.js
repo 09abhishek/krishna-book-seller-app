@@ -13,7 +13,7 @@ const savePublication = async (body) => {
   const bookList = body.map((publication) => {
     return {
       name: publication.name,
-      // year: moment().year(),
+      year: publication.year,
     };
   });
   const response = await Publication.bulkCreate(bookList);
