@@ -68,7 +68,7 @@ export class UserListComponent implements OnInit {
     const params: any = {};
     params.userId = userId;
     this.userService.deleteUser(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res && res.message) {
           this.userList = this.userList.filter((item: any) => item.id !== id);
         }

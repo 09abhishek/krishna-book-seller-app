@@ -20,13 +20,13 @@ export class ManagePublicationListComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookManagementService.getPublicationList().subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.loading = false;
         if (res && res.data) {
           this.publicationList = res.data;
         }
       },
-      error: (error) => {
+      error: (error: any) => {
         this.loading = false;
       },
       complete: () => {
@@ -53,12 +53,12 @@ export class ManagePublicationListComponent implements OnInit {
     const params: any = {};
     params.publicationId = publicationId;
     this.bookManagementService.deletePublication(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res && res.message) {
           this.publicationList = this.publicationList.filter((item: any) => item.id !== id);
         }
       },
-      error: (error) => {
+      error: (error: any) => {
       },
       complete: () => {
       }

@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     }
     this.submitLoader = true;
     this.subscriptions['saveLogin'] = this.appService.doLogin(this.loginForm.value).subscribe({
-      next: (res) => {
+      next: (res: any) => {
           if (res && res.user && res.user.id) {
             this.messageService.add({severity:'success', summary: 'Success', detail: "Login SuccessFully"});
             localStorage.setItem('userDetails', JSON.stringify(res.user));
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/dashboard']);
           }
       },
-      error: (error) => {
+      error: (error: any) => {
         this.submitLoader = false;
       },
       complete: () => {

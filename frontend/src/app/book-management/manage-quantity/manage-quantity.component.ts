@@ -97,7 +97,7 @@ export class ManageQuantityComponent implements OnInit {
       });
     }
     this.subscriptions['updateBook'] = this.bookManagementService.updateBookDetails(updatedBookDetails).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res) {
           this.submitLoader = false;
           const parms: any = {};
@@ -105,7 +105,7 @@ export class ManageQuantityComponent implements OnInit {
           this.onChangeClass(parms);
         }
       },
-      error: (error)=> {
+      error: (error: any)=> {
         this.submitLoader = false;
       }
     });

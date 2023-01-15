@@ -42,7 +42,7 @@ onChangeClass(event: any) {
     this.classId = event.value;
     this.loading = true;
     this.bookManagementService.getbookstoreList(this.classId).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.intialPageLoaded = true;
         this.loading = false;
         if (res && res.data) {
@@ -52,7 +52,7 @@ onChangeClass(event: any) {
           this.bookStoreList = res.data;
         }
       },
-      error: (error) => {
+      error: (error: any) => {
         this.loading = false;
         this.intialPageLoaded = true;
       },
@@ -90,12 +90,12 @@ deleteBook(id: any) {
   const params: any = {};
   params.bookId = bookId;
   this.bookManagementService.deleteBook(params).subscribe({
-    next: (res) => {
+    next: (res: any) => {
       if (res && res.message) {
         this.bookStoreList = this.bookStoreList.filter((item: any) => item.id !== id);
       }
     },
-    error: (error) => {
+    error: (error: any) => {
     },
     complete: () => {
     }

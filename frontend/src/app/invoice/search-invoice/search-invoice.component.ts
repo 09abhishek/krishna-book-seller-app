@@ -48,7 +48,7 @@ export class SearchInvoiceComponent implements OnInit {
     params.from = moment(this.fromDateValue).format('YYYY-MM-DD');
     params.to = moment(this.toDateValue).format('YYYY-MM-DD');
     this.invoiceService.searchInvoice(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.invoiceList = [];
         if (res && res.data) {
           res.data.invoice.forEach((item: any) => {
@@ -81,7 +81,7 @@ export class SearchInvoiceComponent implements OnInit {
     params.searchBy = this.searchBy;
     this.invoiceList = [];
     this.invoiceService.serachInvoiceByBillNo(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res && res.data) {
           res.data.forEach((item: any) => {
             item['class_no'] = this.getClassNo(this.classList, item.class);

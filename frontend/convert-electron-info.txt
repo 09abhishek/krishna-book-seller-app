@@ -23,3 +23,5 @@
 
 8. resolve all issue run this command
   npm audit fix
+ // tomcat build server command
+ng build --configuration production --aot --base-href="."

@@ -163,14 +163,14 @@ this.basiGrandCollectionLine = {
     params.to = moment(this.todayDate).format('YYYY-MM-DD');
 
     this.subscriptions['gettotalCollection'] = this.dashboardService.searchInvoice(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.data) {
           this.netSellCount = res.data.sum_of_net_amount ? res.data.sum_of_net_amount : 0;
           this.totalSellCount= res.data.sum_of_totals ? res.data.sum_of_totals : 0;
           this.revenue= (parseFloat(res.data.sum_of_totals) - parseFloat(res.data.sum_of_net_amount)).toFixed(2);
         }
       },
-      error: (error) => {
+      error: (error: any) => {
       },
       complete: () => {
       }
@@ -186,7 +186,7 @@ this.basiGrandCollectionLine = {
     params.to = moment(this.todayDate).format('YYYY-MM-DD');
 
     this.subscriptions['getCollection'] = this.dashboardService.searchInvoice(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.data && res.data.invoice) {
           const datasetparams: any = {};
           datasetparams.data = [];
@@ -203,7 +203,7 @@ this.basiGrandCollectionLine = {
           this.basicDailyCollectionData = dailyParams;
         }
       },
-      error: (error) => {
+      error: (error: any) => {
       },
       complete: () => {
       }
@@ -219,7 +219,7 @@ this.basiGrandCollectionLine = {
     params.from = moment().subtract(1,'months').format('YYYY-MM-DD');
 
     this.subscriptions['getGrandCollection'] = this.dashboardService.dailyCollectionInvoice(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.data && res.data.invoice) {
           const datasetparams: any = {};
           datasetparams.data = [];
@@ -237,7 +237,7 @@ this.basiGrandCollectionLine = {
           this.basicGrandCollectionData = grandParams;
         }
       },
-      error: (error) => {
+      error: (error: any) => {
       },
       complete: () => {
       }
@@ -245,7 +245,7 @@ this.basiGrandCollectionLine = {
   }
   getUserList() {
     this.subscriptions['getuserList'] = this.dashboardService.userList().subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.data) {
           this.userCount = res.data.length;
         }
@@ -255,7 +255,7 @@ this.basiGrandCollectionLine = {
 
   getInvoiceList() {
     this.subscriptions['getInvoiceList'] = this.dashboardService.totalInvoice().subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.totalNumberBillByClass = {};
         const params: any = {};
         params.labels = [];
@@ -291,7 +291,7 @@ this.basiGrandCollectionLine = {
     params.from = moment().subtract(1,'months').format('YYYY-MM-DD');
 
     this.subscriptions['getTotaSellCount'] = this.dashboardService.dailyCollectionInvoice(params).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if(res && res.data) {
         }
       },
