@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   totalSellCount: any = 0;
   revenue: any = 0;
   totalNumberBillByClass: any = {};
-  classId: any = 'two';
+  classId: any = 'nursery';
   bookListData: any = [];
   classList: any = dashBorardClassList;
   colorScheme: any = {

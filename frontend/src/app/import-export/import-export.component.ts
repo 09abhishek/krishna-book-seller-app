@@ -148,10 +148,10 @@ submitUploadFile() {
     },
     error: (error: any) => {
       this.fileError = error?.error?.message;
+      this.file = "";
     },
     complete: () => {}
     });
-  this.file = "";
 }
 
 ngOnDestroy(): void {
