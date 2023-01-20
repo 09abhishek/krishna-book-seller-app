@@ -5,7 +5,7 @@ const { roleRights } = require("../config/roles");
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   if (err || info || !user) {
-    return reject(new ApiError(httpStatus.UNAUTHORIZED, "Invalid or expired Token. Please login again!"));
+    return reject(new ApiError(httpStatus.UNAUTHORIZED, "Session Expired, Please login again!"));
   }
   req.user = user;
   if (requiredRights.length) {
