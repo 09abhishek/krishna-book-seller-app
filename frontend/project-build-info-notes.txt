@@ -25,3 +25,16 @@
   npm audit fix
  // tomcat build server command
 ng build --configuration production --aot --base-href="."
+
+
+To create windows node API service use cmd:
+
+node winService.js
+
+To run backend API code :
+
+npm run start
+
+To run frontend code:
+
+move to frontend dir then -> npm run start
