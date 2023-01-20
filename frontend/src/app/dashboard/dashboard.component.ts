@@ -1,3 +1,4 @@
+import { invoice, revenue, total_sale, total_sales } from './base64.images';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import * as moment from 'moment';
@@ -39,6 +40,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   classId: any = 'nursery';
   bookListData: any = [];
   classList: any = dashBorardClassList;
+  total_sales: string = total_sales;
+  total_sale: string = total_sale;
+  invoice: string = invoice;
+  revenueimage: string = revenue;
   colorScheme: any = {
     domain: ['#42A5F5', "#66BB6A","#FFA726",'#ff4000', '#00ffbf']
   };
