@@ -151,11 +151,13 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
           this.showPrint = true;
           this.printData = params;
           this.printData['bill_no'] =  formValue.billno ? formValue.billno : '';
+          window.scroll({ top: 0, left: 0, behavior:'smooth'});
         }
       },
       error: (error: any)=> {
         console.log('error', error.error);
         this.errorMessage = error?.error?.message;
+        this.messageService.add({severity:'error', summary: 'Error', detail: this.errorMessage});
         this.submitLoader = false;
       }
     });

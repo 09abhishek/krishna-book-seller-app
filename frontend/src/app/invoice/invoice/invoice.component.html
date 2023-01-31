@@ -102,6 +102,9 @@
           <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
         <button class="btn-cancel button" type="button" (click)="cancel()">Cancel</button>
+        <ng-container *ngIf="classId && showPrint">
+          <button class="btn-print button" type="button" (click)="printInvoice('print')">Print</button>
+      </ng-container>
       </div>
       <div class="total-amt flex">
         <p>Total Amount (&#x20B9;)</p>
