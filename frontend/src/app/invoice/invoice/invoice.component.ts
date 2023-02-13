@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import * as moment from 'moment';
 import { MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {each, groupBy} from 'lodash';
 import * as pdfMake from "pdfmake/build/pdfmake";
@@ -49,6 +49,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
      private confirmationDialogService: ConfirmationDialogService,
      private invoiceService: InvoiceService,
      private route: ActivatedRoute,
+     private router: Router,
      private invoicePrintService: InvoicePrintService,
      private messageService: MessageService) { }
 
@@ -180,6 +181,21 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       this.classId = '';
       this.getInvoiceNumber();
     }
+  }
+  generateNewInvoice() {
+    this.selectedBook = [];
+    this.selectedBookIds = [];
+    this.totalInvoiceAmount = '';
+    this.netInvoiceAmount = '';
+    this.showPrint = false;
+    this.invoiceForm.controls['name'].reset();
+    this.invoiceForm.controls['fathername'].reset();
+    this.invoiceForm.controls['mobno'].reset();
+    this.invoiceForm.controls['address'].reset();
+    this.invoiceForm.controls['classno'].reset();
+    this.classId = '';
+    this.getInvoiceNumber();
+    this.router.navigate(['/invoice/list']);
   }
   resetparticularField() {
     this.bookList.forEach((item: any) => {

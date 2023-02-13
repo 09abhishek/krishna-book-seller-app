@@ -62,6 +62,7 @@
   <ng-container *ngIf="classId && bookList.length > 0">
   <div class="report-print flex" *ngIf="classId && showPrint">
     <button class="btn-search button" type="button" (click)="printInvoice('print')">Print</button>
+    <button class="btn-cancel button" type="button" (click)="generateNewInvoice()">Generate New Invoice</button>
   </div>
   <div class="table-responsive inv-adm-tbl">
     <table class="table">
