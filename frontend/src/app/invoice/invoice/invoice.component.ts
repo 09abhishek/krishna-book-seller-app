@@ -206,6 +206,11 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     })
   }
   onChangeClass(val: any) {
+    this.selectedBook = [];
+    this.selectedBookIds = [];
+    this.totalInvoiceAmount = '';
+    this.netInvoiceAmount = '';
+    this.showPrint = false;
     this.intialPageLoader = true;
     this.classId = val.value;
     this.errorMessage = '';
@@ -219,21 +224,27 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         item.data.forEach((data: any) => {
           data['quantity'] = '1';
           data['amount'] = '';
-          this.selectedBookIds.push(data.id)
-        })
+          // this.selectedBookIds.push(data.id);
+        });
         this.bookList = item.data;
         this.selectedBook = item.data;
+        this.selectAllDefaultBook();
       }
     });
+    // this.resetparticularField();
+    // setTimeout(()=> {
+      // this.selectedBook = [];
+      // this.selectedBookIds = [];
+      // this.totalInvoiceAmount = '';
+      // this.netInvoiceAmount = '';
+      // this.showPrint = false;
+    // }, 10);
+  }
 
-    this.resetparticularField();
-    setTimeout(()=> {
-      this.selectedBook = [];
-      this.selectedBookIds = [];
-      this.totalInvoiceAmount = '';
-      this.netInvoiceAmount = '';
-      this.showPrint = false;
-    }, 10);
+  selectAllDefaultBook() {
+    this.bookList.forEach((_item: any) => {
+      this.selectedBookIds.push(_item.id);
+    });
   }
   onSelectBook(event: any, data: any) {
     const idx = this.selectedBookIds.indexOf(data.id);
