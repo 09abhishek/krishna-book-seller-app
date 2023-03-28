@@ -86,7 +86,8 @@ const saveInvoice = async (body) => {
     total_amount: body.totalAmount,
     total_net_amount: body.totalNetAmount,
     year: moment().year(),
-    date: moment().toISOString(),
+    // date: moment().toISOString(),
+    date: moment().format(),
   });
 
   if (data) {

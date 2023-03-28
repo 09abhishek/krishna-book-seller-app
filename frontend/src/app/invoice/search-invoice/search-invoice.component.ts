@@ -184,7 +184,8 @@ export class SearchInvoiceComponent implements OnInit {
           });
           params.billParticulars = billParticulars;
           printData = params;
-          this.invoicePrintService.generatePdf(printData, this.billingDate, this.classList, type);
+          console.log(new Date(this.invoiceDetails?.created_at));
+          this.invoicePrintService.generatePdf(printData, new Date(this.invoiceDetails?.date), this.classList, type);
         }
       });
   }
