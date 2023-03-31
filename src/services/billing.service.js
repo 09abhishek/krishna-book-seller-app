@@ -74,7 +74,6 @@ const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
   const { billParticulars } = body;
   await manageStockQuantity(billParticulars, body.stdClass, "REDUCE");
-
   let data = await Billing.create({
     invoice_id: invoiceId,
     name: body.name,
@@ -87,7 +86,7 @@ const saveInvoice = async (body) => {
     total_net_amount: body.totalNetAmount,
     year: moment().year(),
     // date: moment().toISOString(),
-    date: moment().format(),
+    date: body.date,
   });
 
   if (data) {

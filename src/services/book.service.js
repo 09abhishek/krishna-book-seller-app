@@ -39,6 +39,9 @@ const uploadFromFile = async (req) => {
   const publicationHashmap = {};
   let bookList = [];
   let publicationListFromDB = [];
+  let publicationResponse;
+  let status = true;
+  let uniquePublications = false;
   const requiredKeys = ["class", "name", "publication", "quantity", "netPrice", "mrp", "year"];
   if (!req.file) {
     throw new ApiError(httpStatus.BAD_REQUEST, "No file provided");
@@ -73,13 +76,29 @@ const uploadFromFile = async (req) => {
     publicationList = [...new Set(publicationList)];
     console.log(publicationList);
     console.log("-------------------------------------------------");
-    const publicationListForDb = publicationList.map((data) => {
-      return { name: data, year: jsonData[0].year };
-    });
 
-    const publicationResponse = await publicationService.savePublication(publicationListForDb);
-    console.log(publicationResponse);
-    if (publicationResponse.status === "success") {
+    publicationListFromDB = (await Publication.findAll({ raw: true })).map((val) => {
+      return val.name;
+    });
+    if (publicationListFromDB.length !== 0) {
+      console.log("publication already exists in db checking and removing duplicates");
+      publicationList = publicationList.filter((val) => !publicationListFromDB.includes(val));
+      console.log("----------After checking DB and Removing duplicates--------------");
+      console.log(publicationList);
+      console.log("-------------------------------------------------");
+    }
+
+    if (publicationList.length !== 0) {
+      const publicationListForDb = publicationList.map((data) => {
+        return { name: data, year: jsonData[0].year };
+      });
+      console.log("----------Few publications are new - Saving to DB--------------");
+      publicationResponse = await publicationService.savePublication(publicationListForDb);
+      uniquePublications = true;
+    } else {
+      status = true;
+    }
+    if (status === true) {
       publicationListFromDB = await Publication.findAll({ raw: true });
       publicationListFromDB.forEach((pub) => {
         publicationHashmap[pub.name] = pub.id;
@@ -94,7 +113,10 @@ const uploadFromFile = async (req) => {
       if (bookResponse.status === "error") {
         await Publication.truncate({ cascade: true, restartIdentity: true });
       } else {
-        response.push({ publicationUploaded: publicationResponse.data, booksUploaded: bookResponse.data });
+        response.push({
+          publicationUploaded: uniquePublications ? publicationResponse.data : 0,
+          booksUploaded: bookResponse.data,
+        });
       }
       fs.remove(filePath);
     } else {
