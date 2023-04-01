@@ -1,13 +1,12 @@
 import { ConfirmationDialogService } from './../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
 import { MessageService } from 'primeng/api';
 import { InvoiceService } from '../invoice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {each, groupBy} from 'lodash';
-import * as pdfMake from "pdfmake/build/pdfmake";
+import { each, groupBy } from 'lodash';
+import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { InvoicePrintService } from './invoice-print.service';
 import { classList } from './../../shared/class-list';
@@ -140,8 +139,9 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
     if(this.invoiceId) {
       params.invoiceId = this.invoiceId ? this.invoiceId : '';
       params.previousBillParticulars = this.previousSelectedBook;
+    } else {
+      params.date = this.getFormattedBillingDate(this.billingDate);
     }
-    params.date = this.getFormattedBillingDate(this.billingDate);
     this.printData = {};
     this.subscriptions['saveInvoice'] = this.invoiceService.saveInvoice(params).subscribe({
       next: (res: any) => {
