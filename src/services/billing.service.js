@@ -86,7 +86,7 @@ const saveInvoice = async (body) => {
     total_net_amount: body.totalNetAmount,
     year: moment().year(),
     // date: moment().toISOString(),
-    date: body.date,
+    date: moment().format(),
   });
   let data = await Billing.create({
     invoice_id: invoiceId,
