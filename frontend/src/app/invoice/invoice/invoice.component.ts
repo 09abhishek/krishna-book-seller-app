@@ -141,6 +141,7 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
       params.invoiceId = this.invoiceId ? this.invoiceId : '';
       params.previousBillParticulars = this.previousSelectedBook;
     }
+    params.date = this.getFormattedBillingDate(this.billingDate);
     this.printData = {};
     this.subscriptions['saveInvoice'] = this.invoiceService.saveInvoice(params).subscribe({
       next: (res: any) => {
@@ -162,6 +163,16 @@ export class InvoiceComponent implements OnInit, AfterContentChecked, OnDestroy 
         this.submitLoader = false;
       }
     });
+  }
+
+  getFormattedBillingDate(date: string) {
+    const d = new Date(date);
+    date = [
+      d.getFullYear(),
+      ('0' + (d.getMonth() + 1)).slice(-2),
+      ('0' + d.getDate()).slice(-2)
+    ].join('-');
+    return date;
   }
 
   cancel() {

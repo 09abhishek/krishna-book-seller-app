@@ -33,6 +33,7 @@ const addInvoice = {
     totalNetAmount: Joi.number().required(),
     address: Joi.string().optional(),
     mobileNum: Joi.number().optional(),
+    date: Joi.string().required(),
   }),
 };
 

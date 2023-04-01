@@ -74,6 +74,20 @@ const saveInvoice = async (body) => {
   const invoiceId = uuidv4();
   const { billParticulars } = body;
   await manageStockQuantity(billParticulars, body.stdClass, "REDUCE");
+  console.log({
+    invoice_id: invoiceId,
+    name: body.name,
+    class: body.stdClass,
+    father_name: body.fatherName ? body.fatherName : null,
+    address: body.address ? body.address : null,
+    mobile_num: body.mobileNum ? body.mobileNum : null,
+    bill_data: body.billParticulars,
+    total_amount: body.totalAmount,
+    total_net_amount: body.totalNetAmount,
+    year: moment().year(),
+    // date: moment().toISOString(),
+    date: body.date,
+  });
   let data = await Billing.create({
     invoice_id: invoiceId,
     name: body.name,
