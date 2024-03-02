@@ -1,0 +1,65 @@
+For the fresh installation and data feed for new year.
+
+=========================================================
+Important!!
+
+If software is being installed in new system make sure the following softwares already installed in the new system.
+
+1. mysql 
+2. Mysql workbench
+3. apache server.
+4. git
+
+clone the repo.
+
+git clone https://github.com/09abhishek/krishna-book-seller-app.git
+
+make sql up and running create schema as instructed below. 
+If any connection error check the mysql password in the config file and update it and try again.
+
+To run angular code as frontend. make a prod build from dir : frontend/package.json
+command are available there.
+
+put it into the apache bin folder or www folder. check the folder name and use that one localhost:port/kbs
+
+
+1. Drop the schema krishna_book_db. 
+
+    DROP DATABASE `krishna_book_db`;
+
+2. Create schema with the krishna_book_seller.
+
+    CREATE SCHEMA `krishna_book_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+
+3. Install package on the project root.
+
+    Run npm i
+
+4. The package.json is different for node API server and Frontend code.
+    for frontend the package.json is inside the frontend.
+    for the node API server the package.json is in the root level.
+
+5. Run the mysql migration script to create tables in the mysql db.
+
+    npm run npm run migrate:up
+
+6. Run the API server Service on the window.
+    If window service needs to be created again,
+    run commands are available in the root> package.json file.
+
+    npm run install:service   (to this code to work make sure the krishna-book-seller-app folder is placed in the root of C: drive eg. "C:\\krishna-book-seller-app\\run.js" )
+
+
+    check the node server is running in the background.
+
+7. Login to application using admin password.
+    username : admin
+    password: admin@kbs1234
+
+8. Upload the file.
+
+9. Create credentials of Rajesh sir from the UI.
+
+
+
+
