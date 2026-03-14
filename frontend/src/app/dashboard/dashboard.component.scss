@@ -1,182 +1,259 @@
+$bg-main: #f0f2f5;
+$card-bg: #ffffff;
+$text-dark: #2d3748;
+$text-muted: #718096;
+$border-light: #e2e8f0;
+$shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+$shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+$radius-md: 10px;
+$radius-lg: 14px;
+
 .content-wrapper {
-  padding: 8px 19px;
+  padding: 24px;
+  background-color: $bg-main;
+  min-height: 100vh;
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  // Global Header Styling
+  h4.section-title, h5, h6 {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0 0 16px;
+    letter-spacing: 0.2px;
+  }
+
+  // Reusable Card Component
+  .card {
+    background: $card-bg;
+    border-radius: $radius-lg;
+    padding: 24px;
+    box-shadow: $shadow-soft;
+    border: 1px solid $border-light;
+    margin-bottom: 20px;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: $shadow-hover;
+    }
+  }
+
   .school-info-news {
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 0px;
+    padding-bottom: 20px;
+    width: 100%;
+
     .school-info {
       width: 100%;
-      h4 {
-        font-size: 13px;
-        font-weight: 600;
-        color: #1d1a1a;
-        margin: 0 0 6px;
-      }
-      ul {
-        justify-content: space-between;
-        align-items: center;
-        li {
-          width: 23%;
-          border-radius: 25px;
-          // padding: 10px !important;
-          box-shadow: 6px 2px 7px 0 rgba(0, 0, 0, 0.08);
-          justify-content: center;
-          align-items: center;
-          min-height: 150px;
-          flex-direction: column;
-          margin-right: 10px;
-          // background: white;
-          flex-direction: column;
-          background: linear-gradient( to right, #c0c3c9, #f7f3f3);
-          // background: rgb(255,255,255); /* Old browsers */
-          // background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(234,111,103,1) 100%); /* FF3.6-15 */
-          // background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* Chrome10-25,Safari5.1-6 */
-          // background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(234,111,103,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-          // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ea6f67',GradientType=0 ); /* IE6-9 */
-          img {
-            margin-right: 8px;
-            width: 36px
-          }
-          h2 {
-            justify-content: center;
-            align-items: center;
-            font-size: 25px;
-            font-weight: bold;
-            color: black;
-            margin: 10px 0;
 
+      ul.stat-cards {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        gap: 20px;
+        justify-content: space-between;
+
+        li.stat-card {
+          width: calc(25% - 15px);
+          // Original Gradient Applied Here
+          background: linear-gradient(to right, #c0c3c9, #f7f3f3);
+          border-radius: $radius-lg;
+          padding: 24px 16px;
+          box-shadow: $shadow-soft;
+          border: 1px solid rgba(255, 255, 255, 0.5); // Soft border for gradient
+
+          // Improved Centered Alignment
+          display: flex;
+          flex-direction: column;
+          align-items: center;     // Horizontally centered
+          justify-content: center; // Vertically centered
+          text-align: center;
+
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: $shadow-hover;
           }
+
+          img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            opacity: 0.9;
+          }
+
           h3 {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            color: #161414;
-            margin: 10px 0;
+            color: #4a5568; // Slightly darker for gradient background
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin: 0 0 8px;
           }
-          // &.invoice-child {
-            // background: rgb(255,255,255); /* Old browsers */
-            // background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(159,221,244,1) 100%); /* FF3.6-15 */
-            // background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* Chrome10-25,Safari5.1-6 */
-            // background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(159,221,244,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
-          // }
-          // &.sell-child {
-            // background: rgb(255,255,255); /* Old browsers */
-            // background: -moz-linear-gradient(top, rgba(255,255,255,1) 25%, rgba(229, 12, 166, 0.22) 100%); /* FF3.6-15 */
-            // background: -webkit-linear-gradient(top, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* Chrome10-25,Safari5.1-6 */
-            // background: linear-gradient(to bottom, rgba(255,255,255,1) 25%,rgba(229, 12, 166, 0.22) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9fddf4',GradientType=0 ); /* IE6-9 */
-          // }
+
+          h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a202c; // Solid dark for strong readability
+            margin: 0;
+          }
         }
       }
     }
   }
+
   .main-graph {
     width: 100%;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    h5 {
-      font-size: 15px;
-        font-weight: 600;
-        color: #1d1a1a;
-        margin: 0 0 6px;
-    }
-    .my-custom-scrollbar {
-      position: relative;
-      height: 75vh;
-      overflow: auto;
-      }
-      .table-wrapper-scroll-y {
-      display: block;
-      }
+    gap: 20px;
+    align-items: stretch;
+    margin-bottom: 20px;
+
     .table-responsive {
-      width: 49%;
-      h5 {
-          font-size: 15px;
-          font-weight: 600;
-          color: #1d1a1a;
-          padding: 9px 10px;
+      width: calc(50% - 10px);
+      margin-bottom: 0;
+
+      .my-custom-scrollbar {
+        position: relative;
+        height: 350px;
+        overflow-y: auto;
+        padding-right: 8px;
+
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 10px;
+        }
       }
+
       .table {
-        table, th, td {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead {
+          position: sticky;
+          top: 0;
+          background: $card-bg;
+          z-index: 1;
+        }
+
+        th {
           font-size: 12px;
-          text-align: center;
+          font-weight: 600;
+          color: $text-muted;
+          text-transform: uppercase;
+          padding: 14px 12px;
+          border-bottom: 1px solid $border-light;
+          text-align: left;
+          background-color: #f8fafc;
+        }
+
+        td {
+          font-size: 14px;
+          color: $text-dark;
+          padding: 14px 12px;
+          border-bottom: 1px solid #f1f5f9;
+          text-align: left;
+
+          &.amount {
+            font-weight: 500;
+            color: #475569;
+          }
+        }
+
+        tbody tr {
+          transition: background-color 0.2s ease;
+          &:hover {
+            background-color: #f8fafc;
+          }
         }
       }
     }
+
     .pie-graph {
-      width: 49% !important;
-      padding: 10px;
-      border-radius: 10px;
-      h5 {
-        font-size: 15px;
-          font-weight: 600;
-          color: #1d1a1a;
-          margin: 0 0 6px;
-      }
-      p {
+      width: calc(50% - 10px);
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+
+      .no-data {
+        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding-top: 10%;
-        // font-weight: 600;
+        color: $text-muted;
+        font-style: italic;
       }
     }
   }
+
   .daily-collection-graph {
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    h5 {
-      font-size: 15px;
-        font-weight: 600;
-        color: #1d1a1a;
-        margin: 0 0 6px;
-    }
+    width: 100%;
+    margin-bottom: 20px;
   }
+
   .charts-graph {
     width: 100%;
-    justify-content: space-between;
-    margin: 10px 0;
+    gap: 20px;
+    align-items: stretch;
+
     .line-graph {
-      width: 49% !important;
-      padding: 10px;
-      border-radius: 10px;
+      width: calc(50% - 10px);
+      margin-bottom: 0;
     }
-      .sells-bar-graph {
-        width: 49% !important;
-        padding: 10px;
-        border-radius: 10px;
+
+    .sells-bar-graph {
+      width: calc(50% - 10px);
+      margin-bottom: 0;
+
       .class-card {
         justify-content: space-between;
-        h5 {
-          font-size: 15px;
-            font-weight: 600;
-            color: #1d1a1a;
-            margin: 0 0 6px;
-        }
+        align-items: center;
+        margin-bottom: 20px;
+
         select {
-          outline: 0;
-          width: 250px;
-          height: 40px;
-          line-height: 15px;
-          background: #fff;
-          border: solid 1px #dfdfdf;
-          border-radius: 2px;
+          outline: none;
+          width: 220px;
+          height: 38px;
+          padding: 0 14px;
+          background: #f8fafc;
+          border: 1px solid $border-light;
+          border-radius: $radius-md;
+          color: $text-dark;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:focus, &:hover {
+            border-color: #cbd5e1;
+            background: $card-bg;
+            box-shadow: 0 0 0 3px rgba(226, 232, 240, 0.5);
+          }
         }
       }
+
       .bar-chart {
-        padding: 0px 10px!important;
-        min-height: 55vh;
+        height: 100%;
+        min-height: 40vh;
+
         ::ng-deep svg.ngx-charts {
-          width: 75%;
-          height: 100%;
+          width: 100% !important;
           .bar {
             cursor: default !important;
           }
         }
-
       }
     }
   }
 }
-

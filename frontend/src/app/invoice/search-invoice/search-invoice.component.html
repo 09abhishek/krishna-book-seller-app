@@ -63,6 +63,7 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="id">Bill No <p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="id">Date <p-sortIcon field="date"></p-sortIcon></th>
                     <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
                     <th pSortableColumn="father_name">Father Name <p-sortIcon field="father_name"></p-sortIcon></th>
                     <th pSortableColumn="class_no">Class<p-sortIcon field="class_no"></p-sortIcon></th>
@@ -75,6 +76,10 @@
                     <td>
                         <span class="p-column-title">id</span>
                         {{customer.id}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">id</span>
+                      {{ customer.date | date: 'dd-MM-yyyy' }}
                     </td>
                     <td>
                         <span class="p-column-title">name</span>

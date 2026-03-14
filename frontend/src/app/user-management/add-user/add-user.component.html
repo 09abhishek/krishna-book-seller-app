@@ -3,59 +3,83 @@
     <div class="content-details flex">
       <h5>{{userId ? 'Update' : 'Create'}} User</h5>
     </div>
-    <form [formGroup]="userForm">
-    <div class="content-field flex">
-      <div class="input-field">
-        <label>First Name</label>
-        <input type="text" formControlName="firstname" autocomplete="off">
-        <div *ngIf="(userForm.controls['firstname'].hasError('required') && userForm.controls['firstname'].touched)" class="error-data position-error">First Name is required</div>
-      </div>
-      <div class="input-field">
-        <label>Last Name</label>
-        <input type="text" formControlName="lastname" autocomplete="off">
-        <div *ngIf="(userForm.controls['lastname'].hasError('required') && userForm.controls['lastname'].touched)" class="error-data position-error">Last Name is required</div>
-      </div>
-      <div class="input-field">
-        <label>User Name</label>
-        <input type="text" minlength=3 formControlName="username" autocomplete="off">
-        <div *ngIf="(userForm.controls['username'].hasError('required') && userForm.controls['username'].touched)" class="error-data position-error">User Name is required</div>
-        <div class="error-data position-error" *ngIf="userForm.controls['username'].touched && userForm.get('username').hasError('minlength')">Minimum 3 Characters </div>
-      </div>
-      <div class="input-field">
-        <label>Mobile No.</label>
-        <input type="text"  maxlength="10" formControlName="mobno" appOnlyNumber numericType="number">
-      </div>
-      <div class="input-field">
-        <label>Password</label>
-        <input type="password" formControlName="password" minlength="5" autocomplete="off">
-          <div *ngIf="(userForm.controls['password'].hasError('required') && userForm.controls['password'].touched)" class="error-data position-error">Password is required</div>
-          <div class="error-data position-error" *ngIf="userForm.controls['password'].touched && userForm.get('password').hasError('minlength')"> Password Should Contain Minimum 5 Characters </div>
-      </div>
-      <div class="input-field">
-        <label>Confirm Password</label>
-        <input type="password" formControlName="confirmPassword" autocomplete="off">
-          <div *ngIf="(userForm.controls['confirmPassword'].hasError('required') && userForm.controls['confirmPassword'].touched)" class="error-data position-error">Confirm Password is required</div>
-          <div class="error-data position-error" *ngIf="userForm.controls['confirmPassword'].touched && userForm.hasError('mismatchedPasswords')"> Password Does Not Match </div>
-      </div>
-      <ng-container *ngIf="(!showPrivilage || (userDetails && userDetails.user_type == 'super_admin'))">
-        <div class="input-field">
-          <label>privilege Type</label>
-          <select class="search select-drop" id="mysel" formControlName="privalageType">
-            <ng-container *ngFor="let iteam of userType">
-              <option [value]="iteam.type">{{iteam.name}}</option>
-            </ng-container>
-        </select>
-        <div *ngIf="(userForm.controls['privalageType'].hasError('required') && userForm.controls['privalageType'].touched)" class="error-data position-error">Class is required</div>
+    <div class="card-body">
+      <form [formGroup]="userForm">
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>First Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="firstname" placeholder="Enter First Name">
+            <div *ngIf="userForm.get('firstname').invalid && (userForm.get('firstname').dirty || userForm.get('firstname').touched)" class="text-danger" style="font-size: 12px;">
+              First Name is required.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Last Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="lastname" placeholder="Enter Last Name">
+            <div *ngIf="userForm.get('lastname').invalid && (userForm.get('lastname').dirty || userForm.get('lastname').touched)" class="text-danger" style="font-size: 12px;">
+              Last Name is required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Username <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="username" placeholder="Enter Username">
+            <div *ngIf="userForm.get('username').invalid && (userForm.get('username').dirty || userForm.get('username').touched)" class="text-danger" style="font-size: 12px;">
+              Username is required.
+            </div>
+          </div>
+<!--          <div class="col-md-6 mb-3">-->
+<!--            <label>Mobile Number</label>-->
+<!--            <input type="text" class="form-control" formControlName="mobno" placeholder="Enter Mobile No">-->
+<!--          </div>-->
+
+          <div class="col-md-6 mb-3">
+            <label>Role / Privilege <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="privalageType">
+              <option value="">Select Role</option>
+              <option *ngFor="let role of userType" [value]="role.type">{{ role.name }}</option>
+            </select>
+            <div *ngIf="userForm.get('privalageType').invalid && (userForm.get('privalageType').dirty || userForm.get('privalageType').touched)" class="text-danger" style="font-size: 12px;">
+              Role is required.
+            </div>
+          </div>
         </div>
-      </ng-container>
-      <div class="content-btn flex">
-        <button class="btn-save button" type="button" (click)="onSaveConfirmation()">{{userId ? 'Update' : 'Save'}}
-          <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        </button>
-        <button class="btn-cancel button" type="button" (click)="reset()">{{userId ? 'Cancel' : 'Reset'}} </button>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Password <span *ngIf="!userId" class="text-danger">*</span></label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Enter Password">
+
+            <div *ngIf="userForm.get('password').invalid && (userForm.get('password').dirty || userForm.get('password').touched)" class="text-danger" style="font-size: 12px;">
+              <span *ngIf="userForm.get('password').hasError('required')">Password is required.</span>
+              <span *ngIf="userForm.get('password').hasError('minlength')">Password must be at least 5 characters.</span>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Confirm Password <span *ngIf="!userId" class="text-danger">*</span></label>
+            <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+
+            <div *ngIf="userForm.get('confirmPassword').invalid && (userForm.get('confirmPassword').dirty || userForm.get('confirmPassword').touched)" class="text-danger" style="font-size: 12px;">
+              <span *ngIf="userForm.get('confirmPassword').hasError('required')">Confirm Password is required.</span>
+              <span *ngIf="userForm.get('confirmPassword').hasError('mismatchedPasswords')">Passwords do not match!</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12 text-end">
+            <button type="button" class="btn btn-secondary me-2" (click)="reset()">Cancel</button>
+            <button type="button" class="btn btn-primary"
+                    [disabled]="isSubmitDisabled() || submitLoader"
+                    (click)="onSaveConfirmation()">
+              <span *ngIf="submitLoader" class="spinner-border spinner-border-sm me-1"></span>
+              {{ userId ? 'Update' : 'Save' }}
+            </button>
+          </div>
+        </div>
+
+      </form>
     </div>
-    </div>
-  </form>
   </div>
 </div>
-

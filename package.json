@@ -27,7 +27,10 @@
     "docker:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up",
     "prepare": "husky install",
     "migrate:up": "npx sequelize-cli db:migrate",
-    "migrate:down": "npx sequelize-cli db:migrate:undo"
+    "migrate:down": "npx sequelize-cli db:migrate:undo",
+    "db:setup": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
+    "db:drop": "npx sequelize-cli db:drop",
+    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate"
   },
   "keywords": [
     "node",

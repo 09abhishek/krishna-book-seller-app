@@ -10,25 +10,25 @@ export class AuthGuard implements CanActivate {
   checkLogin(url: string): Promise<boolean> | boolean {
     let currentUser: any;
     let userDetails: any;
-      currentUser = localStorage.getItem('token');
-      userDetails = localStorage.getItem('userDetails')  ? JSON.parse(localStorage.getItem('userDetails')!) : '';
+    currentUser = localStorage.getItem('token');
+    userDetails = localStorage.getItem('userDetails')  ? JSON.parse(localStorage.getItem('userDetails')!) : '';
+
     if (currentUser) {
       if (url === '/login') {
         this.router.navigate(['/dashboard']);
         return false;
       }
+
       if (userDetails && userDetails.user_type && userDetails.user_type !== 'accountant') {
-        if (url === '/user/add' || url.includes('/user/update')) {
+
+        const isSelfUpdate = url.includes('/user/update/' + userDetails.id);
+
+        if (url === '/user/add' || (url.includes('/user/update') && !isSelfUpdate)) {
           this.router.navigate(['/user/list']);
           return false;
         }
       }
-      // if (userDetails && userDetails.user_type && userDetails.user_type === 'accountant') {
-      //   if (url === '/import-export') {
-      //     this.router.navigate(['/dashboard']);
-      //     return false;
-      //   }
-      // }
+
       return true;
     } else {
       if (url === '/login') {

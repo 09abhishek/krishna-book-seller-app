@@ -12,7 +12,7 @@ import {each} from 'lodash';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  currentYear: number = new Date().getFullYear();
   public loginForm: any;
   submitLoader = false;
   private subscriptions: any = {};

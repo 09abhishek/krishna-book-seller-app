@@ -1,45 +1,58 @@
-<div class="login-wrapper flex">
+<div class="split-login-wrapper flex">
 
-  <div class="login-header flex">
-
-      <div class="logo"> <img src="assets/img/logo.jpeg"> </div>
-
-      <h3>Krishna Book Seller</h3>
-
+  <div class="brand-panel">
+    <div class="brand-overlay"></div>
+    <div class="brand-content">
+      <div class="logo-container">
+        <img src="assets/img/logo.jpeg" alt="Krishna Book Seller Logo">
+      </div>
+      <h2>Krishna Book Seller</h2>
+      <p>"A room without books is like a body without a soul."</p>
+    </div>
   </div>
 
-  <div class="login-content flex">
-
-      <div class="login-box">
-          <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
-              <div class="lb-top flex">
-                  <h3>Log in</h3>
-              </div>
-
-              <div class="form-input">
-                  <input type="text" placeholder="User Name" formControlName="username">
-                  <div *ngIf="(loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched)" class="error-data">User Name is required</div>
-              </div>
-
-              <div class="form-input">
-                  <input type="password" placeholder="Password" formControlName="password">
-                  <div *ngIf="(loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched)" class="error-data">Password is required</div>
-              </div>
-
-              <button type="submit" class="ripple log-btn">Log in
-                <span [hidden]="!submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              </button>
-              <!-- <div class="fgt-btn flex">
-                    <a href="javascript:void(0)" class="ripple"> Recover password </a>
-                </div> -->
-          </form>
+  <div class="form-panel flex">
+    <div class="form-container">
+      <div class="mobile-logo">
+        <img src="assets/img/logo.jpeg" alt="Logo">
+        <h2>Krishna Books</h2>
       </div>
 
-  </div>
+      <div class="form-header">
+        <h3>Login</h3>
+        <p>Please enter your details to access your account.</p>
+      </div>
 
-  <div class="footer flex">
-    Copyright © 2022 Krishna Book seller. All Rights Reserve.
+      <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+
+        <div class="floating-group">
+          <input type="text" id="username" formControlName="username" placeholder=" " autocomplete="off">
+          <label for="username">User Name</label>
+          <div *ngIf="(loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched)" class="error-data">
+            * User Name is required
+          </div>
+        </div>
+
+        <div class="floating-group">
+          <input type="password" id="password" formControlName="password" placeholder=" ">
+          <label for="password">Password</label>
+          <div *ngIf="(loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched)" class="error-data">
+            * Password is required
+          </div>
+        </div>
+
+        <div class="form-actions flex">
+          <button type="submit" class="primary-btn ripple" [disabled]="loginForm.invalid">
+            <span *ngIf="!submitLoader">Log In</span>
+            <span *ngIf="submitLoader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+        </div>
+      </form>
+
+      <div class="footer-note">
+        <p>Copyright © {{currentYear}} Krishna Book seller. All Rights Reserved.</p>
+      </div>
+    </div>
   </div>
 
 </div>
-
