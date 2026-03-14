@@ -181,7 +181,7 @@ this.basiGrandCollectionLine = {
   }
   totalMrpNetPriceDetails() {
     const params: any = {};
-    params.from = moment().subtract(1,'months').format('YYYY-MM-DD');
+    params.from = moment().subtract(1, 'years').format('YYYY-MM-DD');
     params.to = moment(this.todayDate).format('YYYY-MM-DD');
 
     this.subscriptions['gettotalCollection'] = this.dashboardService.searchInvoice(params).subscribe({
@@ -286,8 +286,6 @@ this.basiGrandCollectionLine = {
         if(res && res.data) {
           const datasetparams: any = {};
           datasetparams.data = [];
-
-          // Premium, Vibrant aur Distinct Dashboard Colors
           datasetparams.backgroundColor = [
             "#4F46E5", // Indigo
             "#06B6D4", // Cyan
@@ -302,32 +300,23 @@ this.basiGrandCollectionLine = {
             "#84CC16", // Lime
             "#6366F1"  // Soft Indigo
           ];
-          datasetparams.borderWidth = 0; // Seamless look ke liye
-          datasetparams.hoverOffset = 4; // Hover karne par slice thoda bahar aayega
+          datasetparams.borderWidth = 0;
+          datasetparams.hoverOffset = 4;
 
           if(res.data && res.data.invoice) {
             this.totalNumberBillByClass = groupBy(res.data.invoice, 'class');
-
             let chartData: any[] = [];
-
-            // 1. Data collect karein
             this.classList.forEach((item: any) => {
               let billCount = 0;
               if (this.totalNumberBillByClass[item.name]) {
                 billCount = parseInt(this.totalNumberBillByClass[item.name][0].no_of_bills) || 0;
               }
-
-              // Sirf > 0 wale data ko dikhayenge
               if (billCount > 0) {
                 const className = this.getClassNo(this.classList, item.name) || item.className;
                 chartData.push({ name: className, count: billCount });
               }
             });
-
-            // 2. Sort karein: Highest to Lowest
             chartData.sort((a, b) => b.count - a.count);
-
-            // 3. Format set karein: Class Name (Count) - Bina Percentage ke
             chartData.forEach(item => {
               params.labels.push(`${item.name} (${item.count})`);
               datasetparams.data.push(item.count);
