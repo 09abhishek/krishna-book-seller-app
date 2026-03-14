@@ -1,58 +1,102 @@
+$bg-dark: #1e293b;
+$bg-card: #1e293b;
+$border-color: #334155;
+$primary-focus: #38bdf8;
+$text-light: #f8fafc;
+$text-muted: #ffffff;
 
-// /* width */
-// ::-webkit-scrollbar {
-//   width: 10px;
-// }
-
-// /* Track */
-// ::-webkit-scrollbar-track {
-//   background: #f1f1f1;
-// }
-
-// /* Handle */
-// ::-webkit-scrollbar-thumb {
-//   background: #888;
-// }
-
-// /* Handle on hover */
-// ::-webkit-scrollbar-thumb:hover {
-//   background: #555;
-// }
-
-
-.btn-toggle {
-  padding: .25rem .5rem;
-  font-weight: 600;
-  color: rgba(0, 0, 0, .65);
-  background-color: transparent;
+// Sidebar Main Container
+.sidebar-menu {
+  background-color: $bg-dark !important;
+  border-right: 1px solid $border-color;
+  min-height: calc(100vh - 72px);
+  padding-top: 15px;
+  font-family: 'Nunito', sans-serif;
 }
+
+// Parent Buttons (Home, Invoice, etc.)
+.btn-toggle {
+  padding: .35rem .5rem;
+  font-weight: 600;
+  color: $text-muted !important;
+  background-color: transparent;
+  width: 100%;
+  text-align: left;
+}
+
 .btn-toggle:hover,
 .btn-toggle:focus {
-  color: rgba(0, 0, 0, .85);
-  background-color: #d2f4ea;
-}
-
-.btn-toggle::before {
-  width: 1.25em;
-  line-height: 0;
-  // content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-  transition: transform .35s ease;
-  transform-origin: .5em 50%;
+  color: $text-light !important;
+  background-color: rgba($bg-card, 0.8) !important;
 }
 
 .btn-toggle[aria-expanded="true"] {
-  color: rgba(0, 0, 0, .85);
-}
-.btn-toggle[aria-expanded="true"]::before {
-  transform: rotate(90deg);
+  color: $text-light !important;
 }
 
+// Icons in the buttons
+.btn-toggle::before {
+  width: 1.25em;
+  line-height: 0;
+  transition: transform .35s ease;
+  transform-origin: .5em 50%;
+  // White color for arrow
+  filter: brightness(0) invert(0.7);
+}
+
+// Child Links (Dashboard, Generate Invoice, etc.)
 .btn-toggle-nav a {
-  padding: .1875rem .5rem;
+  padding: .35rem .5rem;
   margin-top: .125rem;
   margin-left: 1.25rem;
+  color: $text-muted !important; // Overrides link-dark from HTML
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 85%;
+  transition: all 0.2s;
+
+  // SVG Icons Default Color (Light Grey)
+  .nav-image img {
+    width: 16px;
+    filter: brightness(0) invert(0.7);
+  }
 }
+
+// Hover Effect
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
-  background-color: #d2f4ea;
+  background-color: rgba($primary-focus, 0.1) !important;
+  color: $text-light !important;
+
+  .nav-image img {
+    filter: brightness(0) invert(1); // Turns white on hover
+  }
+}
+
+// Active Menu Item Effect (Cyan Color)
+.btn-toggle-nav a.active {
+  background-color: rgba($primary-focus, 0.15) !important;
+  color: $primary-focus !important;
+  font-weight: 700;
+
+  .nav-image img {
+    // Turns SVG into Cyan ($primary-focus)
+    filter: brightness(0) saturate(100%) invert(64%) sepia(35%) saturate(3755%) hue-rotate(168deg) brightness(101%) contrast(96%);
+  }
+}
+
+// Custom Scrollbar for dark theme
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: $bg-dark;
+}
+::-webkit-scrollbar-thumb {
+  background: $border-color;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $text-muted;
 }

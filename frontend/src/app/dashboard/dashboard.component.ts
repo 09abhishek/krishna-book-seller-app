@@ -87,15 +87,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ]
     }
 };
-this.totalBillbyClassConfig = {
-  plugins: {
-    legend: {
-        labels: {
-            color: '#495057'
+    this.totalBillbyClassConfig = {
+      cutout: '60%',
+      plugins: {
+        legend: {
+          display: true,
+          position: 'left',
+          labels: {
+            color: '#334155',
+            usePointStyle: true,
+            pointStyle: 'circle',
+            padding: 8,
+            font: {
+              size: 13,
+              family: "'Nunito', sans-serif"
+            }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context: any) {
+              return ` ${context.label}`;
+            }
+          }
         }
-    }
- },
-}
+      }
+    };
 this.basicDailyCollectionLine = {
   plugins: {
       legend: {
@@ -265,22 +282,57 @@ this.basiGrandCollectionLine = {
         const params: any = {};
         params.labels = [];
         params.datasets = [];
+
         if(res && res.data) {
           const datasetparams: any = {};
           datasetparams.data = [];
-          datasetparams.backgroundColor = ["#42A5F5","#66BB6A","#FFA726",'#ff4000','#ff8000','#80ff00','#00ffbf','#0080ff','#bf00ff','#ff0080','#4d0066','#006666','#666600','#0000cc','#00004d'];
-          datasetparams.hoverBackgroundColor = ["#64B5F6","#81C784","#FFB74D",'#ff4000','#ff8000','#80ff00','#00ffbf','#0080ff','#bf00ff','#ff0080','#4d0066','#006666','#666600','#0000cc','#00004d'];
+
+          // Premium, Vibrant aur Distinct Dashboard Colors
+          datasetparams.backgroundColor = [
+            "#4F46E5", // Indigo
+            "#06B6D4", // Cyan
+            "#10B981", // Emerald Green
+            "#F59E0B", // Amber/Orange
+            "#EF4444", // Red
+            "#8B5CF6", // Purple
+            "#EC4899", // Pink
+            "#14B8A6", // Teal
+            "#F97316", // Bright Orange
+            "#0EA5E9", // Light Blue
+            "#84CC16", // Lime
+            "#6366F1"  // Soft Indigo
+          ];
+          datasetparams.borderWidth = 0; // Seamless look ke liye
+          datasetparams.hoverOffset = 4; // Hover karne par slice thoda bahar aayega
+
           if(res.data && res.data.invoice) {
             this.totalNumberBillByClass = groupBy(res.data.invoice, 'class');
+
+            let chartData: any[] = [];
+
+            // 1. Data collect karein
             this.classList.forEach((item: any) => {
+              let billCount = 0;
               if (this.totalNumberBillByClass[item.name]) {
-                params.labels.push(this.getClassNo(this.classList, this.totalNumberBillByClass[item.name][0].class));
-                datasetparams.data.push(this.totalNumberBillByClass[item.name][0].no_of_bills);
-              } else {
-                params.labels.push(item.className);
-                datasetparams.data.push(0);
+                billCount = parseInt(this.totalNumberBillByClass[item.name][0].no_of_bills) || 0;
+              }
+
+              // Sirf > 0 wale data ko dikhayenge
+              if (billCount > 0) {
+                const className = this.getClassNo(this.classList, item.name) || item.className;
+                chartData.push({ name: className, count: billCount });
               }
             });
+
+            // 2. Sort karein: Highest to Lowest
+            chartData.sort((a, b) => b.count - a.count);
+
+            // 3. Format set karein: Class Name (Count) - Bina Percentage ke
+            chartData.forEach(item => {
+              params.labels.push(`${item.name} (${item.count})`);
+              datasetparams.data.push(item.count);
+            });
+
             params.datasets.push(datasetparams);
             this.totalBillbyClassData = params;
           }

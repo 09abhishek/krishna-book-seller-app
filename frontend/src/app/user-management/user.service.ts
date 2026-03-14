@@ -32,7 +32,10 @@ export class UserService {
     return this.http.delete(this.URL + '/users', options);
   }
   updateUser(params: any): Observable<any> {
-    return this.http.put(this.URL + '/users', params);
+    const payload = { ...params };
+    const id = payload.id;
+    delete payload['id'];
+    return this.http.put(this.URL + `/users/${id}`, payload);
   }
   getUserDetails(params: any): Observable<any> {
     return this.http.get(this.URL + '/users/' + params);

@@ -1,23 +1,55 @@
-<header class="flex header-content">
-  <div class="hdr-lft flex">
-    <span class="left-containt flex">
-      <img routerLink="/dashboard" src="assets/img/logo.jpeg">
-      <p routerLink="/dashboard">Krishna Book Seller</p>
-    </span>
-      <h4 style="text-transform: uppercase;">{{(userDetails?.first_name ? userDetails.first_name : '') + ' '+(userDetails?.last_name ? userDetails.last_name : '')}}</h4>
+<header class="main-header flex">
+  <div class="hdr-left flex">
+    <div class="brand-section flex" routerLink="/dashboard">
+      <div class="logo-wrapper">
+        <img src="assets/img/logo.jpeg" alt="Logo">
+      </div>
+      <span class="brand-name">Krishna Book Seller</span>
+    </div>
   </div>
-  <div class="flex alert-profile">
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="assets/img/user.jpg">
+
+  <div class="hdr-right flex">
+    <div class="user-info-v2 hidden-mobile">
+      <div class="greeting-box text-end">
+        <span class="label">Welcome</span>
+        <h4 class="user-display-name">
+          {{ (userDetails?.first_name || '') + ' ' + (userDetails?.last_name || '') }}
+        </h4>
+      </div>
+    </div>
+
+    <div class="dropdown profile-dropdown">
+      <button class="profile-trigger flex" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="avatar-container">
+          <img src="assets/img/user.jpg" alt="User">
+          <span class="online-indicator"></span>
+        </div>
+        <i class="pi pi-chevron-down toggle-icon"></i>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="javascript:void(0)" routerLink="/user/profile"><i class="pi pi-user"></i>View Profile </a></li>
-        <!-- <ng-container *ngIf="userDetails && userDetails.user_type && userDetails.user_type !== 'accountant'"> -->
-          <li><a class="dropdown-item" href="javascript:void(0)" routerLink="/import-export"><i class="pi pi-file-excel"></i>Import Export</a></li>
-        <!-- </ng-container> -->
-        <li><a class="dropdown-item" href="javascript:void(0)" (click)="changepassword()"><i class="pi pi-key"></i>Change Password</a></li>
-        <li (click)="logout()"><a class="dropdown-item" href="javascript:void(0)"><i class="pi pi-power-off"></i>Logout</a></li>
+
+      <ul class="dropdown-menu dropdown-menu-end modern-dropdown-menu" aria-labelledby="profileMenu">
+        <li class="dropdown-header">Account Settings</li>
+        <li>
+          <a class="dropdown-item" routerLink="/user/profile">
+            <i class="pi pi-user"></i> <span>View Profile</span>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" routerLink="/import-export">
+            <i class="pi pi-file-excel"></i> <span>Import Export</span>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" (click)="changePassword()">
+            <i class="pi pi-key"></i> <span>Change Password</span>
+          </a>
+        </li>
+        <li class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item logout-link" (click)="logout()">
+            <i class="pi pi-power-off"></i> <span>Sign Out</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

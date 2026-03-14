@@ -1,108 +1,106 @@
 <div class="content-wrapper">
-  <div class="flex school-info-news">
+  <div class="school-info-news">
     <div class="school-info">
-        <h4>Basic Information (30 days)</h4>
-        <ul class="flex">
-            <li class="flex">
-                <img [src]="total_sale">
-                <h3>Net Sell</h3>
-                <h2 class="flex">₹ {{netSellCount}}</h2>
-            </li>
-            <li class="flex invoice-child">
-               <img [src]="total_sales">
-               <!-- <h3>Total Invoice Generated</h3> -->
-               <h3>Total Sell</h3>
-                <h2 class="flex">₹ {{totalSellCount}}</h2>
-            </li>
-            <li class="flex sell-child">
-                <img [src]="revenueimage">
-                <h3>Revenue</h3>
-                <h2 class="flex">₹ {{revenue}}</h2>
-            </li>
-            <li class="flex sell-child">
-                <img [src]="invoice">
-                <h3>Total Invoice Generated</h3>
-                <h2 class="flex">{{invoiceCount}}</h2>
-            </li>
-        </ul>
+<!--      <h4 class="section-title">Statistics</h4>-->
+      <ul class="flex stat-cards">
+        <li class="flex stat-card">
+          <img [src]="total_sale" alt="Net Sell">
+          <h3>Net Sell</h3>
+          <h2>₹ {{netSellCount}}</h2>
+        </li>
+        <li class="flex stat-card invoice-child">
+          <img [src]="total_sales" alt="Total Sell">
+          <h3>Total Sell</h3>
+          <h2>₹ {{totalSellCount}}</h2>
+        </li>
+        <li class="flex stat-card sell-child">
+          <img [src]="revenueimage" alt="Revenue">
+          <h3>Revenue</h3>
+          <h2>₹ {{revenue}}</h2>
+        </li>
+        <li class="flex stat-card sell-child">
+          <img [src]="invoice" alt="Invoice">
+          <h3>Total Invoice Generated</h3>
+          <h2>{{invoiceCount}}</h2>
+        </li>
+      </ul>
     </div>
- </div>
-
- <div class="main-graph flex">
-  <div class="card table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-    <h5>Lastest Generated Invoices</h5>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Bill No</th>
-          <th>Name</th>
-          <th>Amount (₹)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngIf="lastTenInvoiceList.length == 0">
-          <tr>
-            <td colspan="3">No data found</td>
-          </tr>
-        </ng-container>
-
-        <ng-container *ngFor="let data of lastTenInvoiceList">
-          <tr>
-            <td>{{data['id']}}</td>
-            <td>{{data['name']}}</td>
-            <td>{{data['total_amount']}}</td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
   </div>
+
+  <div class="main-graph flex">
+    <div class="card table-responsive">
+      <h5>Latest Generated Invoices</h5>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Bill No</th>
+            <th>Name</th>
+            <th>Amount (₹)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngIf="lastTenInvoiceList.length == 0">
+            <tr>
+              <td colspan="3" class="no-data">No data found</td>
+            </tr>
+          </ng-container>
+
+          <ng-container *ngFor="let data of lastTenInvoiceList">
+            <tr>
+              <td>{{data['id']}}</td>
+              <td>{{data['name']}}</td>
+              <td class="amount">₹ {{data['total_amount']}}</td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="card pie-graph">
       <h5>Invoice Count by Class</h5>
       <ng-container *ngIf="totalBillbyClassData && totalBillbyClassData.datasets && totalBillbyClassData.datasets.length === 0">
-        <p>No data found</p>
+        <p class="no-data">No data found</p>
       </ng-container>
-      <p-chart type="pie" [data]="totalBillbyClassData"  [options]="totalBillbyClassConfig" height="55vh"></p-chart>
+      <p-chart type="pie" [data]="totalBillbyClassData" [options]="totalBillbyClassConfig" height="40vh"></p-chart>
     </div>
- </div>
- <div class="card daily-collection-graph">
-  <h5>Daily Collection</h5>
-  <ng-container></ng-container>
-  <p-chart type="line" [data]="basicDailyCollectionData" [options]="basicDailyCollectionLine" height="40vh"></p-chart>
-</div>
-
-<div class="charts-graph flex">
-  <div class="card line-graph">
-    <h6>Grand Collection (30 days)</h6>
-    <p-chart type="line" [data]="basicGrandCollectionData" [options]="basiGrandCollectionLine" height="55vh"></p-chart>
   </div>
-  <div class="card sells-bar-graph">
-    <div class="class-card flex">
-      <h5>Book Quantity</h5>
-      <select class="search select-drop" id="mysel" (change)="onChangeClass()" [(ngModel)]="classId">
-        <ng-container *ngFor="let item of classList">
-          <option value= "{{item.name}}">{{item.value}}</option>
-        </ng-container>
-      </select>
-    </div>
-    <!-- <p-chart type="bar" [data]="bookListByClass" [options]="basicOptions" height="55vh"></p-chart> -->
-    <div class="bar-chart" style="display: block;">
-      <ngx-charts-bar-vertical
 
-        [scheme]="colorScheme"
-        [results]="bookListData"
-        [gradient]="false"
-        [xAxis]="true"
-        [yAxis]="true"
-        [legend]="false"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxisLabel]="'Book Name'"
-        [yAxisLabel]="'Quantity'"
-        [yScaleMax]="200"
-        >
-      </ngx-charts-bar-vertical>
+  <div class="card daily-collection-graph">
+    <h5>Daily Collection</h5>
+    <p-chart type="line" [data]="basicDailyCollectionData" [options]="basicDailyCollectionLine" height="40vh"></p-chart>
+  </div>
+
+  <div class="charts-graph flex">
+    <div class="card line-graph">
+      <h5>Grand Collection (30 days)</h5>
+      <p-chart type="line" [data]="basicGrandCollectionData" [options]="basiGrandCollectionLine" height="45vh"></p-chart>
+    </div>
+    <div class="card sells-bar-graph">
+      <div class="class-card flex">
+        <h5>Book Quantity By Class</h5>
+        <select class="search select-drop" id="mysel" (change)="onChangeClass()" [(ngModel)]="classId">
+          <ng-container *ngFor="let item of classList">
+            <option value="{{item.name}}">{{item.value}}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div class="bar-chart">
+        <ngx-charts-bar-vertical
+          [scheme]="colorScheme"
+          [results]="bookListData"
+          [gradient]="false"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          [xAxisLabel]="'Book Name'"
+          [yAxisLabel]="'Quantity'"
+          [yScaleMax]="200">
+        </ngx-charts-bar-vertical>
+      </div>
     </div>
   </div>
 </div>
-
-

@@ -1,128 +1,132 @@
-<div class="flex-shrink-0  bg-white sidebar-menu app-menu">
-    <ul class="list-unstyled ps-0">
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse"  aria-expanded="true">
-          Home
-        </button>
-        <div class="collapse show" >
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li >
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                <span class="nav-image"><img src="assets/img/menu/house.svg"></span>
-                <span  class="nav-text">Dashboard</span>
-              </a>
-             </li>
-          </ul>
-        </div>
-      </li>
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse"  aria-expanded="true">
-          Invoice
-        </button>
-        <div class="collapse show" >
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/invoice/list">
-                <span class="nav-image"><img src="assets/img/menu/invoice.svg"></span>
-                <span  class="nav-text">Generate Invoice</span>
-              </a>
-             </li>
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/invoice/search-invoice">
-                <span class="nav-image"><img src="assets/img/menu/search.svg"></span>
-                <span  class="nav-text">Search Invoice</span>
-              </a>
-             </li>
-          </ul>
-        </div>
-      </li>
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse"  aria-expanded="true">
-          Book
-        </button>
-        <div class="collapse show" >
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/book-management/manage-item">
-                <span class="nav-image"><img src="assets/img/menu/manage-book.svg"></span>
-                <span  class="nav-text">Manage Book</span>
-              </a>
-             </li>
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/book-management/manage-quantity">
-                <span class="nav-image"><img src="assets/img/menu/manage-Quantity.svg"></span>
-                <span  class="nav-text">Manage Quantity</span>
-              </a>
-             </li>
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/book-management/manage-publication">
-                <span class="nav-image"><img src="assets/img/menu/manage-item.svg"></span>
-                <span  class="nav-text">Manage Publication</span>
-              </a>
-             </li>
-          </ul>
-        </div>
-      </li>
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse"  aria-expanded="true">
-          Report
-        </button>
-        <div class="collapse show" >
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/collection-report">
-                <span class="nav-image"><img src="assets/img/menu/daily-collection.svg"></span>
-                <span  class="nav-text">Daily Collection</span>
-              </a>
-             </li>
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/grant-collection-report">
-                <span class="nav-image"><img src="assets/img/menu/report.svg"></span>
-                <span  class="nav-text">Grand Collection</span>
-              </a>
-             </li>
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/book-stock-report">
-                <span class="nav-image"><img src="assets/img/menu/book-stock.svg"></span>
-                <span  class="nav-text">Book stock</span>
-              </a>
-             </li>
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/publication-report">
-                <span class="nav-image"><img src="assets/img/menu/publication.svg"></span>
-                <span  class="nav-text">Publication</span>
-              </a>
-             </li>
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/all-book-list">
-                <span class="nav-image"><img src="assets/img/menu/book.svg"></span>
-                <span  class="nav-text">All Book List</span>
-              </a>
-             </li>
-          </ul>
-        </div>
-      </li>
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse"  aria-expanded="true">
-          User Management
-        </button>
-        <div class="collapse show" >
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li>
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/user/list">
-                <span class="nav-image"><img src="assets/img/menu/user-list.svg"></span>
-                <span  class="nav-text">User List</span>
-              </a>
-             </li>
-            <li *ngIf="userDetails && userDetails.user_type && userDetails.user_type !== 'accountant'">
-              <a class="link-dark d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/user/add">
-                <span class="nav-image"><img src="assets/img/menu/add-user.svg"></span>
-                <span  class="nav-text">Create User</span>
-              </a>
-             </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
-  </div>
+<div class="sidebar-menu app-menu">
+  <ul class="list-unstyled ps-0">
+    <li class="mb-2">
+      <button class="btn btn-toggle d-inline-flex align-items-center w-100 rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+        Home
+      </button>
+      <div class="collapse show" id="home-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <span class="nav-image"><img src="assets/img/menu/house.svg" alt="Dashboard"></span>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
 
+    <li class="mb-2">
+      <button class="btn btn-toggle d-inline-flex align-items-center w-100 rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#invoice-collapse" aria-expanded="true">
+        Invoice
+      </button>
+      <div class="collapse show" id="invoice-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/invoice/list">
+              <span class="nav-image"><img src="assets/img/menu/invoice.svg" alt="Generate Invoice"></span>
+              <span class="nav-text">Generate Invoice</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/invoice/search-invoice">
+              <span class="nav-image"><img src="assets/img/menu/search.svg" alt="Search Invoice"></span>
+              <span class="nav-text">Search Invoice</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="mb-2">
+      <button class="btn btn-toggle d-inline-flex align-items-center w-100 rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#book-collapse" aria-expanded="true">
+        Book
+      </button>
+      <div class="collapse show" id="book-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/book-management/manage-item">
+              <span class="nav-image"><img src="assets/img/menu/manage-book.svg" alt="Manage Book"></span>
+              <span class="nav-text">Manage Book</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/book-management/manage-quantity">
+              <span class="nav-image"><img src="assets/img/menu/manage-Quantity.svg" alt="Manage Quantity"></span>
+              <span class="nav-text">Manage Quantity</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/book-management/manage-publication">
+              <span class="nav-image"><img src="assets/img/menu/manage-item.svg" alt="Manage Publication"></span>
+              <span class="nav-text">Manage Publication</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="mb-2">
+      <button class="btn btn-toggle d-inline-flex align-items-center w-100 rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#report-collapse" aria-expanded="true">
+        Report
+      </button>
+      <div class="collapse show" id="report-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/collection-report">
+              <span class="nav-image"><img src="assets/img/menu/daily-collection.svg" alt="Daily Collection"></span>
+              <span class="nav-text">Daily Collection</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/grant-collection-report">
+              <span class="nav-image"><img src="assets/img/menu/report.svg" alt="Grand Collection"></span>
+              <span class="nav-text">Grand Collection</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/book-stock-report">
+              <span class="nav-image"><img src="assets/img/menu/book-stock.svg" alt="Book stock"></span>
+              <span class="nav-text">Book Stock</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/publication-report">
+              <span class="nav-image"><img src="assets/img/menu/publication.svg" alt="Publication"></span>
+              <span class="nav-text">Publication</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/report/all-book-list">
+              <span class="nav-image"><img src="assets/img/menu/book.svg" alt="All Book List"></span>
+              <span class="nav-text">All Book List</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="mb-2" *ngIf="userDetails && userDetails.user_type && userDetails.user_type !== 'accountant' && userDetails.user_type !== 'admin'">
+      <button class="btn btn-toggle d-inline-flex align-items-center w-100 rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="true">
+        User Management
+      </button>
+      <div class="collapse show" id="user-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/user/list">
+              <span class="nav-image"><img src="assets/img/menu/user-list.svg" alt="User List"></span>
+              <span class="nav-text">User List</span>
+            </a>
+          </li>
+<!--          <li *ngIf="userDetails && userDetails.user_type && userDetails.user_type !== 'accountant' && userDetails.user_type !== 'admin'">-->
+          <li>
+            <a class="nav-item-link d-inline-flex text-decoration-none rounded" routerLinkActive="active" routerLink="/user/add">
+              <span class="nav-image"><img src="assets/img/menu/add-user.svg" alt="Create User"></span>
+              <span class="nav-text">Create User</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
