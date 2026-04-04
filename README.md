@@ -1,4 +1,7 @@
-# Krishna Book Seller Application
+# Krishna Book Seller
+Book Inventory & Billing System
+
+**Krishna Book Seller** is a specialized management tool designed for schools to streamline the process of selling and billing textbooks. It simplifies inventory tracking, invoice generation, and provides clear sales reports for school administration.
 
 ## Screenshots
 
