@@ -1,5 +1,12 @@
 # Krishna Book Seller Application
 
+## Screenshots
+
+<img width="1798" height="930" alt="Screenshot 2026-04-04 at 7 13 51 PM" src="https://github.com/user-attachments/assets/4b4403d8-d800-4cda-9765-b982a1833a47" />
+
+<img width="1797" height="936" alt="Screenshot 2026-04-04 at 7 13 26 PM" src="https://github.com/user-attachments/assets/a486e221-843a-4d07-9e68-2e70e9df63d5" />
+
+
 ## Table of Contents
 
 - [Features](#features)
